@@ -207,33 +207,9 @@ class UICustomNSTextView: NSTextView {
             super.keyDown(event)
         }
     }
-    // These horrible spell checking hacks are here because when in a layer, NSTextView appears to refuse to properly support spell checking.
-    // It seems that, as of now (10.6.5) there's a variety of problems.
-    //
-    // 1) It doesn't even try to draw the red underlines when a word is misspelled.
-    // 2) When typing, it doesn't appear to correctly update the misspelled state even if it *did* draw the lines correctly.
-    // 
-    // I worked around #1 by just implementing my own drawing routine and telling the NSLayoutManager not to draw temp attributes itself just in
-    // case Apple were to fix some of this in 10.7. (Otherwise I suspect we'd end up with multiple underlines that don't quite match, etc.)
-    //
-    // As for #2...
-    //
-    // It seems that when in a layer (or as some side effect of how I'm manipulating things here to hack this into UIKit), NSTextView will set the
-    // range of the word the cursor is touching/within to be spelled correctly even if it isn't. (It's always setting the spelling state to 0 no
-    // matter what I do). This results in words never being marked as misspelled, therefore even my hack to draw the underline fails. To work
-    // around this, I'm detecting when the text and/or the cursor's position have changed and setting a timer for a short time. When the timer
-    // expires, I'm forcing a check of the entire text of the NSTextView. This seemingly results in updating the spelling state correctly for all
-    // but the word that the cursor might happen to be in. This appears to be about the best I can come up with given the documentation and
-    // unwillingness to resort to private APIs. It's not right, though, and you can feel it when using the text view. There's weird lags and
-    // timings when it decides to do a spell check. It's also not very effecient to be rechecking the entire text view, but I'm hoping some other
-    // approach and/or a fix from Apple appears before that ever becomes a real problem. In the current project, there's never any very large text
-    // views so I'm not worried too much about performance right now.
-    //
-    // This pretty much totally sucks and is just one of many places that using layer-backed NSViews has caused insane problems and resulted in
-    // stupid workarounds or compromises. Frustration doesn't even being to cover it. The amazing thing, is that all this stuff appears to have
-    // been broken since at least 10.5 when layers were first introduced. I suspect all the layer guys on the AppKit team were stolen for the
-    // iOS team and it all fell *way* behind. I'm really hoping this crap is cleaned up in 10.7. Of course if they go ahead and just ship UIKit
-    // in 10.7, I'll be kinda pissed about that, too... so... uh... yeah...
+    
+    // TODO: Remove Spelling Check Hack
+    // Starts Spelling Check Hack
 
     func setNeedsFakeSpellCheck() {
         if self.isContinuousSpellCheckingEnabled() {
@@ -309,34 +285,9 @@ class UICustomNSTextView: NSTextView {
         self.drawFakeSpellingUnderlinesInRect(rect)
     }
 }
-/*
- * Copyright (c) 2011, The Iconfactory. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * 3. Neither the name of The Iconfactory nor the names of its contributors may
- *    be used to endorse or promote products derived from this software without
- *    specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE ICONFACTORY BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
- * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
+// Ends Spelling Check Hack
+
 
 import AppKit
 import AppKit

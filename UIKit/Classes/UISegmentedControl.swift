@@ -327,12 +327,5 @@ class UISegmentedControl: UIControl {
         super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
     }
 }
-//
-//  SSSegmentedControl.m
-//  SSToolkit
-//
-//  Created by Sam Soffes on 2/7/11.
-//  Copyright 2011 Sam Soffes. All rights reserved.
-//
 
     var kSSSegmentedControlEnabledKey: String = "enabled"
