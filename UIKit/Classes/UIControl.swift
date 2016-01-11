@@ -27,52 +27,63 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-enum .s : Int {
-    case UIControlEventTouchDown = 1 << 0
-    case UIControlEventTouchDownRepeat = 1 << 1
-    case UIControlEventTouchDragInside = 1 << 2
-    case UIControlEventTouchDragOutside = 1 << 3
-    case UIControlEventTouchDragEnter = 1 << 4
-    case UIControlEventTouchDragExit = 1 << 5
-    case UIControlEventTouchUpInside = 1 << 6
-    case UIControlEventTouchUpOutside = 1 << 7
-    case UIControlEventTouchCancel = 1 << 8
-    case UIControlEventValueChanged = 1 << 12
-    case UIControlEventEditingDidBegin = 1 << 16
-    case UIControlEventEditingChanged = 1 << 17
-    case UIControlEventEditingDidEnd = 1 << 18
-    case UIControlEventEditingDidEndOnExit = 1 << 19
-    case UIControlEventAllTouchEvents = 0x00000FFF
-    case UIControlEventAllEditingEvents = 0x000F0000
-    case UIControlEventApplicationReserved = 0x0F000000
-    case UIControlEventSystemReserved = 0xF0000000
-    case UIControlEventAllEvents = 0xFFFFFFFF
+import Foundation
+
+public struct UIControlEvents : OptionSetType {
+    public let rawValue: UInt
+    
+    public init(rawValue: UInt) {
+        self.rawValue = rawValue
+    }
+    static let TouchDown = UIControlEvents(rawValue: 1 << 0)
+    static let TouchDownRepeat = UIControlEvents(rawValue: 1 << 1)
+    static let TouchDragInside = UIControlEvents(rawValue: 1 << 2)
+    static let TouchDragOutside = UIControlEvents(rawValue: 1 << 3)
+    static let TouchDragEnter = UIControlEvents(rawValue: 1 << 4)
+    static let TouchDragExit = UIControlEvents(rawValue: 1 << 5)
+    static let TouchUpInside = UIControlEvents(rawValue: 1 << 6)
+    static let TouchUpOutside = UIControlEvents(rawValue: 1 << 7)
+    static let TouchCancel = UIControlEvents(rawValue: 1 << 8)
+    static let ValueChanged = UIControlEvents(rawValue: 1 << 12)
+    static let EditingDidBegin = UIControlEvents(rawValue: 1 << 16)
+    static let EditingChanged = UIControlEvents(rawValue: 1 << 17)
+    static let EditingDidEnd = UIControlEvents(rawValue: 1 << 18)
+    static let EditingDidEndOnExit = UIControlEvents(rawValue: 1 << 19)
+    static let AllTouchEvents = UIControlEvents(rawValue: 0x00000FFF)
+    static let AllEditingEvents = UIControlEvents(rawValue: 0x000F0000)
+    static let ApplicationReserved = UIControlEvents(rawValue: 0x0F000000)
+    static let SystemReserved = UIControlEvents(rawValue: 0xF0000000)
+    static let AllEvents = UIControlEvents(rawValue: 0xFFFFFFFF)
 }
 
-enum UIControlState : Int {
-    case Normal = 0
-    case Highlighted = 1 << 0
-    case Disabled = 1 << 1
-    case Selected = 1 << 2
-    case Application = 0x00FF0000
-    case Reserved = 0xFF000000
+public struct UIControlState : OptionSetType {
+    public let rawValue: UInt
+    public init(rawValue: UInt) {
+        self.rawValue = rawValue
+    }
+    public static let Normal = UIControlState(rawValue: 0)
+    public static let Highlighted = UIControlState(rawValue: 1 << 0)
+    public static let Disabled = UIControlState(rawValue: 1 << 1)
+    public static let Selected = UIControlState(rawValue: 1 << 2)
+    public static let Application = UIControlState(rawValue: 0x00FF0000)
+    public static let Reserved = UIControlState(rawValue: 0xFF000000)
 }
 
-enum UIControlContentHorizontalAlignment : Int {
+public enum UIControlContentHorizontalAlignment : Int {
     case Center = 0
     case Left = 1
     case Right = 2
     case Fill = 3
 }
 
-enum UIControlContentVerticalAlignment : Int {
+public enum UIControlContentVerticalAlignment : Int {
     case Center = 0
     case Top = 1
     case Bottom = 2
     case Fill = 3
 }
 
-class UIControl: UIView {
+public class UIControl: UIView {
     func addTarget(target: AnyObject, action: Selector, forControlEvents controlEvents: UIControlEvents) {
         var controlAction: UIControlAction = UIControlAction()
         controlAction.target = target

@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import CoreGraphics
+
 enum UIToolbarPosition : Int {
     case Any = 0
     case Bottom = 1
@@ -194,7 +196,7 @@ class UIToolbar: UIView {
         self.setItems(items, animated: false)
     }
 
-    func drawRect(rect: CGRect) {
+    override func drawRect(rect: CGRect) {
         let bounds: CGRect = self.bounds
         var color: UIColor = tintColor ?? UIColor(red: 21 / 255.0, green: 21 / 255.0, blue: 25 / 255.0, alpha: 1)
         color.setFill()
@@ -225,32 +227,32 @@ class UIToolbar: UIView {
 
     let kBarHeight: CGFloat = 28
 
-class UIToolbarItem: NSObject {
-    convenience override init(barButtonItem anItem: UIBarButtonItem) {
+public class UIToolbarItem: NSObject {
+    public convenience init(barButtonItem anItem: UIBarButtonItem) {
         if (self.init()) {
             assert((anItem != nil), "the bar button item must not be nil")
             self.item = anItem
-            if !item->isSystemItem && item.customView {
+            if !item.isSystemItem && item.customView {
                 self.view = item.customView
             }
-            else if !item->isSystemItem || (item->systemItem != .FixedSpace && item->systemItem != .FlexibleSpace) {
+            else if !item.isSystemItem || (item.systemItem != .FixedSpace && item.systemItem != .FlexibleSpace) {
                 self.view = UIToolbarButton(barButtonItem: item)
             }
         }
     }
-    var view: UIView {
+    public var view: UIView {
         get {
             return self.view
         }
     }
 
-    var item: UIBarButtonItem {
+    public var item: UIBarButtonItem {
         get {
             return self.item
         }
     }
 
-    var width: CGFloat {
+    public var width: CGFloat {
         get {
             if view != nil {
                 return view.frame.size.width

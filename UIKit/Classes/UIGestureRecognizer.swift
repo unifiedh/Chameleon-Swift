@@ -27,6 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
+
 enum UIGestureRecognizerState : Int {
     case Possible
     case Began
@@ -34,10 +35,10 @@ enum UIGestureRecognizerState : Int {
     case Ended
     case Cancelled
     case Failed
-    case Recognized = .Ended
+    //case Recognized = .Ended
 }
 
-protocol UIGestureRecognizerDelegate: NSObject {
+protocol UIGestureRecognizerDelegate: NSObjectProtocol {
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool
 
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool
@@ -45,21 +46,21 @@ protocol UIGestureRecognizerDelegate: NSObject {
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool
 }
 class UIGestureRecognizer: NSObject {
-    convenience override init(target: AnyObject, action: Selector) {
-        if (self.init()) {
+    init(target: AnyObject, action: Selector) {
             self.state = .Possible
             self.cancelsTouchesInView = true
             self.delaysTouchesBegan = false
             self.delaysTouchesEnded = true
             self.enabled = true
-            self.registeredActions = [AnyObject](capacity: 1)
-            self.trackingTouches = [AnyObject](capacity: 1)
+            self.registeredActions = [AnyObject]()
+            self.trackingTouches = [UITouch]()
             self.addTarget(target, action: action)
-        }
+            
+            super.init()
     }
 
     func addTarget(target: AnyObject, action: Selector) {
-        assert(target != nil, "target must not be nil")
+        //assert(target != nil, "target must not be nil")
         assert(action != nil, "action must not be NULL")
         var actionRecord: UIAction = UIAction()
         actionRecord.target = target
@@ -84,7 +85,7 @@ class UIGestureRecognizer: NSObject {
         var x: CGFloat = 0
         var y: CGFloat = 0
         var k: CGFloat = 0
-        for touch: UITouch in trackingTouches {
+        for touch in trackingTouches {
             let p: CGPoint = touch.locationInView(view)
             x += p.x
             y += p.y
@@ -140,10 +141,10 @@ class UIGestureRecognizer: NSObject {
             return self.view
         }
     }
-    var self.registeredActions: [AnyObject]
-    var self.trackingTouches: [AnyObject]
-    var self.view: UIView
-    var self.delegateHas: struct{unsignedshouldBegin:1;unsignedshouldReceiveTouch:1;unsignedshouldRecognizeSimultaneouslyWithGestureRecognizer:1;}
+    var registeredActions: [AnyObject]
+    var trackingTouches: [UITouch]
+    var view: UIView?
+    var delegateHas: struct{unsignedshouldBegin:1;unsignedshouldReceiveTouch:1;unsignedshouldRecognizeSimultaneouslyWithGestureRecognizer:1;}
 
 
     func _setView(v: UIView) {

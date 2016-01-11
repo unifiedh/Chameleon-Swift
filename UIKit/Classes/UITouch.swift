@@ -27,7 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-enum UITouchPhase : Int {
+public enum UITouchPhase : Int {
     case Began
     case Moved
     case Stationary
@@ -35,7 +35,7 @@ enum UITouchPhase : Int {
     case Cancelled
 }
 
-class UITouch: NSObject {
+public class UITouch: NSObject {
     func locationInView(inView: UIView) -> CGPoint {
         return self.window.convertPoint(self.window.convertPoint(locationOnScreen, fromWindow: nil), toView: inView)
     }
@@ -97,13 +97,13 @@ class UITouch: NSObject {
             return gestureRecognizers.copy()
         }
     }
-    var self.locationOnScreen: CGPoint
-    var self.previousLocationOnScreen: CGPoint
-    var self.gestureRecognizers: [AnyObject]
-    var self.wasDeliveredToView: Bool
-    var self.wasCancelledInView: Bool
-    var self.beganPhaseTimestamp: NSTimeInterval
-    var self.beganPhaseLocationOnScreen: CGPoint
+    var locationOnScreen: CGPoint
+    var previousLocationOnScreen: CGPoint
+    var gestureRecognizers: [AnyObject]
+    var wasDeliveredToView: Bool
+    var wasCancelledInView: Bool
+    var beganPhaseTimestamp: NSTimeInterval
+    var beganPhaseLocationOnScreen: CGPoint
 
 
     convenience override init() {
@@ -115,7 +115,7 @@ class UITouch: NSObject {
         }
     }
 
-    func dealloc() {
+    deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIViewDidMoveToSuperviewNotification, object: nil)
     }
 
@@ -172,7 +172,7 @@ class UITouch: NSObject {
         gestureRecognizers.removeObject(gesture)
     }
 
-    func description() -> String {
+    override public var description: String {
         var phase: String = ""
         switch self.phase {
             case .Began:

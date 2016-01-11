@@ -27,17 +27,23 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-enum UIViewAutoresizing : Int {
-    case None = 0
-    case FlexibleLeftMargin = 1 << 0
-    case FlexibleWidth = 1 << 1
-    case FlexibleRightMargin = 1 << 2
-    case FlexibleTopMargin = 1 << 3
-    case FlexibleHeight = 1 << 4
-    case FlexibleBottomMargin = 1 << 5
+public struct UIViewAutoresizing : OptionSetType {
+	public let rawValue: Int
+    
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+    
+	public static let None = UIViewAutoresizing(rawValue: 0)
+	public static let FlexibleLeftMargin = UIViewAutoresizing(rawValue: 1 << 0)
+	public static let FlexibleWidth = UIViewAutoresizing(rawValue: 1 << 1)
+	public static let FlexibleRightMargin = UIViewAutoresizing(rawValue: 1 << 2)
+	public static let FlexibleTopMargin = UIViewAutoresizing(rawValue: 1 << 3)
+	public static let FlexibleHeight = UIViewAutoresizing(rawValue: 1 << 4)
+	public static let FlexibleBottomMargin = UIViewAutoresizing(rawValue: 1 << 5)
 }
 
-enum UIViewContentMode : Int {
+public enum UIViewContentMode : Int {
     case ScaleToFill
     case ScaleAspectFit
     case ScaleAspectFill
@@ -53,14 +59,14 @@ enum UIViewContentMode : Int {
     case BottomRight
 }
 
-enum UIViewAnimationCurve : Int {
+public enum UIViewAnimationCurve : Int {
     case EaseInOut
     case EaseIn
     case EaseOut
     case Linear
 }
 
-enum UIViewAnimationTransition : Int {
+public enum UIViewAnimationTransition : Int {
     case None
     case FlipFromLeft
     case FlipFromRight
@@ -68,37 +74,43 @@ enum UIViewAnimationTransition : Int {
     case CurlDown
 }
 
-enum .s : Int {
-    case UIViewAnimationOptionLayoutSubviews = 1 << 0
+public struct UIViewAnimationOptions : OptionSetType {
+	public let rawValue: Int
+    
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+    
+	static let LayoutSubviews = UIViewAnimationOptions(rawValue: 1 << 0)
     // not currently supported
-    case UIViewAnimationOptionAllowUserInteraction = 1 << 1
-    case UIViewAnimationOptionBeginFromCurrentState = 1 << 2
-    case UIViewAnimationOptionRepeat = 1 << 3
-    case UIViewAnimationOptionAutoreverse = 1 << 4
-    case UIViewAnimationOptionOverrideInheritedDuration = 1 << 5
+	static let AllowUserInteraction = UIViewAnimationOptions(rawValue: 1 << 1)
+	static let BeginFromCurrentState = UIViewAnimationOptions(rawValue: 1 << 2)
+	static let UIViewAnimationOptionRepeat = UIViewAnimationOptions(rawValue: 1 << 3)
+	static let Autoreverse = UIViewAnimationOptions(rawValue: 1 << 4)
+    static let OverrideInheritedDuration = UIViewAnimationOptions(rawValue: 1 << 5)
     // not currently supported
-    case UIViewAnimationOptionOverrideInheritedCurve = 1 << 6
+    static let OverrideInheritedCurve = UIViewAnimationOptions(rawValue: 1 << 6)
     // not currently supported
-    case UIViewAnimationOptionAllowAnimatedContent = 1 << 7
+    static let AllowAnimatedContent = UIViewAnimationOptions(rawValue: 1 << 7)
     // not currently supported
-    case UIViewAnimationOptionShowHideTransitionViews = 1 << 8
-    case UIViewAnimationOptionCurveEaseInOut = 0 << 16
-    case UIViewAnimationOptionCurveEaseIn = 1 << 16
-    case UIViewAnimationOptionCurveEaseOut = 2 << 16
-    case UIViewAnimationOptionCurveLinear = 3 << 16
-    case UIViewAnimationOptionTransitionNone = 0 << 20
-    case UIViewAnimationOptionTransitionFlipFromLeft = 1 << 20
-    case UIViewAnimationOptionTransitionFlipFromRight = 2 << 20
-    case UIViewAnimationOptionTransitionCurlUp = 3 << 20
-    case UIViewAnimationOptionTransitionCurlDown = 4 << 20
-    case UIViewAnimationOptionTransitionCrossDissolve = 5 << 20
-    case UIViewAnimationOptionTransitionFlipFromTop = 6 << 20
-    case UIViewAnimationOptionTransitionFlipFromBottom = 7 << 20
+    static let ShowHideTransitionViews = UIViewAnimationOptions(rawValue: 1 << 8)
+    static let CurveEaseInOut = UIViewAnimationOptions(rawValue: 0 << 16)
+    static let CurveEaseIn = UIViewAnimationOptions(rawValue: 1 << 16)
+    static let CurveEaseOut = UIViewAnimationOptions(rawValue: 2 << 16)
+    static let CurveLinear = UIViewAnimationOptions(rawValue: 3 << 16)
+    static let TransitionNone = UIViewAnimationOptions(rawValue: 0 << 20)
+    static let TransitionFlipFromLeft = UIViewAnimationOptions(rawValue: 1 << 20)
+    static let TransitionFlipFromRight = UIViewAnimationOptions(rawValue: 2 << 20)
+    static let TransitionCurlUp = UIViewAnimationOptions(rawValue: 3 << 20)
+    static let TransitionCurlDown = UIViewAnimationOptions(rawValue: 4 << 20)
+    static let TransitionCrossDissolve = UIViewAnimationOptions(rawValue: 5 << 20)
+    static let TransitionFlipFromTop = UIViewAnimationOptions(rawValue: 6 << 20)
+    static let TransitionFlipFromBottom = UIViewAnimationOptions(rawValue: 7 << 20)
 }
 
-class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
+public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     class func layerClass() -> AnyClass {
-        return CALayer
+        return CALayer()
     }
 
     convenience override init(frame: CGRect) {
@@ -113,11 +125,11 @@ class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
             subview.willMoveToSuperview(self)
             if subview.superview {
                 subview.layer.removeFromSuperlayer()
-                subview.superview->subviews.removeObject(subview)
+                subview.superview.subviews.removeObject(subview)
             }
             subview.willChangeValueForKey("superview")
             subviews.append(subview)
-            subview->superview = self
+            subview.superview = self
             layer.addSublayer(subview.layer)
             subview.didChangeValueForKey("superview")
             if oldWindow.screen != newWindow.screen {
@@ -153,7 +165,7 @@ class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
             self.willMoveToSuperview(nil)
             self.willChangeValueForKey("superview")
             layer.removeFromSuperlayer()
-            superview->subviews.removeObject(self)
+            superview.subviews.removeObject(self)
             self.superview = nil
             self.didChangeValueForKey("superview")
             self._abortGestureRecognizers()
@@ -259,7 +271,7 @@ class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     func layoutSubviews() {
     }
 
-    func pointInside(_ point: CGPoint, withEvent event: UIEvent?) -> Bool {
+    func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
     }
 
     func hitTest(point: CGPoint, withEvent event: UIEvent) -> UIView {
@@ -324,7 +336,7 @@ class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     class func transitionFromView(fromView: UIView, toView: UIView, duration: NSTimeInterval, options: UIViewAnimationOptions, completion: (finished: Bool) -> Void) {
     }
 
-    class func beginAnimations(animationID: String, context: ) {
+    class func beginAnimations(animationID: String, context: UnsafeMutablePointer<Void>) {
     }
 
     class func commitAnimations() {
@@ -422,11 +434,11 @@ class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     var exclusiveTouch: Bool
     // state is maintained, but it has no effect
     var gestureRecognizers: [AnyObject]
-    var self.superview: UIView
-    var self.viewController: UIViewController
-    var self.subviews: NSMutableSet
-    var self.implementsDrawRect: Bool
-    var self.gestureRecognizers: NSMutableSet
+    var superview: UIView
+    var viewController: UIViewController
+    var subviews: NSMutableSet
+    var implementsDrawRect: Bool
+    var gestureRecognizers: NSMutableSet
 
 
     class func initialize() {
@@ -685,8 +697,8 @@ import QuartzCore
 
     let UIViewHiddenDidChangeNotification: String = "UIViewHiddenDidChangeNotification"
 
-    var self.animationGroups: [AnyObject]
+    var animationGroups: [AnyObject]
 
-    var self.animationsEnabled: Bool = true
+    var animationsEnabled: Bool = true
 
 //#define hasAutoresizingFor(x) ((_autoresizingMask & (x)) == (x))

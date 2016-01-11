@@ -7,113 +7,113 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		14100F70175FB9C700269BBF /* UINSResponderShim.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14100F6E175FB9C700269BBF /* UINSResponderShim.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		1413D21213D72A06004D77E9 /* UIScrollViewAnimation.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1413D20C13D72A06004D77E9 /* UIScrollViewAnimation.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		1413D21413D72A06004D77E9 /* UIScrollViewAnimationDeceleration.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1413D20E13D72A06004D77E9 /* UIScrollViewAnimationDeceleration.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		1413D21613D72A06004D77E9 /* UIScrollViewAnimationScroll.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1413D21013D72A06004D77E9 /* UIScrollViewAnimationScroll.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14100F70175FB9C700269BBF /* UINSResponderShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14100F6E175FB9C700269BBF /* UINSResponderShim.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		1413D21213D72A06004D77E9 /* UIScrollViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413D20C13D72A06004D77E9 /* UIScrollViewAnimation.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		1413D21413D72A06004D77E9 /* UIScrollViewAnimationDeceleration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413D20E13D72A06004D77E9 /* UIScrollViewAnimationDeceleration.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		1413D21613D72A06004D77E9 /* UIScrollViewAnimationScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413D21013D72A06004D77E9 /* UIScrollViewAnimationScroll.swift */; settings = {ATTRIBUTES = (Private, ); }; };
 		1426A02315701598004C2C9A /* <UIBarButtonSystemItem> reply@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1426A01E15701598004C2C9A /* <UIBarButtonSystemItem> reply@2x.png */; };
 		1426A02415701598004C2C9A /* <UIPopoverView> arrow-bottom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1426A01F15701598004C2C9A /* <UIPopoverView> arrow-bottom@2x.png */; };
 		1426A02515701598004C2C9A /* <UIPopoverView> arrow-left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1426A02015701598004C2C9A /* <UIPopoverView> arrow-left@2x.png */; };
 		1426A02615701598004C2C9A /* <UIPopoverView> arrow-right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1426A02115701598004C2C9A /* <UIPopoverView> arrow-right@2x.png */; };
 		1426A02715701598004C2C9A /* <UIPopoverView> arrow-top@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1426A02215701598004C2C9A /* <UIPopoverView> arrow-top@2x.png */; };
-		1426FFDD129ADEA300BD31E5 /* UIControlAction.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1426FFDB129ADEA300BD31E5 /* UIControlAction.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		1434E8661770F4570023F2C5 /* UIViewControllerAppKitIntegration.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1434E8651770F4570023F2C5 /* UIViewControllerAppKitIntegration.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		144156DB1284A22200532FE2 /* UIToolbarButton.swift in Headers */ = {isa = PBXBuildFile; fileRef = 144156D91284A22200532FE2 /* UIToolbarButton.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		1443B06C13E06081001D7EC1 /* UIBackgroundTask.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1443B06A13E06081001D7EC1 /* UIBackgroundTask.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		1443DF24121F0D5A00E07C4A /* UIScreenMode+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1443DF23121F0D5A00E07C4A /* UIScreenMode+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		1426FFDD129ADEA300BD31E5 /* UIControlAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1426FFDB129ADEA300BD31E5 /* UIControlAction.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		1434E8661770F4570023F2C5 /* UIViewControllerAppKitIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1434E8651770F4570023F2C5 /* UIViewControllerAppKitIntegration.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		144156DB1284A22200532FE2 /* UIToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144156D91284A22200532FE2 /* UIToolbarButton.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		1443B06C13E06081001D7EC1 /* UIBackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1443B06A13E06081001D7EC1 /* UIBackgroundTask.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		1443DF24121F0D5A00E07C4A /* UIScreenMode+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1443DF23121F0D5A00E07C4A /* UIScreenMode+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
 		1444318E137D7FEE00B81304 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1444318D137D7FEE00B81304 /* IOKit.framework */; };
-		145335651226F03E0005644F /* UITextLayer.swift in Headers */ = {isa = PBXBuildFile; fileRef = 145335631226F03E0005644F /* UITextLayer.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		145335691226F1F90005644F /* UIBulletGlyphGenerator.swift in Headers */ = {isa = PBXBuildFile; fileRef = 145335671226F1F90005644F /* UIBulletGlyphGenerator.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		145335711226F2720005644F /* UICustomNSTextView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1453356F1226F2720005644F /* UICustomNSTextView.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		145335851226F3490005644F /* UICustomNSClipView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 145335831226F3490005644F /* UICustomNSClipView.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14541DB21360D6F300C1006D /* UIPhotosAlbum.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14541DB01360D6F300C1006D /* UIPhotosAlbum.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		145576231541DC560029EF4D /* UIAppearanceInstance.swift in Headers */ = {isa = PBXBuildFile; fileRef = 145576221541DC560029EF4D /* UIAppearanceInstance.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		145BE31D15754F2400C41D70 /* UIColorRep.swift in Headers */ = {isa = PBXBuildFile; fileRef = 145BE31B15754F2400C41D70 /* UIColorRep.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		145BE3211575523000C41D70 /* UIColor+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 145BE3201575523000C41D70 /* UIColor+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		145D0B0517949A6800FB569B /* UINavigationItem+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 145D0B0417949A6800FB569B /* UINavigationItem+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		145335651226F03E0005644F /* UITextLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145335631226F03E0005644F /* UITextLayer.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		145335691226F1F90005644F /* UIBulletGlyphGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145335671226F1F90005644F /* UIBulletGlyphGenerator.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		145335711226F2720005644F /* UICustomNSTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1453356F1226F2720005644F /* UICustomNSTextView.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		145335851226F3490005644F /* UICustomNSClipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145335831226F3490005644F /* UICustomNSClipView.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14541DB21360D6F300C1006D /* UIPhotosAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14541DB01360D6F300C1006D /* UIPhotosAlbum.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		145576231541DC560029EF4D /* UIAppearanceInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145576221541DC560029EF4D /* UIAppearanceInstance.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		145BE31D15754F2400C41D70 /* UIColorRep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145BE31B15754F2400C41D70 /* UIColorRep.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		145BE3211575523000C41D70 /* UIColor+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145BE3201575523000C41D70 /* UIColor+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		145D0B0517949A6800FB569B /* UINavigationItem+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145D0B0417949A6800FB569B /* UINavigationItem+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
 		1464960B11FF7AE500ECEC7A /* <UINavigationBar> back-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 1464960711FF7AE500ECEC7A /* <UINavigationBar> back-highlighted.png */; };
 		1464960C11FF7AE500ECEC7A /* <UINavigationBar> back.png in Resources */ = {isa = PBXBuildFile; fileRef = 1464960811FF7AE500ECEC7A /* <UINavigationBar> back.png */; };
-		14711394156FC83F00251B2E /* UIImageRep.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14711392156FC83F00251B2E /* UIImageRep.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14805D4112A6B0E80080C4BA /* UINSClipView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14805D3F12A6B0E80080C4BA /* UINSClipView.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14805F5A12A6E2AE0080C4BA /* UIScrollView+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14805F5812A6E2AE0080C4BA /* UIScrollView+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14711394156FC83F00251B2E /* UIImageRep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14711392156FC83F00251B2E /* UIImageRep.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14805D4112A6B0E80080C4BA /* UINSClipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14805D3F12A6B0E80080C4BA /* UINSClipView.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14805F5A12A6E2AE0080C4BA /* UIScrollView+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14805F5812A6E2AE0080C4BA /* UIScrollView+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
 		1480633612A851230080C4BA /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1480633512A851230080C4BA /* QTKit.framework */; };
 		1480633812A851230080C4BA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1480633712A851230080C4BA /* WebKit.framework */; };
-		148984A512EE278D003D4751 /* UIGestureRecognizer+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984A312EE278D003D4751 /* UIGestureRecognizer+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		1489856A12EE2CFF003D4751 /* AppKitIntegration.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984E412EE2CFE003D4751 /* AppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489856B12EE2CFF003D4751 /* NSIndexPath+UITableView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984E512EE2CFE003D4751 /* NSIndexPath+UITableView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489856D12EE2CFF003D4751 /* UIAcceleration.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984E712EE2CFE003D4751 /* UIAcceleration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489856F12EE2CFF003D4751 /* UIAccelerometer.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984E912EE2CFE003D4751 /* UIAccelerometer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489857112EE2CFF003D4751 /* UIAccessibility.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984EB12EE2CFE003D4751 /* UIAccessibility.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489857312EE2CFF003D4751 /* UIAccessibilityElement.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984ED12EE2CFE003D4751 /* UIAccessibilityElement.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489857512EE2CFF003D4751 /* UIActionSheet.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984EF12EE2CFE003D4751 /* UIActionSheet.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489857712EE2CFF003D4751 /* UIActionSheetAppKitIntegration.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984F112EE2CFE003D4751 /* UIActionSheetAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489857812EE2CFF003D4751 /* UIActivityIndicatorView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984F212EE2CFE003D4751 /* UIActivityIndicatorView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489857A12EE2CFF003D4751 /* UIAlertView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984F412EE2CFE003D4751 /* UIAlertView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489857C12EE2CFF003D4751 /* UIApplication.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984F612EE2CFE003D4751 /* UIApplication.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489857E12EE2CFF003D4751 /* UIApplicationAppKitIntegration.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984F812EE2CFE003D4751 /* UIApplicationAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489857F12EE2CFF003D4751 /* UIApplicationDelegate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984F912EE2CFE003D4751 /* UIApplicationDelegate.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489858012EE2CFF003D4751 /* UIBarButtonItem.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984FA12EE2CFE003D4751 /* UIBarButtonItem.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489858212EE2CFF003D4751 /* UIBarItem.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984FC12EE2CFE003D4751 /* UIBarItem.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489858412EE2CFF003D4751 /* UIBezierPath.swift in Headers */ = {isa = PBXBuildFile; fileRef = 148984FE12EE2CFE003D4751 /* UIBezierPath.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489858612EE2CFF003D4751 /* UIButton.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489850012EE2CFE003D4751 /* UIButton.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489858812EE2CFF003D4751 /* UIColor.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489850212EE2CFE003D4751 /* UIColor.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489858A12EE2CFF003D4751 /* UIColorAppKitIntegration.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489850412EE2CFE003D4751 /* UIColorAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489858B12EE2CFF003D4751 /* UIControl.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489850512EE2CFE003D4751 /* UIControl.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489858D12EE2CFF003D4751 /* UIDataDetectors.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489850712EE2CFE003D4751 /* UIDataDetectors.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489858E12EE2CFF003D4751 /* UIDevice.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489850812EE2CFE003D4751 /* UIDevice.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489859012EE2CFF003D4751 /* UIEvent.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489850A12EE2CFE003D4751 /* UIEvent.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489859212EE2CFF003D4751 /* UIFont.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489850C12EE2CFE003D4751 /* UIFont.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489859412EE2CFF003D4751 /* UIFontAppKitIntegration.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489850E12EE2CFE003D4751 /* UIFontAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489859512EE2CFF003D4751 /* UIGeometry.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489850F12EE2CFE003D4751 /* UIGeometry.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489859712EE2CFF003D4751 /* UIGestureRecognizer.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489851112EE2CFE003D4751 /* UIGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489859912EE2CFF003D4751 /* UIGraphics.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489851312EE2CFE003D4751 /* UIGraphics.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489859B12EE2CFF003D4751 /* UIImage.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489851512EE2CFE003D4751 /* UIImage.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489859D12EE2CFF003D4751 /* UIImageAppKitIntegration.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489851712EE2CFE003D4751 /* UIImageAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489859E12EE2CFF003D4751 /* UIImagePickerController.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489851812EE2CFE003D4751 /* UIImagePickerController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985A012EE2CFF003D4751 /* UIImageView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489851A12EE2CFE003D4751 /* UIImageView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985A212EE2CFF003D4751 /* UIKey.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489851C12EE2CFE003D4751 /* UIKey.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		148985A412EE2CFF003D4751 /* UIKit.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489851E12EE2CFE003D4751 /* UIKit.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985A512EE2CFF003D4751 /* UIKitView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489851F12EE2CFE003D4751 /* UIKitView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985A712EE2CFF003D4751 /* UILabel.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489852112EE2CFE003D4751 /* UILabel.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985A912EE2CFF003D4751 /* UILongPressGestureRecognizer.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489852312EE2CFE003D4751 /* UILongPressGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985AB12EE2CFF003D4751 /* UIMenuController.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489852512EE2CFE003D4751 /* UIMenuController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985AD12EE2CFF003D4751 /* UIMenuItem.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489852712EE2CFE003D4751 /* UIMenuItem.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985AF12EE2CFF003D4751 /* UINavigationBar.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489852912EE2CFE003D4751 /* UINavigationBar.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985B112EE2CFF003D4751 /* UINavigationController.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489852B12EE2CFE003D4751 /* UINavigationController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985B312EE2CFF003D4751 /* UINavigationItem.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489852D12EE2CFE003D4751 /* UINavigationItem.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985B512EE2CFF003D4751 /* UINibLoading.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489852F12EE2CFE003D4751 /* UINibLoading.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985B712EE2CFF003D4751 /* UIPageControl.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489853112EE2CFE003D4751 /* UIPageControl.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985B912EE2CFF003D4751 /* UIPasteboard.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489853312EE2CFE003D4751 /* UIPasteboard.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985BB12EE2CFF003D4751 /* UIPinchGestureRecognizer.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489853512EE2CFE003D4751 /* UIPinchGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985BD12EE2CFF003D4751 /* UIPopoverController.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489853712EE2CFE003D4751 /* UIPopoverController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985BF12EE2CFF003D4751 /* UIProgressView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489853912EE2CFE003D4751 /* UIProgressView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985C112EE2CFF003D4751 /* UIResponder.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489853B12EE2CFE003D4751 /* UIResponder.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985C312EE2CFF003D4751 /* UIResponderAppKitIntegration.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489853D12EE2CFE003D4751 /* UIResponderAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985C512EE2CFF003D4751 /* UIScreen.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489853F12EE2CFE003D4751 /* UIScreen.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985C712EE2CFF003D4751 /* UIScreenAppKitIntegration.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489854112EE2CFE003D4751 /* UIScreenAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985C912EE2CFF003D4751 /* UIScreenMode.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489854312EE2CFE003D4751 /* UIScreenMode.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985CB12EE2CFF003D4751 /* UIScrollView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489854512EE2CFE003D4751 /* UIScrollView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985CD12EE2CFF003D4751 /* UISplitViewController.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489854712EE2CFE003D4751 /* UISplitViewController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985CF12EE2CFF003D4751 /* UIStringDrawing.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489854912EE2CFE003D4751 /* UIStringDrawing.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985D112EE2CFF003D4751 /* UISwitch.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489854B12EE2CFE003D4751 /* UISwitch.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985D312EE2CFF003D4751 /* UITabBarController.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489854D12EE2CFE003D4751 /* UITabBarController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985D512EE2CFF003D4751 /* UITableView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489854F12EE2CFE003D4751 /* UITableView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985D712EE2CFF003D4751 /* UITableViewCell.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489855112EE2CFE003D4751 /* UITableViewCell.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985D912EE2CFF003D4751 /* UITableViewController.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489855312EE2CFE003D4751 /* UITableViewController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985DB12EE2CFF003D4751 /* UITapGestureRecognizer.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489855512EE2CFE003D4751 /* UITapGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985DD12EE2CFF003D4751 /* UITextField.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489855712EE2CFE003D4751 /* UITextField.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985DF12EE2CFF003D4751 /* UITextInputTraits.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489855912EE2CFE003D4751 /* UITextInputTraits.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985E012EE2CFF003D4751 /* UITextView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489855A12EE2CFE003D4751 /* UITextView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985E212EE2CFF003D4751 /* UIToolbar.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489855C12EE2CFE003D4751 /* UIToolbar.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985E412EE2CFF003D4751 /* UITouch.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489855E12EE2CFE003D4751 /* UITouch.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985E612EE2CFF003D4751 /* UIView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489856012EE2CFE003D4751 /* UIView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985E812EE2CFF003D4751 /* UIViewAdapter.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489856212EE2CFE003D4751 /* UIViewAdapter.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985EA12EE2CFF003D4751 /* UIViewController.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489856412EE2CFE003D4751 /* UIViewController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985EC12EE2CFF003D4751 /* UIWebView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489856612EE2CFE003D4751 /* UIWebView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985EE12EE2CFF003D4751 /* UIWindow.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489856812EE2CFE003D4751 /* UIWindow.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489860212EE2D9F003D4751 /* UIRotationGestureRecognizer.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489860012EE2D9F003D4751 /* UIRotationGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489860612EE2DBD003D4751 /* UISwipeGestureRecognizer.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489860412EE2DBD003D4751 /* UISwipeGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1489860A12EE2DDC003D4751 /* UIPanGestureRecognizer.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1489860812EE2DDC003D4751 /* UIPanGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148984A512EE278D003D4751 /* UIGestureRecognizer+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984A312EE278D003D4751 /* UIGestureRecognizer+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		1489856A12EE2CFF003D4751 /* AppKitIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984E412EE2CFE003D4751 /* AppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489856B12EE2CFF003D4751 /* NSIndexPath+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984E512EE2CFE003D4751 /* NSIndexPath+UITableView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489856D12EE2CFF003D4751 /* UIAcceleration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984E712EE2CFE003D4751 /* UIAcceleration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489856F12EE2CFF003D4751 /* UIAccelerometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984E912EE2CFE003D4751 /* UIAccelerometer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489857112EE2CFF003D4751 /* UIAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984EB12EE2CFE003D4751 /* UIAccessibility.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489857312EE2CFF003D4751 /* UIAccessibilityElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984ED12EE2CFE003D4751 /* UIAccessibilityElement.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489857512EE2CFF003D4751 /* UIActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984EF12EE2CFE003D4751 /* UIActionSheet.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489857712EE2CFF003D4751 /* UIActionSheetAppKitIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984F112EE2CFE003D4751 /* UIActionSheetAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489857812EE2CFF003D4751 /* UIActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984F212EE2CFE003D4751 /* UIActivityIndicatorView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489857A12EE2CFF003D4751 /* UIAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984F412EE2CFE003D4751 /* UIAlertView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489857C12EE2CFF003D4751 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984F612EE2CFE003D4751 /* UIApplication.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489857E12EE2CFF003D4751 /* UIApplicationAppKitIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984F812EE2CFE003D4751 /* UIApplicationAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489857F12EE2CFF003D4751 /* UIApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984F912EE2CFE003D4751 /* UIApplicationDelegate.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489858012EE2CFF003D4751 /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984FA12EE2CFE003D4751 /* UIBarButtonItem.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489858212EE2CFF003D4751 /* UIBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984FC12EE2CFE003D4751 /* UIBarItem.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489858412EE2CFF003D4751 /* UIBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148984FE12EE2CFE003D4751 /* UIBezierPath.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489858612EE2CFF003D4751 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489850012EE2CFE003D4751 /* UIButton.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489858812EE2CFF003D4751 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489850212EE2CFE003D4751 /* UIColor.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489858A12EE2CFF003D4751 /* UIColorAppKitIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489850412EE2CFE003D4751 /* UIColorAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489858B12EE2CFF003D4751 /* UIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489850512EE2CFE003D4751 /* UIControl.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489858D12EE2CFF003D4751 /* UIDataDetectors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489850712EE2CFE003D4751 /* UIDataDetectors.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489858E12EE2CFF003D4751 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489850812EE2CFE003D4751 /* UIDevice.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489859012EE2CFF003D4751 /* UIEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489850A12EE2CFE003D4751 /* UIEvent.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489859212EE2CFF003D4751 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489850C12EE2CFE003D4751 /* UIFont.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489859412EE2CFF003D4751 /* UIFontAppKitIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489850E12EE2CFE003D4751 /* UIFontAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489859512EE2CFF003D4751 /* UIGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489850F12EE2CFE003D4751 /* UIGeometry.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489859712EE2CFF003D4751 /* UIGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489851112EE2CFE003D4751 /* UIGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489859912EE2CFF003D4751 /* UIGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489851312EE2CFE003D4751 /* UIGraphics.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489859B12EE2CFF003D4751 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489851512EE2CFE003D4751 /* UIImage.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489859D12EE2CFF003D4751 /* UIImageAppKitIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489851712EE2CFE003D4751 /* UIImageAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489859E12EE2CFF003D4751 /* UIImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489851812EE2CFE003D4751 /* UIImagePickerController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985A012EE2CFF003D4751 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489851A12EE2CFE003D4751 /* UIImageView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985A212EE2CFF003D4751 /* UIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489851C12EE2CFE003D4751 /* UIKey.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		148985A412EE2CFF003D4751 /* UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489851E12EE2CFE003D4751 /* UIKit.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985A512EE2CFF003D4751 /* UIKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489851F12EE2CFE003D4751 /* UIKitView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985A712EE2CFF003D4751 /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489852112EE2CFE003D4751 /* UILabel.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985A912EE2CFF003D4751 /* UILongPressGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489852312EE2CFE003D4751 /* UILongPressGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985AB12EE2CFF003D4751 /* UIMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489852512EE2CFE003D4751 /* UIMenuController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985AD12EE2CFF003D4751 /* UIMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489852712EE2CFE003D4751 /* UIMenuItem.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985AF12EE2CFF003D4751 /* UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489852912EE2CFE003D4751 /* UINavigationBar.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985B112EE2CFF003D4751 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489852B12EE2CFE003D4751 /* UINavigationController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985B312EE2CFF003D4751 /* UINavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489852D12EE2CFE003D4751 /* UINavigationItem.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985B512EE2CFF003D4751 /* UINibLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489852F12EE2CFE003D4751 /* UINibLoading.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985B712EE2CFF003D4751 /* UIPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489853112EE2CFE003D4751 /* UIPageControl.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985B912EE2CFF003D4751 /* UIPasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489853312EE2CFE003D4751 /* UIPasteboard.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985BB12EE2CFF003D4751 /* UIPinchGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489853512EE2CFE003D4751 /* UIPinchGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985BD12EE2CFF003D4751 /* UIPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489853712EE2CFE003D4751 /* UIPopoverController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985BF12EE2CFF003D4751 /* UIProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489853912EE2CFE003D4751 /* UIProgressView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985C112EE2CFF003D4751 /* UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489853B12EE2CFE003D4751 /* UIResponder.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985C312EE2CFF003D4751 /* UIResponderAppKitIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489853D12EE2CFE003D4751 /* UIResponderAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985C512EE2CFF003D4751 /* UIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489853F12EE2CFE003D4751 /* UIScreen.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985C712EE2CFF003D4751 /* UIScreenAppKitIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489854112EE2CFE003D4751 /* UIScreenAppKitIntegration.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985C912EE2CFF003D4751 /* UIScreenMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489854312EE2CFE003D4751 /* UIScreenMode.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985CB12EE2CFF003D4751 /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489854512EE2CFE003D4751 /* UIScrollView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985CD12EE2CFF003D4751 /* UISplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489854712EE2CFE003D4751 /* UISplitViewController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985CF12EE2CFF003D4751 /* UIStringDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489854912EE2CFE003D4751 /* UIStringDrawing.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985D112EE2CFF003D4751 /* UISwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489854B12EE2CFE003D4751 /* UISwitch.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985D312EE2CFF003D4751 /* UITabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489854D12EE2CFE003D4751 /* UITabBarController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985D512EE2CFF003D4751 /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489854F12EE2CFE003D4751 /* UITableView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985D712EE2CFF003D4751 /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489855112EE2CFE003D4751 /* UITableViewCell.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985D912EE2CFF003D4751 /* UITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489855312EE2CFE003D4751 /* UITableViewController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985DB12EE2CFF003D4751 /* UITapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489855512EE2CFE003D4751 /* UITapGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985DD12EE2CFF003D4751 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489855712EE2CFE003D4751 /* UITextField.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985DF12EE2CFF003D4751 /* UITextInputTraits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489855912EE2CFE003D4751 /* UITextInputTraits.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985E012EE2CFF003D4751 /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489855A12EE2CFE003D4751 /* UITextView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985E212EE2CFF003D4751 /* UIToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489855C12EE2CFE003D4751 /* UIToolbar.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985E412EE2CFF003D4751 /* UITouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489855E12EE2CFE003D4751 /* UITouch.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985E612EE2CFF003D4751 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489856012EE2CFE003D4751 /* UIView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985E812EE2CFF003D4751 /* UIViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489856212EE2CFE003D4751 /* UIViewAdapter.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985EA12EE2CFF003D4751 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489856412EE2CFE003D4751 /* UIViewController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985EC12EE2CFF003D4751 /* UIWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489856612EE2CFE003D4751 /* UIWebView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		148985EE12EE2CFF003D4751 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489856812EE2CFE003D4751 /* UIWindow.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489860212EE2D9F003D4751 /* UIRotationGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489860012EE2D9F003D4751 /* UIRotationGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489860612EE2DBD003D4751 /* UISwipeGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489860412EE2DBD003D4751 /* UISwipeGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1489860A12EE2DDC003D4751 /* UIPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489860812EE2DDC003D4751 /* UIPanGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		148DEE95156E945800E7B8DE /* <UIBarButtonSystemItem> add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 148DEE88156E945800E7B8DE /* <UIBarButtonSystemItem> add@2x.png */; };
 		148DEE96156E945800E7B8DE /* <UINavigationBar> back-highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 148DEE89156E945800E7B8DE /* <UINavigationBar> back-highlighted@2x.png */; };
 		148DEE97156E945800E7B8DE /* <UINavigationBar> back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 148DEE8A156E945800E7B8DE /* <UINavigationBar> back@2x.png */; };
@@ -127,30 +127,30 @@
 		148DEE9F156E945800E7B8DE /* <UITabBar> item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 148DEE92156E945800E7B8DE /* <UITabBar> item@2x.png */; };
 		148DEEA0156E945800E7B8DE /* <UIToolbar> button-highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 148DEE93156E945800E7B8DE /* <UIToolbar> button-highlighted@2x.png */; };
 		148DEEA1156E945800E7B8DE /* <UIToolbar> button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 148DEE94156E945800E7B8DE /* <UIToolbar> button@2x.png */; };
-		1490AFE01219C31C00774286 /* UIPopoverController+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1490AFDE1219C31C00774286 /* UIPopoverController+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		149148BC12EE45ED00F7C34E /* UIGestureRecognizerSubclass.swift in Headers */ = {isa = PBXBuildFile; fileRef = 149148BA12EE45ED00F7C34E /* UIGestureRecognizerSubclass.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		14A726D41213303400648C9B /* UIControl+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14A726B11213303400648C9B /* UIControl+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14A726D71213303400648C9B /* UIImage+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14A726B41213303400648C9B /* UIImage+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14A726D81213303400648C9B /* UIImageView+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14A726B51213303400648C9B /* UIImageView+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14A726DA1213303400648C9B /* UIScreen+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14A726B71213303400648C9B /* UIScreen+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14A726DC1213303400648C9B /* UITableViewCell+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14A726B91213303400648C9B /* UITableViewCell+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14A726DD1213303400648C9B /* UITouch+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14A726BA1213303400648C9B /* UITouch+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14A726DE1213303400648C9B /* UIView+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14A726BB1213303400648C9B /* UIView+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14A726E01213303400648C9B /* UIWindow+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14A726BD1213303400648C9B /* UIWindow+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14BA42F217554D0200891B6D /* UITouchEvent.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14BA42F017554D0200891B6D /* UITouchEvent.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14C0715E13CF5A2400B76E35 /* UIAction.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14C0715C13CF5A2300B76E35 /* UIAction.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14C0716213CF66B800B76E35 /* UIScrollWheelGestureRecognizer.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14C0716013CF66B600B76E35 /* UIScrollWheelGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		14CB384512689907003334AD /* UIPopoverNSWindow.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14CB384312689907003334AD /* UIPopoverNSWindow.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14CB384912689949003334AD /* UIPopoverOverlayNSView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14CB384712689949003334AD /* UIPopoverOverlayNSView.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14CC840611EFA8AF005988CC /* UIRoundedRectButton.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14CC839011EFA8AF005988CC /* UIRoundedRectButton.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1490AFE01219C31C00774286 /* UIPopoverController+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1490AFDE1219C31C00774286 /* UIPopoverController+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		149148BC12EE45ED00F7C34E /* UIGestureRecognizerSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149148BA12EE45ED00F7C34E /* UIGestureRecognizerSubclass.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		14A726D41213303400648C9B /* UIControl+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A726B11213303400648C9B /* UIControl+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14A726D71213303400648C9B /* UIImage+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A726B41213303400648C9B /* UIImage+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14A726D81213303400648C9B /* UIImageView+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A726B51213303400648C9B /* UIImageView+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14A726DA1213303400648C9B /* UIScreen+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A726B71213303400648C9B /* UIScreen+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14A726DC1213303400648C9B /* UITableViewCell+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A726B91213303400648C9B /* UITableViewCell+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14A726DD1213303400648C9B /* UITouch+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A726BA1213303400648C9B /* UITouch+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14A726DE1213303400648C9B /* UIView+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A726BB1213303400648C9B /* UIView+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14A726E01213303400648C9B /* UIWindow+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A726BD1213303400648C9B /* UIWindow+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14BA42F217554D0200891B6D /* UITouchEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BA42F017554D0200891B6D /* UITouchEvent.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14C0715E13CF5A2400B76E35 /* UIAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C0715C13CF5A2300B76E35 /* UIAction.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14C0716213CF66B800B76E35 /* UIScrollWheelGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C0716013CF66B600B76E35 /* UIScrollWheelGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		14CB384512689907003334AD /* UIPopoverNSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CB384312689907003334AD /* UIPopoverNSWindow.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14CB384912689949003334AD /* UIPopoverOverlayNSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CB384712689949003334AD /* UIPopoverOverlayNSView.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14CC840611EFA8AF005988CC /* UIRoundedRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CC839011EFA8AF005988CC /* UIRoundedRectButton.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		14CC843511EFA8BA005988CC /* <UIRoundedRectButton> highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 14CC842D11EFA8BA005988CC /* <UIRoundedRectButton> highlighted.png */; };
 		14CC843611EFA8BA005988CC /* <UIRoundedRectButton> normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 14CC842E11EFA8BA005988CC /* <UIRoundedRectButton> normal.png */; };
 		14CC843711EFA8BA005988CC /* <UIScreen> grabber.png in Resources */ = {isa = PBXBuildFile; fileRef = 14CC842F11EFA8BA005988CC /* <UIScreen> grabber.png */; };
 		14CC844111EFA901005988CC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14CC844011EFA901005988CC /* QuartzCore.framework */; };
 		14CC844511EFA91A005988CC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14CC844411EFA91A005988CC /* SystemConfiguration.framework */; };
-		14D0601717303DC100C9A7C6 /* UINSApplicationDelegate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14D0601517303DC100C9A7C6 /* UINSApplicationDelegate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14D796381540A5DA00C02139 /* UIAppearanceProperty.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14D796361540A5DA00C02139 /* UIAppearanceProperty.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14D8D941135DE90A00FE639A /* UIInputController.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14D8D93F135DE90A00FE639A /* UIInputController.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14D0601717303DC100C9A7C6 /* UINSApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D0601517303DC100C9A7C6 /* UINSApplicationDelegate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14D796381540A5DA00C02139 /* UIAppearanceProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D796361540A5DA00C02139 /* UIAppearanceProperty.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14D8D941135DE90A00FE639A /* UIInputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D8D93F135DE90A00FE639A /* UIInputController.swift */; settings = {ATTRIBUTES = (Private, ); }; };
 		14DD1C361289B4D500DCF231 /* <UIToolbar> button-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 14DD1C341289B4D500DCF231 /* <UIToolbar> button-highlighted.png */; };
 		14DD1C371289B4D500DCF231 /* <UIToolbar> button.png in Resources */ = {isa = PBXBuildFile; fileRef = 14DD1C351289B4D500DCF231 /* <UIToolbar> button.png */; };
 		14F0BC0D1288A67F00BA54F9 /* <UIBarButtonSystemItem> add.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F0BC0B1288A67F00BA54F9 /* <UIBarButtonSystemItem> add.png */; };
@@ -160,28 +160,28 @@
 		14F56F3F12664D350045EC82 /* <UIPopoverView> arrow-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F56F3A12664D350045EC82 /* <UIPopoverView> arrow-right.png */; };
 		14F56F4012664D350045EC82 /* <UIPopoverView> arrow-top.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F56F3B12664D350045EC82 /* <UIPopoverView> arrow-top.png */; };
 		14F56F4112664D350045EC82 /* <UIPopoverView> background.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F56F3C12664D350045EC82 /* <UIPopoverView> background.png */; };
-		14F56F4412664D430045EC82 /* UIPopoverView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14F56F4212664D430045EC82 /* UIPopoverView.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14FA8C5F121DA4A000C4264B /* UINinePartImage.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14FA8C47121DA4A000C4264B /* UINinePartImage.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14FA8C67121DA4A000C4264B /* UIScroller.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14FA8C4F121DA4A000C4264B /* UIScroller.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14FA8C69121DA4A000C4264B /* UITableViewCellSeparator.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14FA8C51121DA4A000C4264B /* UITableViewCellSeparator.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14FA8C6B121DA4A000C4264B /* UITableViewSection.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14FA8C53121DA4A000C4264B /* UITableViewSection.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14FA8C6D121DA4A000C4264B /* UITableViewSectionLabel.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14FA8C55121DA4A000C4264B /* UITableViewSectionLabel.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14FA8C6F121DA4A000C4264B /* UIThreePartImage.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14FA8C57121DA4A000C4264B /* UIThreePartImage.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14FA8C71121DA4A000C4264B /* UIViewAnimationGroup.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14FA8C59121DA4A000C4264B /* UIViewAnimationGroup.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14FA8C73121DA4A000C4264B /* UIViewLayoutManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14FA8C5B121DA4A000C4264B /* UIViewLayoutManager.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14FDE99C153C9A1800A2D499 /* UIAppearance.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14FDE99A153C9A1800A2D499 /* UIAppearance.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		14FDE9A5153CAECA00A2D499 /* UIAppearanceProxy.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14FDE9A3153CAECA00A2D499 /* UIAppearanceProxy.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		14FE493A171C988B009C7794 /* UITextInput.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14FE4939171C988B009C7794 /* UITextInput.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		38615C78133A81B900841EEA /* UIFont+UIPrivate.swift in Headers */ = {isa = PBXBuildFile; fileRef = 38615C77133A81B900841EEA /* UIFont+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
-		537472D5133ADD4B00EBD5EA /* UIInterface.swift in Headers */ = {isa = PBXBuildFile; fileRef = 537472D3133ADD4B00EBD5EA /* UIInterface.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		7011107C133BE0F400C86512 /* UIDatePicker.swift in Headers */ = {isa = PBXBuildFile; fileRef = 7011107A133BE0F300C86512 /* UIDatePicker.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		7806ED2A133A1D7500273BC6 /* UITabBar.swift in Headers */ = {isa = PBXBuildFile; fileRef = 7806ED28133A1D7500273BC6 /* UITabBar.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		78CB48AC133A9C51008636DA /* UISearchBar.swift in Headers */ = {isa = PBXBuildFile; fileRef = 78CB48AA133A9C51008636DA /* UISearchBar.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		78CB48B0133AA536008636DA /* UITabBarItem.swift in Headers */ = {isa = PBXBuildFile; fileRef = 78CB48AE133AA535008636DA /* UITabBarItem.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		78CB48B4133AA8AF008636DA /* UISegmentedControl.swift in Headers */ = {isa = PBXBuildFile; fileRef = 78CB48B2133AA8AF008636DA /* UISegmentedControl.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		78CB48BC133AADD0008636DA /* UIPickerView.swift in Headers */ = {isa = PBXBuildFile; fileRef = 78CB48BA133AADCF008636DA /* UIPickerView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		78CB48D9133AB922008636DA /* UISlider.swift in Headers */ = {isa = PBXBuildFile; fileRef = 78CB48D7133AB91E008636DA /* UISlider.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		78D533DD133A9434006F17CA /* UISearchDisplayController.swift in Headers */ = {isa = PBXBuildFile; fileRef = 78D533DB133A9434006F17CA /* UISearchDisplayController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		14F56F4412664D430045EC82 /* UIPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F56F4212664D430045EC82 /* UIPopoverView.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14FA8C5F121DA4A000C4264B /* UINinePartImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FA8C47121DA4A000C4264B /* UINinePartImage.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14FA8C67121DA4A000C4264B /* UIScroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FA8C4F121DA4A000C4264B /* UIScroller.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14FA8C69121DA4A000C4264B /* UITableViewCellSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FA8C51121DA4A000C4264B /* UITableViewCellSeparator.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14FA8C6B121DA4A000C4264B /* UITableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FA8C53121DA4A000C4264B /* UITableViewSection.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14FA8C6D121DA4A000C4264B /* UITableViewSectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FA8C55121DA4A000C4264B /* UITableViewSectionLabel.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14FA8C6F121DA4A000C4264B /* UIThreePartImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FA8C57121DA4A000C4264B /* UIThreePartImage.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14FA8C71121DA4A000C4264B /* UIViewAnimationGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FA8C59121DA4A000C4264B /* UIViewAnimationGroup.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14FA8C73121DA4A000C4264B /* UIViewLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FA8C5B121DA4A000C4264B /* UIViewLayoutManager.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14FDE99C153C9A1800A2D499 /* UIAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FDE99A153C9A1800A2D499 /* UIAppearance.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		14FDE9A5153CAECA00A2D499 /* UIAppearanceProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FDE9A3153CAECA00A2D499 /* UIAppearanceProxy.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		14FE493A171C988B009C7794 /* UITextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FE4939171C988B009C7794 /* UITextInput.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		38615C78133A81B900841EEA /* UIFont+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38615C77133A81B900841EEA /* UIFont+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
+		537472D5133ADD4B00EBD5EA /* UIInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537472D3133ADD4B00EBD5EA /* UIInterface.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		7011107C133BE0F400C86512 /* UIDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7011107A133BE0F300C86512 /* UIDatePicker.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		7806ED2A133A1D7500273BC6 /* UITabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7806ED28133A1D7500273BC6 /* UITabBar.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		78CB48AC133A9C51008636DA /* UISearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CB48AA133A9C51008636DA /* UISearchBar.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		78CB48B0133AA536008636DA /* UITabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CB48AE133AA535008636DA /* UITabBarItem.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		78CB48B4133AA8AF008636DA /* UISegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CB48B2133AA8AF008636DA /* UISegmentedControl.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		78CB48BC133AADD0008636DA /* UIPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CB48BA133AADCF008636DA /* UIPickerView.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		78CB48D9133AB922008636DA /* UISlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CB48D7133AB91E008636DA /* UISlider.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		78D533DD133A9434006F17CA /* UISearchDisplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D533DB133A9434006F17CA /* UISearchDisplayController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -407,6 +407,7 @@
 			);
 			name = UIKit;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
@@ -637,144 +638,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78CB48D9133AB922008636DA /* UISlider.swift in Headers */,
-				78CB48B4133AA8AF008636DA /* UISegmentedControl.swift in Headers */,
-				14CC840611EFA8AF005988CC /* UIRoundedRectButton.swift in Headers */,
-				78CB48BC133AADD0008636DA /* UIPickerView.swift in Headers */,
-				14A726D41213303400648C9B /* UIControl+UIPrivate.swift in Headers */,
-				14A726D71213303400648C9B /* UIImage+UIPrivate.swift in Headers */,
-				14A726D81213303400648C9B /* UIImageView+UIPrivate.swift in Headers */,
-				14A726DA1213303400648C9B /* UIScreen+UIPrivate.swift in Headers */,
-				14A726DC1213303400648C9B /* UITableViewCell+UIPrivate.swift in Headers */,
-				14A726DD1213303400648C9B /* UITouch+UIPrivate.swift in Headers */,
-				14A726DE1213303400648C9B /* UIView+UIPrivate.swift in Headers */,
-				78CB48B0133AA536008636DA /* UITabBarItem.swift in Headers */,
-				14A726E01213303400648C9B /* UIWindow+UIPrivate.swift in Headers */,
-				78D533DD133A9434006F17CA /* UISearchDisplayController.swift in Headers */,
-				78CB48AC133A9C51008636DA /* UISearchBar.swift in Headers */,
-				1489856A12EE2CFF003D4751 /* AppKitIntegration.swift in Headers */,
-				1489856B12EE2CFF003D4751 /* NSIndexPath+UITableView.swift in Headers */,
-				1489856D12EE2CFF003D4751 /* UIAcceleration.swift in Headers */,
-				1489856F12EE2CFF003D4751 /* UIAccelerometer.swift in Headers */,
-				1489857112EE2CFF003D4751 /* UIAccessibility.swift in Headers */,
-				1489857312EE2CFF003D4751 /* UIAccessibilityElement.swift in Headers */,
-				1489857512EE2CFF003D4751 /* UIActionSheet.swift in Headers */,
-				1489857712EE2CFF003D4751 /* UIActionSheetAppKitIntegration.swift in Headers */,
-				1489857812EE2CFF003D4751 /* UIActivityIndicatorView.swift in Headers */,
-				1489857A12EE2CFF003D4751 /* UIAlertView.swift in Headers */,
-				1489857C12EE2CFF003D4751 /* UIApplication.swift in Headers */,
-				1489857E12EE2CFF003D4751 /* UIApplicationAppKitIntegration.swift in Headers */,
-				1489857F12EE2CFF003D4751 /* UIApplicationDelegate.swift in Headers */,
-				1489858012EE2CFF003D4751 /* UIBarButtonItem.swift in Headers */,
-				1489858212EE2CFF003D4751 /* UIBarItem.swift in Headers */,
-				1489858412EE2CFF003D4751 /* UIBezierPath.swift in Headers */,
-				1489858612EE2CFF003D4751 /* UIButton.swift in Headers */,
-				1489858812EE2CFF003D4751 /* UIColor.swift in Headers */,
-				1489858A12EE2CFF003D4751 /* UIColorAppKitIntegration.swift in Headers */,
-				1489858B12EE2CFF003D4751 /* UIControl.swift in Headers */,
-				1489858D12EE2CFF003D4751 /* UIDataDetectors.swift in Headers */,
-				1489858E12EE2CFF003D4751 /* UIDevice.swift in Headers */,
-				1489859012EE2CFF003D4751 /* UIEvent.swift in Headers */,
-				1489859212EE2CFF003D4751 /* UIFont.swift in Headers */,
-				1489859412EE2CFF003D4751 /* UIFontAppKitIntegration.swift in Headers */,
-				1489859512EE2CFF003D4751 /* UIGeometry.swift in Headers */,
-				1489859712EE2CFF003D4751 /* UIGestureRecognizer.swift in Headers */,
-				1489859912EE2CFF003D4751 /* UIGraphics.swift in Headers */,
-				7806ED2A133A1D7500273BC6 /* UITabBar.swift in Headers */,
-				1489859B12EE2CFF003D4751 /* UIImage.swift in Headers */,
-				1489859D12EE2CFF003D4751 /* UIImageAppKitIntegration.swift in Headers */,
-				1489859E12EE2CFF003D4751 /* UIImagePickerController.swift in Headers */,
-				148985A012EE2CFF003D4751 /* UIImageView.swift in Headers */,
-				148985A412EE2CFF003D4751 /* UIKit.swift in Headers */,
-				148985A512EE2CFF003D4751 /* UIKitView.swift in Headers */,
-				148985A712EE2CFF003D4751 /* UILabel.swift in Headers */,
-				148985A912EE2CFF003D4751 /* UILongPressGestureRecognizer.swift in Headers */,
-				148985AB12EE2CFF003D4751 /* UIMenuController.swift in Headers */,
-				148985AD12EE2CFF003D4751 /* UIMenuItem.swift in Headers */,
-				148985AF12EE2CFF003D4751 /* UINavigationBar.swift in Headers */,
-				148985B112EE2CFF003D4751 /* UINavigationController.swift in Headers */,
-				1490AFE01219C31C00774286 /* UIPopoverController+UIPrivate.swift in Headers */,
-				14FA8C5F121DA4A000C4264B /* UINinePartImage.swift in Headers */,
-				14FA8C67121DA4A000C4264B /* UIScroller.swift in Headers */,
-				14FA8C69121DA4A000C4264B /* UITableViewCellSeparator.swift in Headers */,
-				14FA8C6B121DA4A000C4264B /* UITableViewSection.swift in Headers */,
-				14FA8C6D121DA4A000C4264B /* UITableViewSectionLabel.swift in Headers */,
-				14FA8C6F121DA4A000C4264B /* UIThreePartImage.swift in Headers */,
-				14FA8C71121DA4A000C4264B /* UIViewAnimationGroup.swift in Headers */,
-				14FA8C73121DA4A000C4264B /* UIViewLayoutManager.swift in Headers */,
-				1443DF24121F0D5A00E07C4A /* UIScreenMode+UIPrivate.swift in Headers */,
-				145335651226F03E0005644F /* UITextLayer.swift in Headers */,
-				145335691226F1F90005644F /* UIBulletGlyphGenerator.swift in Headers */,
-				145335711226F2720005644F /* UICustomNSTextView.swift in Headers */,
-				145335851226F3490005644F /* UICustomNSClipView.swift in Headers */,
-				14F56F4412664D430045EC82 /* UIPopoverView.swift in Headers */,
-				14CB384512689907003334AD /* UIPopoverNSWindow.swift in Headers */,
-				14CB384912689949003334AD /* UIPopoverOverlayNSView.swift in Headers */,
-				14805F5A12A6E2AE0080C4BA /* UIScrollView+UIPrivate.swift in Headers */,
-				148984A512EE278D003D4751 /* UIGestureRecognizer+UIPrivate.swift in Headers */,
-				14805D4112A6B0E80080C4BA /* UINSClipView.swift in Headers */,
-				144156DB1284A22200532FE2 /* UIToolbarButton.swift in Headers */,
-				1426FFDD129ADEA300BD31E5 /* UIControlAction.swift in Headers */,
-				14C0716213CF66B800B76E35 /* UIScrollWheelGestureRecognizer.swift in Headers */,
-				14FE493A171C988B009C7794 /* UITextInput.swift in Headers */,
-				14FDE99C153C9A1800A2D499 /* UIAppearance.swift in Headers */,
-				38615C78133A81B900841EEA /* UIFont+UIPrivate.swift in Headers */,
-				148985B312EE2CFF003D4751 /* UINavigationItem.swift in Headers */,
-				148985B512EE2CFF003D4751 /* UINibLoading.swift in Headers */,
-				148985B712EE2CFF003D4751 /* UIPageControl.swift in Headers */,
-				148985B912EE2CFF003D4751 /* UIPasteboard.swift in Headers */,
-				148985A212EE2CFF003D4751 /* UIKey.swift in Headers */,
-				148985BB12EE2CFF003D4751 /* UIPinchGestureRecognizer.swift in Headers */,
-				148985BD12EE2CFF003D4751 /* UIPopoverController.swift in Headers */,
-				148985BF12EE2CFF003D4751 /* UIProgressView.swift in Headers */,
-				148985C112EE2CFF003D4751 /* UIResponder.swift in Headers */,
-				148985C312EE2CFF003D4751 /* UIResponderAppKitIntegration.swift in Headers */,
-				148985C512EE2CFF003D4751 /* UIScreen.swift in Headers */,
-				148985C712EE2CFF003D4751 /* UIScreenAppKitIntegration.swift in Headers */,
-				148985C912EE2CFF003D4751 /* UIScreenMode.swift in Headers */,
-				148985CB12EE2CFF003D4751 /* UIScrollView.swift in Headers */,
-				148985CD12EE2CFF003D4751 /* UISplitViewController.swift in Headers */,
-				148985CF12EE2CFF003D4751 /* UIStringDrawing.swift in Headers */,
-				148985D112EE2CFF003D4751 /* UISwitch.swift in Headers */,
-				148985D312EE2CFF003D4751 /* UITabBarController.swift in Headers */,
-				148985D512EE2CFF003D4751 /* UITableView.swift in Headers */,
-				148985D712EE2CFF003D4751 /* UITableViewCell.swift in Headers */,
-				148985D912EE2CFF003D4751 /* UITableViewController.swift in Headers */,
-				148985DB12EE2CFF003D4751 /* UITapGestureRecognizer.swift in Headers */,
-				148985DD12EE2CFF003D4751 /* UITextField.swift in Headers */,
-				148985DF12EE2CFF003D4751 /* UITextInputTraits.swift in Headers */,
-				148985E012EE2CFF003D4751 /* UITextView.swift in Headers */,
-				148985E212EE2CFF003D4751 /* UIToolbar.swift in Headers */,
-				148985E412EE2CFF003D4751 /* UITouch.swift in Headers */,
-				148985E612EE2CFF003D4751 /* UIView.swift in Headers */,
-				148985E812EE2CFF003D4751 /* UIViewAdapter.swift in Headers */,
-				148985EA12EE2CFF003D4751 /* UIViewController.swift in Headers */,
-				148985EC12EE2CFF003D4751 /* UIWebView.swift in Headers */,
-				148985EE12EE2CFF003D4751 /* UIWindow.swift in Headers */,
-				1489860212EE2D9F003D4751 /* UIRotationGestureRecognizer.swift in Headers */,
-				1489860612EE2DBD003D4751 /* UISwipeGestureRecognizer.swift in Headers */,
-				1489860A12EE2DDC003D4751 /* UIPanGestureRecognizer.swift in Headers */,
-				149148BC12EE45ED00F7C34E /* UIGestureRecognizerSubclass.swift in Headers */,
-				7011107C133BE0F400C86512 /* UIDatePicker.swift in Headers */,
-				1413D21213D72A06004D77E9 /* UIScrollViewAnimation.swift in Headers */,
-				1413D21413D72A06004D77E9 /* UIScrollViewAnimationDeceleration.swift in Headers */,
-				1413D21613D72A06004D77E9 /* UIScrollViewAnimationScroll.swift in Headers */,
-				1443B06C13E06081001D7EC1 /* UIBackgroundTask.swift in Headers */,
-				537472D5133ADD4B00EBD5EA /* UIInterface.swift in Headers */,
-				14D8D941135DE90A00FE639A /* UIInputController.swift in Headers */,
-				14541DB21360D6F300C1006D /* UIPhotosAlbum.swift in Headers */,
-				14C0715E13CF5A2400B76E35 /* UIAction.swift in Headers */,
-				145576231541DC560029EF4D /* UIAppearanceInstance.swift in Headers */,
-				14711394156FC83F00251B2E /* UIImageRep.swift in Headers */,
-				145BE31D15754F2400C41D70 /* UIColorRep.swift in Headers */,
-				145BE3211575523000C41D70 /* UIColor+UIPrivate.swift in Headers */,
-				14D0601717303DC100C9A7C6 /* UINSApplicationDelegate.swift in Headers */,
-				14BA42F217554D0200891B6D /* UITouchEvent.swift in Headers */,
-				14100F70175FB9C700269BBF /* UINSResponderShim.swift in Headers */,
-				1434E8661770F4570023F2C5 /* UIViewControllerAppKitIntegration.swift in Headers */,
-				145D0B0517949A6800FB569B /* UINavigationItem+UIPrivate.swift in Headers */,
-				14FDE9A5153CAECA00A2D499 /* UIAppearanceProxy.swift in Headers */,
-				14D796381540A5DA00C02139 /* UIAppearanceProperty.swift in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -876,6 +739,144 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14A726D41213303400648C9B /* UIControl+UIPrivate.swift in Sources */,
+				14A726D71213303400648C9B /* UIImage+UIPrivate.swift in Sources */,
+				14A726D81213303400648C9B /* UIImageView+UIPrivate.swift in Sources */,
+				14A726DA1213303400648C9B /* UIScreen+UIPrivate.swift in Sources */,
+				14A726DC1213303400648C9B /* UITableViewCell+UIPrivate.swift in Sources */,
+				14A726DD1213303400648C9B /* UITouch+UIPrivate.swift in Sources */,
+				14A726DE1213303400648C9B /* UIView+UIPrivate.swift in Sources */,
+				14A726E01213303400648C9B /* UIWindow+UIPrivate.swift in Sources */,
+				1490AFE01219C31C00774286 /* UIPopoverController+UIPrivate.swift in Sources */,
+				14FA8C5F121DA4A000C4264B /* UINinePartImage.swift in Sources */,
+				14FA8C67121DA4A000C4264B /* UIScroller.swift in Sources */,
+				14FA8C69121DA4A000C4264B /* UITableViewCellSeparator.swift in Sources */,
+				14FA8C6B121DA4A000C4264B /* UITableViewSection.swift in Sources */,
+				14FA8C6D121DA4A000C4264B /* UITableViewSectionLabel.swift in Sources */,
+				14FA8C6F121DA4A000C4264B /* UIThreePartImage.swift in Sources */,
+				14FA8C71121DA4A000C4264B /* UIViewAnimationGroup.swift in Sources */,
+				14FA8C73121DA4A000C4264B /* UIViewLayoutManager.swift in Sources */,
+				1443DF24121F0D5A00E07C4A /* UIScreenMode+UIPrivate.swift in Sources */,
+				145335651226F03E0005644F /* UITextLayer.swift in Sources */,
+				145335691226F1F90005644F /* UIBulletGlyphGenerator.swift in Sources */,
+				145335711226F2720005644F /* UICustomNSTextView.swift in Sources */,
+				145335851226F3490005644F /* UICustomNSClipView.swift in Sources */,
+				14F56F4412664D430045EC82 /* UIPopoverView.swift in Sources */,
+				14CB384512689907003334AD /* UIPopoverNSWindow.swift in Sources */,
+				14CB384912689949003334AD /* UIPopoverOverlayNSView.swift in Sources */,
+				14805F5A12A6E2AE0080C4BA /* UIScrollView+UIPrivate.swift in Sources */,
+				148984A512EE278D003D4751 /* UIGestureRecognizer+UIPrivate.swift in Sources */,
+				14805D4112A6B0E80080C4BA /* UINSClipView.swift in Sources */,
+				144156DB1284A22200532FE2 /* UIToolbarButton.swift in Sources */,
+				1426FFDD129ADEA300BD31E5 /* UIControlAction.swift in Sources */,
+				38615C78133A81B900841EEA /* UIFont+UIPrivate.swift in Sources */,
+				148985A212EE2CFF003D4751 /* UIKey.swift in Sources */,
+				1413D21213D72A06004D77E9 /* UIScrollViewAnimation.swift in Sources */,
+				1413D21413D72A06004D77E9 /* UIScrollViewAnimationDeceleration.swift in Sources */,
+				1413D21613D72A06004D77E9 /* UIScrollViewAnimationScroll.swift in Sources */,
+				1443B06C13E06081001D7EC1 /* UIBackgroundTask.swift in Sources */,
+				14D8D941135DE90A00FE639A /* UIInputController.swift in Sources */,
+				14541DB21360D6F300C1006D /* UIPhotosAlbum.swift in Sources */,
+				14C0715E13CF5A2400B76E35 /* UIAction.swift in Sources */,
+				145576231541DC560029EF4D /* UIAppearanceInstance.swift in Sources */,
+				14711394156FC83F00251B2E /* UIImageRep.swift in Sources */,
+				145BE31D15754F2400C41D70 /* UIColorRep.swift in Sources */,
+				145BE3211575523000C41D70 /* UIColor+UIPrivate.swift in Sources */,
+				14D0601717303DC100C9A7C6 /* UINSApplicationDelegate.swift in Sources */,
+				14BA42F217554D0200891B6D /* UITouchEvent.swift in Sources */,
+				14100F70175FB9C700269BBF /* UINSResponderShim.swift in Sources */,
+				1434E8661770F4570023F2C5 /* UIViewControllerAppKitIntegration.swift in Sources */,
+				145D0B0517949A6800FB569B /* UINavigationItem+UIPrivate.swift in Sources */,
+				14FDE9A5153CAECA00A2D499 /* UIAppearanceProxy.swift in Sources */,
+				14D796381540A5DA00C02139 /* UIAppearanceProperty.swift in Sources */,
+				78CB48D9133AB922008636DA /* UISlider.swift in Sources */,
+				78CB48B4133AA8AF008636DA /* UISegmentedControl.swift in Sources */,
+				14CC840611EFA8AF005988CC /* UIRoundedRectButton.swift in Sources */,
+				78CB48BC133AADD0008636DA /* UIPickerView.swift in Sources */,
+				78CB48B0133AA536008636DA /* UITabBarItem.swift in Sources */,
+				78D533DD133A9434006F17CA /* UISearchDisplayController.swift in Sources */,
+				78CB48AC133A9C51008636DA /* UISearchBar.swift in Sources */,
+				1489856A12EE2CFF003D4751 /* AppKitIntegration.swift in Sources */,
+				1489856B12EE2CFF003D4751 /* NSIndexPath+UITableView.swift in Sources */,
+				1489856D12EE2CFF003D4751 /* UIAcceleration.swift in Sources */,
+				1489856F12EE2CFF003D4751 /* UIAccelerometer.swift in Sources */,
+				1489857112EE2CFF003D4751 /* UIAccessibility.swift in Sources */,
+				1489857312EE2CFF003D4751 /* UIAccessibilityElement.swift in Sources */,
+				1489857512EE2CFF003D4751 /* UIActionSheet.swift in Sources */,
+				1489857712EE2CFF003D4751 /* UIActionSheetAppKitIntegration.swift in Sources */,
+				1489857812EE2CFF003D4751 /* UIActivityIndicatorView.swift in Sources */,
+				1489857A12EE2CFF003D4751 /* UIAlertView.swift in Sources */,
+				1489857C12EE2CFF003D4751 /* UIApplication.swift in Sources */,
+				1489857E12EE2CFF003D4751 /* UIApplicationAppKitIntegration.swift in Sources */,
+				1489857F12EE2CFF003D4751 /* UIApplicationDelegate.swift in Sources */,
+				1489858012EE2CFF003D4751 /* UIBarButtonItem.swift in Sources */,
+				1489858212EE2CFF003D4751 /* UIBarItem.swift in Sources */,
+				1489858412EE2CFF003D4751 /* UIBezierPath.swift in Sources */,
+				1489858612EE2CFF003D4751 /* UIButton.swift in Sources */,
+				1489858812EE2CFF003D4751 /* UIColor.swift in Sources */,
+				1489858A12EE2CFF003D4751 /* UIColorAppKitIntegration.swift in Sources */,
+				1489858B12EE2CFF003D4751 /* UIControl.swift in Sources */,
+				1489858D12EE2CFF003D4751 /* UIDataDetectors.swift in Sources */,
+				1489858E12EE2CFF003D4751 /* UIDevice.swift in Sources */,
+				1489859012EE2CFF003D4751 /* UIEvent.swift in Sources */,
+				1489859212EE2CFF003D4751 /* UIFont.swift in Sources */,
+				1489859412EE2CFF003D4751 /* UIFontAppKitIntegration.swift in Sources */,
+				1489859512EE2CFF003D4751 /* UIGeometry.swift in Sources */,
+				1489859712EE2CFF003D4751 /* UIGestureRecognizer.swift in Sources */,
+				1489859912EE2CFF003D4751 /* UIGraphics.swift in Sources */,
+				7806ED2A133A1D7500273BC6 /* UITabBar.swift in Sources */,
+				1489859B12EE2CFF003D4751 /* UIImage.swift in Sources */,
+				1489859D12EE2CFF003D4751 /* UIImageAppKitIntegration.swift in Sources */,
+				1489859E12EE2CFF003D4751 /* UIImagePickerController.swift in Sources */,
+				148985A012EE2CFF003D4751 /* UIImageView.swift in Sources */,
+				148985A412EE2CFF003D4751 /* UIKit.swift in Sources */,
+				148985A512EE2CFF003D4751 /* UIKitView.swift in Sources */,
+				148985A712EE2CFF003D4751 /* UILabel.swift in Sources */,
+				148985A912EE2CFF003D4751 /* UILongPressGestureRecognizer.swift in Sources */,
+				148985AB12EE2CFF003D4751 /* UIMenuController.swift in Sources */,
+				148985AD12EE2CFF003D4751 /* UIMenuItem.swift in Sources */,
+				148985AF12EE2CFF003D4751 /* UINavigationBar.swift in Sources */,
+				148985B112EE2CFF003D4751 /* UINavigationController.swift in Sources */,
+				14C0716213CF66B800B76E35 /* UIScrollWheelGestureRecognizer.swift in Sources */,
+				14FE493A171C988B009C7794 /* UITextInput.swift in Sources */,
+				14FDE99C153C9A1800A2D499 /* UIAppearance.swift in Sources */,
+				148985B312EE2CFF003D4751 /* UINavigationItem.swift in Sources */,
+				148985B512EE2CFF003D4751 /* UINibLoading.swift in Sources */,
+				148985B712EE2CFF003D4751 /* UIPageControl.swift in Sources */,
+				148985B912EE2CFF003D4751 /* UIPasteboard.swift in Sources */,
+				148985BB12EE2CFF003D4751 /* UIPinchGestureRecognizer.swift in Sources */,
+				148985BD12EE2CFF003D4751 /* UIPopoverController.swift in Sources */,
+				148985BF12EE2CFF003D4751 /* UIProgressView.swift in Sources */,
+				148985C112EE2CFF003D4751 /* UIResponder.swift in Sources */,
+				148985C312EE2CFF003D4751 /* UIResponderAppKitIntegration.swift in Sources */,
+				148985C512EE2CFF003D4751 /* UIScreen.swift in Sources */,
+				148985C712EE2CFF003D4751 /* UIScreenAppKitIntegration.swift in Sources */,
+				148985C912EE2CFF003D4751 /* UIScreenMode.swift in Sources */,
+				148985CB12EE2CFF003D4751 /* UIScrollView.swift in Sources */,
+				148985CD12EE2CFF003D4751 /* UISplitViewController.swift in Sources */,
+				148985CF12EE2CFF003D4751 /* UIStringDrawing.swift in Sources */,
+				148985D112EE2CFF003D4751 /* UISwitch.swift in Sources */,
+				148985D312EE2CFF003D4751 /* UITabBarController.swift in Sources */,
+				148985D512EE2CFF003D4751 /* UITableView.swift in Sources */,
+				148985D712EE2CFF003D4751 /* UITableViewCell.swift in Sources */,
+				148985D912EE2CFF003D4751 /* UITableViewController.swift in Sources */,
+				148985DB12EE2CFF003D4751 /* UITapGestureRecognizer.swift in Sources */,
+				148985DD12EE2CFF003D4751 /* UITextField.swift in Sources */,
+				148985DF12EE2CFF003D4751 /* UITextInputTraits.swift in Sources */,
+				148985E012EE2CFF003D4751 /* UITextView.swift in Sources */,
+				148985E212EE2CFF003D4751 /* UIToolbar.swift in Sources */,
+				148985E412EE2CFF003D4751 /* UITouch.swift in Sources */,
+				148985E612EE2CFF003D4751 /* UIView.swift in Sources */,
+				148985E812EE2CFF003D4751 /* UIViewAdapter.swift in Sources */,
+				148985EA12EE2CFF003D4751 /* UIViewController.swift in Sources */,
+				148985EC12EE2CFF003D4751 /* UIWebView.swift in Sources */,
+				148985EE12EE2CFF003D4751 /* UIWindow.swift in Sources */,
+				1489860212EE2D9F003D4751 /* UIRotationGestureRecognizer.swift in Sources */,
+				1489860612EE2DBD003D4751 /* UISwipeGestureRecognizer.swift in Sources */,
+				1489860A12EE2DDC003D4751 /* UIPanGestureRecognizer.swift in Sources */,
+				149148BC12EE45ED00F7C34E /* UIGestureRecognizerSubclass.swift in Sources */,
+				7011107C133BE0F400C86512 /* UIDatePicker.swift in Sources */,
+				537472D5133ADD4B00EBD5EA /* UIInterface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

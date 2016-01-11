@@ -27,9 +27,10 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-    var UIAccelerationValue: Double
 
-class UIAcceleration: NSObject {
+public typealias UIAccelerationValue = Double
+
+public class UIAcceleration: NSObject {
     var x: UIAccelerationValue {
         get {
             return self.x
