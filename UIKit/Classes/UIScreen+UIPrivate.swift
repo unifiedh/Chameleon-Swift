@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import QuartzCore
+
 extension UIScreen {
     func _setUIKitView(theView: UIKitView) {
     }

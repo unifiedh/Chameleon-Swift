@@ -27,6 +27,9 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import CoreGraphics
+import Foundation
+
 class UINinePartImage: UIImage {
     convenience override init(representations reps: [AnyObject], leftCapWidth: Int, topCapHeight: Int) {
         if (self = super._initWithRepresentations(reps)) {
@@ -34,8 +37,8 @@ class UINinePartImage: UIImage {
             self.topCapHeight = topCapHeight
         }
     }
-    var self.leftCapWidth: Int
-    var self.topCapHeight: Int
+    var leftCapWidth: Int = 0
+    var topCapHeight: Int = 0
 
 
     func leftCapWidth() -> Int {

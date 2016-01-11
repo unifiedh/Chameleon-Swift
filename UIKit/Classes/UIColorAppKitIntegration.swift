@@ -27,12 +27,14 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import AppKit
+
 extension UIColor {
     convenience init(NSColor c: NSColor) {
     }
 
-    convenience override init(NSColor c: NSColor) {
-    }
+    //convenience override init(NSColor c: NSColor) {
+    //}
 
     func NSColor() -> NSColor {
     }

@@ -27,7 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-enum UIImageViewDrawMode : Int {
+enum _UIImageViewDrawMode : Int {
     case _UIImageViewDrawModeNormal
     case _UIImageViewDrawModeHighlighted
     case _UIImageViewDrawModeDisabled

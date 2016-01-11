@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
 extension UIResponder {
     // Sent when the mouse scroll wheel changes.
     func scrollWheelMoved(delta: CGPoint, withEvent event: UIEvent) {
