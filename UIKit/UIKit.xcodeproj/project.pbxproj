@@ -81,7 +81,6 @@
 		148985AF12EE2CFF003D4751 /* UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489852912EE2CFE003D4751 /* UINavigationBar.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		148985B112EE2CFF003D4751 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489852B12EE2CFE003D4751 /* UINavigationController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		148985B312EE2CFF003D4751 /* UINavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489852D12EE2CFE003D4751 /* UINavigationItem.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		148985B512EE2CFF003D4751 /* UINibLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489852F12EE2CFE003D4751 /* UINibLoading.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		148985B712EE2CFF003D4751 /* UIPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489853112EE2CFE003D4751 /* UIPageControl.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		148985B912EE2CFF003D4751 /* UIPasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489853312EE2CFE003D4751 /* UIPasteboard.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		148985BB12EE2CFF003D4751 /* UIPinchGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489853512EE2CFE003D4751 /* UIPinchGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -396,22 +395,22 @@
 		0867D691FE84028FC02AAC07 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				1444318D137D7FEE00B81304 /* IOKit.framework */,
 				147A838C120C902C00422EDC /* Private Classes */,
 				14FA8C44121DA47500C4264B /* Private Categories */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
-				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
 			usesTabs = 0;
 		};
-		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1444318D137D7FEE00B81304 /* IOKit.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 				14CC844011EFA901005988CC /* QuartzCore.framework */,
 				14CC844411EFA91A005988CC /* SystemConfiguration.framework */,
@@ -420,7 +419,7 @@
 				1480633512A851230080C4BA /* QTKit.framework */,
 				1480633712A851230080C4BA /* WebKit.framework */,
 			);
-			name = "External Frameworks and Libraries";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		089C1665FE841158C02AAC07 /* Resources */ = {
@@ -841,7 +840,6 @@
 				14FE493A171C988B009C7794 /* UITextInput.swift in Sources */,
 				14FDE99C153C9A1800A2D499 /* UIAppearance.swift in Sources */,
 				148985B312EE2CFF003D4751 /* UINavigationItem.swift in Sources */,
-				148985B512EE2CFF003D4751 /* UINibLoading.swift in Sources */,
 				148985B712EE2CFF003D4751 /* UIPageControl.swift in Sources */,
 				148985B912EE2CFF003D4751 /* UIPasteboard.swift in Sources */,
 				148985BB12EE2CFF003D4751 /* UIPinchGestureRecognizer.swift in Sources */,

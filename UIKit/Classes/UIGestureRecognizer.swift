@@ -45,7 +45,7 @@ protocol UIGestureRecognizerDelegate: NSObjectProtocol {
 
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool
 }
-class UIGestureRecognizer: NSObject {
+public class UIGestureRecognizer: NSObject {
     init(target: AnyObject, action: Selector) {
             self.state = .Possible
             self.cancelsTouchesInView = true
@@ -102,7 +102,7 @@ class UIGestureRecognizer: NSObject {
     func numberOfTouches() -> Int {
         return trackingTouches.count
     }
-    weak var delegate: UIGestureRecognizerDelegate {
+    weak var delegate: UIGestureRecognizerDelegate? {
         get {
             return self.delegate
         }

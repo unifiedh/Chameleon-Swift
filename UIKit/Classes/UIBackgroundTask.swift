@@ -26,24 +26,15 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+import Foundation
 
-class UIBackgroundTask: NSObject {
-    convenience override init(expirationHandler handler: () -> Void) {
-        if (self.init()) {
-            self.expirationHandler = handler.copy()
-            self.taskIdentifier = self.hash()
-            // may not be the best idea in the world
-        }
+public class UIBackgroundTask: NSObject {
+    public init(expirationHandler handler: () -> Void) {
+        self.expirationHandler = handler
+        super.init()
+        self.taskIdentifier = UInt(self.hash)// may not be the best idea in the world
     }
-    var expirationHandler: Void {
-        get {
-            return self.expirationHandler
-        }
-    }
+    public private(set) var expirationHandler: () -> Void
 
-    var taskIdentifier: UIBackgroundTaskIdentifier {
-        get {
-            return self.taskIdentifier
-        }
-    }
+    public private(set) var taskIdentifier: UIBackgroundTaskIdentifier = 0
 }

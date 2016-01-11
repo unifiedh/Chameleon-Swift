@@ -27,7 +27,9 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-class UIRotationGestureRecognizer: UIGestureRecognizer {
+import Foundation
+
+public class UIRotationGestureRecognizer: UIGestureRecognizer {
     var rotation: CGFloat
     var velocity: CGFloat {
         get {
@@ -35,9 +37,8 @@ class UIRotationGestureRecognizer: UIGestureRecognizer {
         }
     }
 
-    convenience override init(target: AnyObject, action: Selector) {
-        if (self.init(target: target, action: action)) {
-            self.rotation = 0
-        }
+    override init(target: AnyObject, action: Selector) {
+        self.rotation = 0
+        super.init(target: target, action: action)
     }
 }

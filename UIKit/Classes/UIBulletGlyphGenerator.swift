@@ -27,18 +27,17 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import AppKit
-class UIBulletGlyphGenerator: NSGlyphGenerator {
 
-    func generateGlyphsForGlyphStorage(glyphStorage: NSGlyphStorage, desiredNumberOfCharacters nChars: Int, glyphIndex: Int, characterIndex charIndex: Int) {
+public class UIBulletGlyphGenerator: NSGlyphGenerator {
+
+    public override func generateGlyphsForGlyphStorage(glyphStorage: NSGlyphStorage, var desiredNumberOfCharacters nChars: Int, glyphIndex: UnsafeMutablePointer<Int>, characterIndex charIndex: UnsafeMutablePointer<Int>) {
         while nChars > 0 {
-            var font: NSFont = glyphStorage.attributedString().attribute(NSFontAttributeName, atIndex: charIndex, effectiveRange: nil)
+            let font: NSFont = glyphStorage.attributedString().attribute(NSFontAttributeName, atIndex: charIndex.memory, effectiveRange: nil) as! NSFont
             var g: NSGlyph = font.glyphWithName("bullet")
-            glyphStorage.insertGlyphs(g, length: 1, forStartingGlyphAtIndex: glyphIndex, characterIndex: charIndex)
-            (charIndex)++
-            (glyphIndex)++
+            glyphStorage.insertGlyphs(&g, length: 1, forStartingGlyphAtIndex: glyphIndex.memory, characterIndex: charIndex.memory)
+            charIndex.memory++
+            glyphIndex.memory++
             nChars--
         }
     }
 }
-
-import AppKit

@@ -27,37 +27,39 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-    let UIApplicationWillChangeStatusBarOrientationNotification: String
+let UIApplicationWillChangeStatusBarOrientationNotification: String = "UIApplicationWillChangeStatusBarOrientationNotification"
 
-    let UIApplicationDidChangeStatusBarOrientationNotification: String
+let UIApplicationDidChangeStatusBarOrientationNotification: String = "UIApplicationDidChangeStatusBarOrientationNotification"
 
-    let UIApplicationWillEnterForegroundNotification: String
+let UIApplicationWillEnterForegroundNotification: String = "UIApplicationWillEnterForegroundNotification"
 
-    let UIApplicationWillTerminateNotification: String
+let UIApplicationWillTerminateNotification: String = "UIApplicationWillTerminateNotification"
 
-    let UIApplicationWillResignActiveNotification: String
+let UIApplicationWillResignActiveNotification: String = "UIApplicationWillResignActiveNotification"
 
-    let UIApplicationDidEnterBackgroundNotification: String
+let UIApplicationDidEnterBackgroundNotification: String = "UIApplicationDidEnterBackgroundNotification"
 
-    let UIApplicationDidBecomeActiveNotification: String
+let UIApplicationDidBecomeActiveNotification: String = "UIApplicationDidBecomeActiveNotification"
 
-    let UIApplicationDidFinishLaunchingNotification: String
+let UIApplicationDidFinishLaunchingNotification: String = "UIApplicationDidFinishLaunchingNotification"
 
-    let UIApplicationLaunchOptionsURLKey: String
+let UIApplicationNetworkActivityIndicatorChangedNotification: String = "UIApplicationNetworkActivityIndicatorChangedNotification"
 
-    let UIApplicationLaunchOptionsSourceApplicationKey: String
+let UIApplicationLaunchOptionsURLKey: String = "UIApplicationLaunchOptionsURLKey"
 
-    let UIApplicationLaunchOptionsRemoteNotificationKey: String
+let UIApplicationLaunchOptionsSourceApplicationKey: String = "UIApplicationLaunchOptionsSourceApplicationKey"
 
-    let UIApplicationLaunchOptionsAnnotationKey: String
+let UIApplicationLaunchOptionsRemoteNotificationKey: String = "UIApplicationLaunchOptionsRemoteNotificationKey"
 
-    let UIApplicationLaunchOptionsLocalNotificationKey: String
+let UIApplicationLaunchOptionsAnnotationKey: String = "UIApplicationLaunchOptionsAnnotationKey"
 
-    let UIApplicationLaunchOptionsLocationKey: String
+let UIApplicationLaunchOptionsLocalNotificationKey: String = "UIApplicationLaunchOptionsLocalNotificationKey"
 
-    let UIApplicationDidReceiveMemoryWarningNotification: String
+let UIApplicationLaunchOptionsLocationKey: String = "UIApplicationLaunchOptionsLocationKey"
 
-    let UITrackingRunLoopMode: String
+let UIApplicationDidReceiveMemoryWarningNotification: String = "UIApplicationDidReceiveMemoryWarningNotification"
+
+let UITrackingRunLoopMode: String = "UITrackingRunLoopMode"
 
 enum UIStatusBarStyle : Int {
     case Default
@@ -129,9 +131,9 @@ enum UIApplicationState : Int {
         case Inactive
         case Background
 }
-        var UIBackgroundTaskIdentifier: Int
-        let UIBackgroundTaskInvalid: UIBackgroundTaskIdentifier
-        let UIMinimumKeepAliveTimeout: NSTimeInterval
+public typealias UIBackgroundTaskIdentifier = UInt
+public let UIBackgroundTaskInvalid: UIBackgroundTaskIdentifier = UInt.max
+public let UIMinimumKeepAliveTimeout: NSTimeInterval = 0
 
 class UIApplication: UIResponder {
     class func sharedApplication() -> UIApplication {
@@ -623,41 +625,8 @@ extension UIApplication {
  */
 
 import Cocoa
-    let UIApplicationWillChangeStatusBarOrientationNotification: String = "UIApplicationWillChangeStatusBarOrientationNotification"
 
-    let UIApplicationDidChangeStatusBarOrientationNotification: String = "UIApplicationDidChangeStatusBarOrientationNotification"
 
-    let UIApplicationWillEnterForegroundNotification: String = "UIApplicationWillEnterForegroundNotification"
-
-    let UIApplicationWillTerminateNotification: String = "UIApplicationWillTerminateNotification"
-
-    let UIApplicationWillResignActiveNotification: String = "UIApplicationWillResignActiveNotification"
-
-    let UIApplicationDidEnterBackgroundNotification: String = "UIApplicationDidEnterBackgroundNotification"
-
-    let UIApplicationDidBecomeActiveNotification: String = "UIApplicationDidBecomeActiveNotification"
-
-    let UIApplicationDidFinishLaunchingNotification: String = "UIApplicationDidFinishLaunchingNotification"
-
-    let UIApplicationNetworkActivityIndicatorChangedNotification: String = "UIApplicationNetworkActivityIndicatorChangedNotification"
-
-    let UIApplicationLaunchOptionsURLKey: String = "UIApplicationLaunchOptionsURLKey"
-
-    let UIApplicationLaunchOptionsSourceApplicationKey: String = "UIApplicationLaunchOptionsSourceApplicationKey"
-
-    let UIApplicationLaunchOptionsRemoteNotificationKey: String = "UIApplicationLaunchOptionsRemoteNotificationKey"
-
-    let UIApplicationLaunchOptionsAnnotationKey: String = "UIApplicationLaunchOptionsAnnotationKey"
-
-    let UIApplicationLaunchOptionsLocalNotificationKey: String = "UIApplicationLaunchOptionsLocalNotificationKey"
-
-    let UIApplicationLaunchOptionsLocationKey: String = "UIApplicationLaunchOptionsLocationKey"
-
-    let UIApplicationDidReceiveMemoryWarningNotification: String = "UIApplicationDidReceiveMemoryWarningNotification"
-
-    let UITrackingRunLoopMode: String = "UITrackingRunLoopMode"
-
-    let UIBackgroundTaskInvalid: UIBackgroundTaskIdentifier = NSUIntegerMax
 
 // correct?
     let UIMinimumKeepAliveTimeout: NSTimeInterval = 0

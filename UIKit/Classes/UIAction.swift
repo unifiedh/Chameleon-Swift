@@ -27,16 +27,17 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-class UIAction: NSObject {
-    weak var target: AnyObject
-    var action: Selector
 
-    func isEqual(object: AnyObject) -> Bool {
-        if object == self {
+class UIAction: NSObject {
+    weak var target: AnyObject?
+    var action: Selector?
+
+    override func isEqual(object: AnyObject?) -> Bool {
+        if object === self {
             return true
         }
-        else if (object is self) {
-            return (object.target() == self.target && object.action() == self.action)
+        else if let object = object as? UIAction {
+            return (object.target === self.target && object.action == self.action)
         }
         else {
             return false

@@ -27,8 +27,10 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
 class UIAppearanceProperty: NSObject {
-    convenience override init(invocation setterInvocation: NSInvocation) {
+    init(invocation setterInvocation: NSInvocation) {
         if (self.init()) {
             var methodSignature: NSMethodSignature = setterInvocation.methodSignature()
             self.invocation = NSInvocation.invocationWithMethodSignature(methodSignature)

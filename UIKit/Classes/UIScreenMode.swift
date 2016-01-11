@@ -40,7 +40,7 @@ class UIScreenMode: NSObject {
         }
     }
 
-    convenience init(NSView theNSView: NSView) {
+    convenience init?(NSView theNSView: NSView) {
         if theNSView != nil {
             var mode: UIScreenMode = self()
             mode->size = NSSizeToCGSize(theNSView.bounds.size)
@@ -53,7 +53,7 @@ class UIScreenMode: NSObject {
     }
 
     func description() -> String {
-        return "<\(self.className()): \(self); size = \(NSStringFromCGSize(self.size))>"
+        return "<\(self.className): \(self); size = \(NSStringFromCGSize(self.size))>"
     }
 }
 

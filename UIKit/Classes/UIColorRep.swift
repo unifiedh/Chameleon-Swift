@@ -26,102 +26,91 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import Foundation
+
+import Cocoa
+
 class UIColorRep: NSObject {
-    convenience override init(patternImageRepresentation patternImageRep: UIImageRep) {
-        if !patternImageRep {
-            self = nil
-        }
-        else if (self.init()) {
+    init(patternImageRepresentation patternImageRep: UIImageRep) {
             self.patternImageRep = patternImageRep
-        }
-
+        super.init()
     }
 
-    convenience override init(CGColor color: CGColorRef) {
-        if !color {
-            self = nil
-        }
-        else if (self.init()) {
-            self.CGColor = CGColorRetain(color)
-        }
-
+    init(CGColor color: CGColorRef) {
+        CGColora = color
+        super.init()
     }
+    
     var CGColor: CGColorRef {
         get {
-            if !CGColor && patternImageRep {
+            if let patternImageRep = patternImageRep where CGColora == nil {
                 let imageSize: CGSize = patternImageRep.imageSize
                 let scaler: CGFloat = 1 / patternImageRep.scale
                 //const CGAffineTransform t = CGAffineTransformScale(CGAffineTransformMake(1, 0, 0, -1, 0, imageSize.height), scaler, scaler);
                 let t: CGAffineTransform = CGAffineTransformMakeScale(scaler, scaler)
-                let callbacks: CGPatternCallbacks = CGPatternCallbacks()
-                callbacks.0
-                callbacks.drawPatternImage
-                callbacks.nil
-                var pattern: CGPatternRef = CGPatternCreate(self as! Void, CGRectMake(0, 0, imageSize.width, imageSize.height), t, imageSize.width, imageSize.height, kCGPatternTilingConstantSpacing, true, callbacks)
-                var space: CGColorSpaceRef = CGColorSpaceCreatePattern(nil)
-                var components: CGFloat = CGFloat()
-                components.1.0
-                self.CGColor = CGColorCreateWithPattern(space, pattern, components)
-                CGColorSpaceRelease(space)
-                CGPatternRelease(pattern)
+                var callbacks: CGPatternCallbacks = CGPatternCallbacks(version: 0, drawPattern: drawPatternImage, releaseInfo: nil)
+                //callbacks.0
+                //callbacks.drawPatternImage
+                //callbacks.nil
+                let pattern = CGPatternCreate(unsafeBitCast(self, UnsafeMutablePointer<Void>.self), CGRectMake(0, 0, imageSize.width, imageSize.height), t, imageSize.width, imageSize.height, .ConstantSpacing, true, &callbacks)
+                let space: CGColorSpaceRef = CGColorSpaceCreatePattern(nil)!
+                var components: [CGFloat] = [1]
+                CGColora = CGColorCreateWithPattern(space, pattern, &components)
             }
-            return CGColor
+            return CGColora!
         }
     }
 
     var scale: CGFloat {
-        get {
-            return patternImageRep ? patternImageRep.scale : 1
+        if let patternImageRep = patternImageRep {
+            return patternImageRep.scale
         }
+        return 1
     }
 
-    var patternImageRep: UIImageRep {
-        get {
-            return self.patternImageRep
-        }
-    }
+    private(set) var patternImageRep: UIImageRep?
 
     var opaque: Bool {
         get {
-            if !patternImageRep && CGColor {
+            if patternImageRep == nil && CGColora != nil {
                 return CGColorGetAlpha(CGColor) == 1
             }
             else {
-                return patternImageRep.opaque
+                return patternImageRep!.opaque
             }
         }
     }
-    var self.CGColor: CGColorRef
+    var CGColora: CGColorRef?
 
 
-    func dealloc() {
-        CGColorRelease(self.CGColor)
-    }
 }
 
-import AppKit
-import UIKit
-        var rep: UIImageRep = info as! UIColorRep.patternImageRep()
-        UIGraphicsPushContext(ctx)
-        CGContextSaveGState(ctx)
-        let patternRect: CGRect = CGRect()
-        patternRect.CGPointZero
-        patternRect.rep.imageSize
-        let deviceRect: CGRect = CGContextConvertRectToDeviceSpace(ctx, patternRect)
-        // this attempts to detect a flipped context and then counter-flips it.
-        // I don't like this because it seems like it shouldn't be necessary and that I'm missing something more fundamental.
-        // If a pattern color is used as a backgroundColor on a UIView with no drawRect:, it will set the backgrounColor of
-        // the view's layer directly with the CGColor (which is made from this pattern image). In that case, the pattern
-        // appears flipped for reasons I don't fully understand unless I apply this counter-flip transform. If the UIView does
-        // have a drawRect:, then the different way that the background color is set (UIView draws it directly into the
-        // CGContext that Core Animation gives it before calling drawRect:), causes the pattern to appear right-side-up.
-        if floorf(NSAppKitVersionNumber) != NSAppKitVersionNumber10_7 {
-            if CGPointEqualToPoint(patternRect.origin, deviceRect.origin) {
-                CGContextTranslateCTM(ctx, 0, patternRect.size.height)
-                CGContextScaleCTM(ctx, 1, -1)
-            }
+private func drawPatternImage(info: UnsafeMutablePointer<Void>,  ctx: CGContextRef?)
+{
+    let rep = unsafeBitCast(info, UIImageRep.self)// [(__bridge UIColorRep *)info patternImageRep];
+    
+    UIGraphicsPushContext(ctx);
+    CGContextSaveGState(ctx);
+    
+    let patternRect = CGRect(origin: .zero, size: rep.imageSize)
+    let deviceRect = CGContextConvertRectToDeviceSpace(ctx, patternRect);
+    
+    // this attempts to detect a flipped context and then counter-flips it.
+    // I don't like this because it seems like it shouldn't be necessary and that I'm missing something more fundamental.
+    // If a pattern color is used as a backgroundColor on a UIView with no drawRect:, it will set the backgrounColor of
+    // the view's layer directly with the CGColor (which is made from this pattern image). In that case, the pattern
+    // appears flipped for reasons I don't fully understand unless I apply this counter-flip transform. If the UIView does
+    // have a drawRect:, then the different way that the background color is set (UIView draws it directly into the
+    // CGContext that Core Animation gives it before calling drawRect:), causes the pattern to appear right-side-up.
+    if floor(NSAppKitVersionNumber) != Double(NSAppKitVersionNumber10_7) {
+        if (CGPointEqualToPoint(patternRect.origin, deviceRect.origin)) {
+            CGContextTranslateCTM(ctx, 0, patternRect.size.height);
+            CGContextScaleCTM(ctx, 1, -1);
         }
-        rep.drawInRect(patternRect, fromRect: CGRectNull)
-        CGContextRestoreGState(ctx)
-        UIGraphicsPopContext()
+    }
+    
+    rep.drawInRect(patternRect, fromRect: .null)
+    
+    CGContextRestoreGState(ctx);
+    UIGraphicsPopContext();
+}
+

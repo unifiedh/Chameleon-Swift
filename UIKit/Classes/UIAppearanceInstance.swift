@@ -27,18 +27,20 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
 extension NSObject {
     class func appearance() -> AnyObject {
         return self.appearanceWhenContainedIn(nil)
     }
 
-    convenience init(containerClass: Class<UIAppearanceContainer>) {
+    convenience init(containerClass: UIAppearanceContainer) {
         var appearanceRules: [NSObject : AnyObject] = objc_getAssociatedObject(self, UIAppearanceClassAssociatedObjectKey)
         if !appearanceRules {
             appearanceRules = [NSObject : AnyObject](minimumCapacity: 1)
-            objc_setAssociatedObject(self, UIAppearanceClassAssociatedObjectKey, appearanceRules, OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self, UIAppearanceClassAssociatedObjectKey, appearanceRules, .OBJC_ASSOCIATION_RETAIN)
         }
-        var containmentPath: [AnyObject] = [AnyObject](minimumCapacity: 1)
+        var containmentPath: [AnyObject] = [AnyObject]()
         var args: va_list
         va_start(args, containerClass)
         for ; containerClass != nil; containerClass = {
@@ -56,7 +58,7 @@ extension NSObject {
         return record
     }
 
-    func _UIAppearanceContainer() -> AnyObject {
+    func _UIAppearanceContainer() -> AnyObject? {
         return nil
     }
 
@@ -126,7 +128,7 @@ extension NSObject {
         // before setting the actual properties on the instance, save off a copy of the existing modified properties
         // because the act of setting the UIAppearance properties will end up messing with that set.
         // after we're done actually applying everything, reset the modified properties set to what it was before.
-        var originalProperties: Set<AnyObject> = objc_getAssociatedObject(self, UIAppearanceChangedPropertiesKey)
+        var originalProperties = (objc_getAssociatedObject(self, UIAppearanceChangedPropertiesKey) as! NSSet) as Set<NSObject>
         // subtract any properties that have been overriden from the list to apply
         propertiesToSet.removeObjectsForKeys(originalProperties.allObjects())
         // now apply everything that's left
@@ -134,25 +136,25 @@ extension NSObject {
             property.invokeUsingTarget(self)
         }
         // now reset our set of changes properties to the original set so we don't count the UIAppearance defaults as overrides
-        objc_setAssociatedObject(self, UIAppearanceChangedPropertiesKey, originalProperties, OBJC_ASSOCIATION_RETAIN)
+        objc_setAssociatedObject(self, UIAppearanceChangedPropertiesKey, originalProperties, .OBJC_ASSOCIATION_RETAIN)
         // done!
-        objc_setAssociatedObject(self, UIAppearancePropertiesAreUpToDateKey, 1, OBJC_ASSOCIATION_RETAIN)
+        objc_setAssociatedObject(self, UIAppearancePropertiesAreUpToDateKey, 1, .OBJC_ASSOCIATION_RETAIN)
     }
 
     func _UIAppearanceSetNeedsUpdate() {
         // this removes UIAppearancePropertiesAreUpToDateKey which will trigger _UIAppearanceUpdateIfNeeded to run (if it is called later)
-        objc_setAssociatedObject(self, UIAppearancePropertiesAreUpToDateKey, nil, OBJC_ASSOCIATION_RETAIN)
+        objc_setAssociatedObject(self, UIAppearancePropertiesAreUpToDateKey, nil, .OBJC_ASSOCIATION_RETAIN)
     }
 }
 
 import ObjectiveC
-    let UIAppearanceClassAssociatedObjectKey: Character = "UIAppearanceClassAssociatedObjectKey"
+    let UIAppearanceClassAssociatedObjectKey: String = "UIAppearanceClassAssociatedObjectKey"
 
-    let UIAppearanceChangedPropertiesKey: Character = "UIAppearanceChangedPropertiesKey"
+    let UIAppearanceChangedPropertiesKey: String = "UIAppearanceChangedPropertiesKey"
 
-    let UIAppearancePropertiesAreUpToDateKey: Character = "UIAppearancePropertiesAreUpToDateKey"
+    let UIAppearancePropertiesAreUpToDateKey: String = "UIAppearancePropertiesAreUpToDateKey"
 
-        var classes: [AnyObject] = [AnyObject](capacity: 0)
+        var classes: [AnyObject] = [AnyObject]()
         while klass as! AnyObject.conformsToProtocol() {
             classes.insertObject(klass, atIndex: 0)
             klass = klass.superclass()

@@ -27,8 +27,20 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
+let UIKeyInputUpArrow: String = "UIKeyInputUpArrow"
+
+let UIKeyInputDownArrow: String = "UIKeyInputDownArrow"
+
+let UIKeyInputLeftArrow: String = "UIKeyInputLeftArrow"
+
+let UIKeyInputRightArrow: String = "UIKeyInputRightArrow"
+
+let UIKeyInputEscape: String = "UIKeyInputEscape"
+
 class UIResponder: NSObject {
-    func nextResponder() -> UIResponder {
+    func nextResponder() -> UIResponder? {
         return nil
     }
 
@@ -165,28 +177,23 @@ class UIResponder: NSObject {
     // by UIView, UIViewController, and UIResponder, they all point to the same function. So.... someone is wrong.
     // I'm going to leave it like this for now because this is a lot simpler, IMO, and seems nicely logical.
 }
-enum .s : Int {
-    case UIKeyModifierAlphaShift = 1 << 16
-    // capslock
-    case UIKeyModifierShift = 1 << 17
-    case UIKeyModifierControl = 1 << 18
-    case UIKeyModifierAlternate = 1 << 19
-    case UIKeyModifierCommand = 1 << 20
-    case UIKeyModifierNumericPad = 1 << 21
+public struct UIKeyModifierFlags: OptionSetType {
+    public let rawValue: NSInteger
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+    /// caps lock
+    public static let AlphaShift = UIKeyModifierFlags(rawValue: 1 << 16)
+    public static let Shift = UIKeyModifierFlags(rawValue: 1 << 17)
+    public static let Control = UIKeyModifierFlags(rawValue: 1 << 18)
+    public static let Alternate = UIKeyModifierFlags(rawValue: 1 << 19)
+    public static let Command = UIKeyModifierFlags(rawValue: 1 << 20)
+    public static let NumericPad = UIKeyModifierFlags(rawValue: 1 << 21)
 }
 
-    let UIKeyInputUpArrow: String
-
-    let UIKeyInputDownArrow: String
-
-    let UIKeyInputLeftArrow: String
-
-    let UIKeyInputRightArrow: String
-
-    let UIKeyInputEscape: String
 
 class UIKeyCommand: NSObject, NSCopying, NSSecureCoding {
-    class func keyCommandWithInput(input: String, modifierFlags: UIKeyModifierFlags, action: Selector) -> UIKeyCommand {
+    class func keyCommandWithInput(input: String, modifierFlags: UIKeyModifierFlags, action: Selector) -> UIKeyCommand? {
         // TODO
         return nil
     }
@@ -210,7 +217,7 @@ class UIKeyCommand: NSObject, NSCopying, NSSecureCoding {
         // note, this requires NSSecureCoding, so you have to do something like this:
         //id obj = [decoder decodeObjectOfClass:[MyClass class] forKey:@"myKey"];
         // TODO
-        return self()
+        self.init()
     }
 
     func encodeWithCoder(encoder: NSCoder) {
@@ -222,53 +229,32 @@ class UIKeyCommand: NSObject, NSCopying, NSSecureCoding {
 
     }
 }
-extension NSObject {
-    func copy(sender: AnyObject) {
-    }
 
-    func cut(sender: AnyObject) {
-    }
+@objc public protocol UIResponderStandardEditActions: NSObjectProtocol {
+    optional func copy(sender: AnyObject)
 
-    func delete(sender: AnyObject) {
-    }
+    optional func cut(sender: AnyObject)
 
-    func paste(sender: AnyObject) {
-    }
+    optional func delete(sender: AnyObject)
 
-    func select(sender: AnyObject) {
-    }
+    optional func paste(sender: AnyObject)
 
-    func selectAll(sender: AnyObject) {
-    }
+    optional func select(sender: AnyObject)
 
-    func makeTextWritingDirectionLeftToRight(sender: AnyObject) {
-    }
+    optional func selectAll(sender: AnyObject)
 
-    func makeTextWritingDirectionRightToLeft(sender: AnyObject) {
-    }
+    optional func makeTextWritingDirectionLeftToRight(sender: AnyObject)
 
-    func toggleBoldface(sender: AnyObject) {
-    }
+    optional func makeTextWritingDirectionRightToLeft(sender: AnyObject)
 
-    func toggleItalics(sender: AnyObject) {
-    }
+    optional func toggleBoldface(sender: AnyObject)
 
-    func toggleUnderline(sender: AnyObject) {
-    }
+    optional func toggleItalics(sender: AnyObject)
 
-    func increaseSize(sender: AnyObject) {
-    }
+    optional func toggleUnderline(sender: AnyObject)
 
-    func decreaseSize(sender: AnyObject) {
-    }
+    optional func increaseSize(sender: AnyObject)
+
+    optional func decreaseSize(sender: AnyObject)
 }
 
-    let UIKeyInputUpArrow: String = "UIKeyInputUpArrow"
-
-    let UIKeyInputDownArrow: String = "UIKeyInputDownArrow"
-
-    let UIKeyInputLeftArrow: String = "UIKeyInputLeftArrow"
-
-    let UIKeyInputRightArrow: String = "UIKeyInputRightArrow"
-
-    let UIKeyInputEscape: String = "UIKeyInputEscape"
