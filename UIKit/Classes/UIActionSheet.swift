@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import AppKit
+
 protocol UIActionSheetDelegate: NSObject {
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int)
 
@@ -300,7 +302,3 @@ class UIActionSheet: UIView {
         }
     }
 }
-
-import AppKit
-import AppKit
-import AppKit

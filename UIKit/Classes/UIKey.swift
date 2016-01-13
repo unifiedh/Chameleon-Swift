@@ -27,6 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
+import AppKit
 // NOTE: This does not come from Apple's UIKit and only exist to solve some current problems.
 // I have no idea what Apple will do with keyboard handling. If they ever expose that stuff publically,
 // then all of this should change to reflect the official API.
@@ -164,5 +165,3 @@ class UIKey: NSObject {
 
 }
 
-
-import AppKit

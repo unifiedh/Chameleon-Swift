@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import WebKit
+
 enum UIWebViewNavigationType : Int {
     case LinkClicked
     case FormSubmitted
@@ -227,5 +229,3 @@ class UIWebView: UIView {
         // DO NOTHING to prevent WebView resize window
     }
 }
-
-import WebKit

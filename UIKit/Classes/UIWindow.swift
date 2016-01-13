@@ -27,6 +27,9 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import AppKit
+import QuartzCore
+
     var UIWindowLevel: CGFloat
 
     let UIWindowLevelNormal: UIWindowLevel
@@ -491,8 +494,6 @@ class UIWindow: UIView {
     }
 }
 
-import AppKit
-import QuartzCore
     let UIWindowLevelNormal: UIWindowLevel = 0
 
     let UIWindowLevelStatusBar: UIWindowLevel = 1000

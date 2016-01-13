@@ -27,6 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
+import AppKit
 enum UILineBreakMode : Int {
     case WordWrap = 0
     case CharacterWrap
@@ -145,7 +146,6 @@ extension NSString {
     }
 }
 
-import AppKit
     let UITextAttributeFont: String = "UITextAttributeFont"
 
     let UITextAttributeTextColor: String = "UITextAttributeTextColor"

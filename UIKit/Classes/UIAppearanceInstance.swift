@@ -145,7 +145,6 @@ extension NSObject {
     }
 }
 
-import ObjectiveC
     let UIAppearanceClassAssociatedObjectKey: Character = "UIAppearanceClassAssociatedObjectKey"
 
     let UIAppearanceChangedPropertiesKey: Character = "UIAppearanceChangedPropertiesKey"

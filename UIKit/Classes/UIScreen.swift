@@ -28,6 +28,8 @@
  */
 import Foundation
 import ApplicationServices
+import AppKit
+import QuartzCore
     let UIScreenDidConnectNotification: String
 
     let UIScreenDidDisconnectNotification: String
@@ -221,8 +223,6 @@ class UIScreen: NSObject {
         return "<\(self.className()): \(self); bounds = \(NSStringFromCGRect(self.bounds)); mode = \(self.currentMode)>"
     }
 }
-import AppKit
-import QuartzCore
     let UIScreenDidConnectNotification: String = "UIScreenDidConnectNotification"
 
     let UIScreenDidDisconnectNotification: String = "UIScreenDidDisconnectNotification"

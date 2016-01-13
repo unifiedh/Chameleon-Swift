@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import QuartzCore
+
 class UIImageView: UIView {
     convenience override init(image theImage: UIImage) {
         var frame: CGRect = CGRectZero
@@ -191,8 +193,6 @@ class UIImageView: UIView {
         super.bounds = newBounds
     }
 }
-
-import QuartzCore
         var CGImages: [AnyObject] = [AnyObject](minimumCapacity: images.count)
         for img: UIImage in images {
             CGImages.append(img.CGImage as! AnyObject)

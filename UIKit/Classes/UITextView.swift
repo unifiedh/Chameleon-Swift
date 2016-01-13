@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import AppKit
+
     let UITextViewTextDidBeginEditingNotification: String
 
     let UITextViewTextDidChangeNotification: String
@@ -324,7 +326,6 @@ class UITextView: UIScrollView, UITextInput {
     }
 }
 
-import AppKit
     let UITextViewTextDidBeginEditingNotification: String = "UITextViewTextDidBeginEditingNotification"
 
     let UITextViewTextDidChangeNotification: String = "UITextViewTextDidChangeNotification"

@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import QuartzCore
+
 enum UIActivityIndicatorViewStyle : Int {
     case WhiteLarge
     case White
@@ -148,8 +150,6 @@ class UIActivityIndicatorView: UIView {
         }
     }
 }
-
-import QuartzCore
         if style == .WhiteLarge {
             return CGSizeMake(37, 37)
         }

@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
+import AppKit
+import UIKit
 class UIColorRep: NSObject {
     convenience override init(patternImageRepresentation patternImageRep: UIImageRep) {
         if !patternImageRep {
@@ -100,8 +102,6 @@ class UIColorRep: NSObject {
     }
 }
 
-import AppKit
-import UIKit
         var rep: UIImageRep = info as! UIColorRep.patternImageRep()
         UIGraphicsPushContext(ctx)
         CGContextSaveGState(ctx)

@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import AppKit
+
 class UISplitViewController: UIViewController {
     weak var delegate: UISplitViewControllerDelegate {
         get {
@@ -101,7 +103,6 @@ protocol UISplitViewControllerDelegate: NSObject {
 
     func splitViewController(svc: UISplitViewController, willShowViewController aViewController: UIViewController, invalidatingBarButtonItem button: UIBarButtonItem)
 }
-import AppKit
     let SplitterPadding: CGFloat = 3
 
 class _UISplitViewControllerView: UIView {

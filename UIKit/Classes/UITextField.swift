@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import AppKit
+
     let UITextFieldTextDidBeginEditingNotification: String
 
     let UITextFieldTextDidChangeNotification: String
@@ -544,7 +546,6 @@ extension UIView {
     }
 }
 
-import AppKit
     let UITextFieldTextDidBeginEditingNotification: String = "UITextFieldTextDidBeginEditingNotification"
 
     let UITextFieldTextDidChangeNotification: String = "UITextFieldTextDidChangeNotification"

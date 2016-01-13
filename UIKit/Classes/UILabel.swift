@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import AppKit
+
 class UILabel: UIView {
     func textRectForBounds(bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
         if text.characters.count > 0 {
@@ -243,5 +245,3 @@ class UILabel: UIView {
         return text.sizeWithFont(font, constrainedToSize: size, lineBreakMode: lineBreakMode)
     }
 }
-
-import AppKit

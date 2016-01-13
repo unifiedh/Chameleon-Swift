@@ -27,6 +27,9 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import AppKit
+import QuartzCore
+
 class UIViewAdapter: UIScrollView {
     convenience override init(NSView aNSView: NSView) {
         let viewFrameSize: NSSize = aNSView ? aNSView.frame.size : NSZeroSize
@@ -189,8 +192,3 @@ class UIViewAdapter: UIScrollView {
         return didResign
     }
 }
-
-import AppKit
-import AppKit
-import QuartzCore
-import QuartzCore

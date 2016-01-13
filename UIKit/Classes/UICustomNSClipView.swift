@@ -27,6 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import AppKit
+import QuartzCore
 protocol UICustomNSClipViewBehaviorDelegate {
     // the point should be in the clip view's superview coordinate space - aka the "screen" coordinate space because if everything
     // is being done correctly, this view is never nested inside any other kind of NSView.
@@ -112,7 +113,3 @@ class UICustomNSClipView: NSClipView {
         return hit
     }
 }
-
-import AppKit
-import QuartzCore
-import QuartzCore

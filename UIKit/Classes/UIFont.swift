@@ -27,6 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
+import Cocoa
 class UIFont: NSObject {
     var self.font: CTFontRef
 
@@ -193,8 +194,6 @@ class UIFont: NSObject {
         return NSFont(name: self.fontName, size: self.pointSize)
     }
 }
-
-import Cocoa
     var UIFontSystemFontName: String? = nil
 
     var UIFontBoldSystemFontName: String? = nil

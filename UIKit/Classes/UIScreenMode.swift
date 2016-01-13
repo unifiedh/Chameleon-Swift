@@ -27,6 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
+import AppKit
 class UIScreenMode: NSObject {
     var pixelAspectRatio: CGFloat {
         get {
@@ -56,5 +57,3 @@ class UIScreenMode: NSObject {
         return "<\(self.className()): \(self); size = \(NSStringFromCGSize(self.size))>"
     }
 }
-
-import AppKit

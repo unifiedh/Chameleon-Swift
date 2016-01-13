@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
+import IOKit
+import SystemConfiguration
     let UIDeviceOrientationDidChangeNotification: String
 
 enum UIDeviceOrientation : Int {
@@ -127,8 +129,6 @@ class UIDevice: NSObject {
         }
     }
 }
-import IOKit
-import SystemConfiguration
     let UIDeviceOrientationDidChangeNotification: String = "UIDeviceOrientationDidChangeNotification"
 
     var theDevice: UIDevice

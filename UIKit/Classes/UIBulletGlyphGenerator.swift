@@ -40,5 +40,3 @@ class UIBulletGlyphGenerator: NSGlyphGenerator {
         }
     }
 }
-
-import AppKit

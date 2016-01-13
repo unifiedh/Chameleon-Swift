@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import AppKit
+
 extension UIScreen {
     // the windows that make this screen their home
     var windows: [AnyObject] {
@@ -112,6 +114,4 @@ extension UIScreen {
     }
 }
 
-
-import AppKit
     var self.allScreens: [AnyObject]

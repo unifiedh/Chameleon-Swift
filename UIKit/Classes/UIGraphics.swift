@@ -27,6 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import ApplicationServices
+import AppKit
     var UIGraphicsPushContext
 
     var UIGraphicsPopContext
@@ -53,8 +54,6 @@ import ApplicationServices
 
     var UIRectFrameUsingBlendMode
 
-
-import AppKit
     var contextStack: [AnyObject]? = nil
 
     var imageContextStack: [AnyObject]? = nil

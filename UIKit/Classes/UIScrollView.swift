@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import QuartzCore
+
 enum UIScrollViewIndicatorStyle : Int {
     case Default
     case Black
@@ -770,8 +772,6 @@ class UIScrollView: UIView {
         return nil
     }
 }
-
-import QuartzCore
     let UIScrollViewAnimationDuration: NSTimeInterval = 0.33
 
     let UIScrollViewQuickAnimationDuration: NSTimeInterval = 0.22

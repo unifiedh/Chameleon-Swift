@@ -26,6 +26,7 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+import QuartzCore
 
 enum UIViewAutoresizing : Int {
     case None = 0
@@ -676,7 +677,6 @@ class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     }
 }
 
-import QuartzCore
     let UIViewFrameDidChangeNotification: String = "UIViewFrameDidChangeNotification"
 
     let UIViewBoundsDidChangeNotification: String = "UIViewBoundsDidChangeNotification"

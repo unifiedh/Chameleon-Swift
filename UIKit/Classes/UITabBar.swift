@@ -33,6 +33,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import QuartzCore
+
 protocol UITabBarDelegate: NSObject {
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem)
     // stub
@@ -93,5 +95,4 @@ class UITabBar: UIView {
     }
 }
 
-import QuartzCore
 let TABBAR_HEIGHT = 60.0

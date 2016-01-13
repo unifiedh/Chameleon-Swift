@@ -27,6 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
+import AppKit
 class UIColor: NSObject {
     class func colorWithWhite(white: CGFloat, alpha: CGFloat) -> UIColor {
         return self(white: white, alpha: alpha)
@@ -259,8 +260,6 @@ class UIColor: NSObject {
     }
 }
 
-import AppKit
-import AppKit
     var BlackColor: UIColor? = nil
 
     var DarkGrayColor: UIColor? = nil

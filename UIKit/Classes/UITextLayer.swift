@@ -28,6 +28,7 @@
  */
 import QuartzCore
 import Foundation
+import AppKit
 protocol UITextLayerContainerViewProtocol: NSObject {
     func window() -> UIWindow
 
@@ -420,6 +421,3 @@ class UITextLayer: CALayer {
     func removeNSView() {
     }
 }
-
-import AppKit
-import AppKit

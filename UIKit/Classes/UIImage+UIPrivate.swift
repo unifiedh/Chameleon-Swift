@@ -26,6 +26,7 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+import AppKit
 
 extension UIImage {
     class func _cacheImage(image: UIImage, forName name: String) {
@@ -179,6 +180,4 @@ extension UIImage {
         return image
     }
 }
-
-import AppKit
     var imageCache: [NSObject : AnyObject]? = nil

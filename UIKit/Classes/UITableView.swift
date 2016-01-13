@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import AppKit
+
     let UITableViewIndexSearch: String
 
 protocol UITableViewDelegate: UIScrollViewDelegate {
@@ -870,9 +872,7 @@ class UITableView: UIScrollView {
     }
 }
 
-import AppKit
-import AppKit
-import AppKit
+
 // http://stackoverflow.com/questions/235120/whats-the-uitableview-index-magnifying-glass-character
     let UITableViewIndexSearch: String = "{search}"
 
