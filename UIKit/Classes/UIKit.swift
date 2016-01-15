@@ -32,9 +32,5 @@ let IBAction = void
 
 // osx imports
 import AppKit
-import AppKit
-import AppKit
-import AppKit
-import AppKit
 // SystemConfiguration-Helper
 let kSCNetworkReachabilityFlagsIsWWAN = kSCNetworkReachabilityFlagsConnectionOnDemand

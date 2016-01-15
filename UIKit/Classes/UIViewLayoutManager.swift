@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
+import QuartzCore
+
 class UIViewLayoutManager: NSObject {
     class func layoutManager() -> UIViewLayoutManager {
         return theLayoutManager!
@@ -42,6 +44,4 @@ class UIViewLayoutManager: NSObject {
         theLayer.delegate._layoutSubviews()
     }
 }
-
-import QuartzCore
     var theLayoutManager: UIViewLayoutManager? = nil

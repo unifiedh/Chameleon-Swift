@@ -94,5 +94,3 @@ class UINSClipView: NSClipView {
         return hitNSView
     }
 }
-
-import AppKit

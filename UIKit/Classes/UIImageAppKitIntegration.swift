@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import AppKit
+
 extension UIImage {
     convenience init(theImage: NSImage) {
         return self(NSImage: theImage)
@@ -119,8 +121,6 @@ extension UIImage {
         return self._initWithRepresentations(reps)
     }
 }
-import AppKit
-import ObjectiveC
     let UIImageAssociatedNSImageKey: Character = "UIImageAssociatedNSImageKey"
 
         return UIImageRep(CGImage: rep.CGImageForProposedRect(rect, context: nil, hints: nil), scale: scale)

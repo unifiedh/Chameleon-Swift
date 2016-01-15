@@ -27,6 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
+import AppKit
     let UIMenuControllerWillShowMenuNotification: String
 
     let UIMenuControllerDidShowMenuNotification: String
@@ -259,9 +260,6 @@ class UIMenuController: NSObject {
     }
 }
 
-import AppKit
-import AppKit
-import AppKit
     let UIMenuControllerWillShowMenuNotification: String = "UIMenuControllerWillShowMenuNotification"
 
     let UIMenuControllerDidShowMenuNotification: String = "UIMenuControllerDidShowMenuNotification"

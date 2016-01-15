@@ -29,7 +29,6 @@
 
 import Cocoa
 
-
 extension UIScreen {
     // the windows that make this screen their home
     //var windows: [AnyObject] {

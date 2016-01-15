@@ -26,6 +26,7 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+import AppKit
 
 class UIAlertView: UIView {
     convenience override init(title: String, message: String, delegate: AnyObject, cancelButtonTitle: String, otherButtonTitles: String) {
@@ -180,7 +181,3 @@ protocol UIAlertViewDelegate: NSObject {
 
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int)
 }
-
-import AppKit
-import AppKit
-import AppKit

@@ -27,7 +27,6 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import AppKit
-import AppKit
 // when the shim gets asked if it can respond to a method, it asks the delegate's responder if it can respond
 // to it or not
 //

@@ -27,6 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
+import AppKit
 class UIPasteboard: NSObject {
     class func generalPasteboard() -> UIPasteboard {
         var aPasteboard: UIPasteboard? = nil
@@ -202,8 +203,6 @@ class UIPasteboard: NSObject {
     // there's a good chance this won't work correctly for all cases and indeed it's very untested in its current incarnation
 }
 
-
-import AppKit
         return (items.count > 0) ? items[0] : nil
 
         return (object! is String) || (object! is [AnyObject]) || (object! is [NSObject : AnyObject]) || (object! is NSDate) || (object! is Int) || (object! is NSURL)

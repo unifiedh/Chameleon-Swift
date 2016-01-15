@@ -48,4 +48,3 @@ public class UIScreenMode: NSObject {
         return "<\(self.className): \(self); size = \(NSStringFromCGSize(self.size))>"
     }
 }
-

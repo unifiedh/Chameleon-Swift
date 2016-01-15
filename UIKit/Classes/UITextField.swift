@@ -28,6 +28,8 @@
  */
 
 import Foundation
+import AppKit
+
     let UITextFieldTextDidBeginEditingNotification: String
 
     let UITextFieldTextDidChangeNotification: String
@@ -545,7 +547,6 @@ extension UIView {
     }
 }
 
-import AppKit
     let UITextFieldTextDidBeginEditingNotification: String = "UITextFieldTextDidBeginEditingNotification"
 
     let UITextFieldTextDidChangeNotification: String = "UITextFieldTextDidChangeNotification"

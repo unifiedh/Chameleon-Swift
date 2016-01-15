@@ -27,6 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
+import AppKit
 class UIPhotosAlbum: NSObject {
     class func sharedPhotosAlbum() -> UIPhotosAlbum {
         var album: UIPhotosAlbum? = nil
@@ -81,5 +82,3 @@ class UIPhotosAlbum: NSObject {
     }
 }
 
-
-import AppKit

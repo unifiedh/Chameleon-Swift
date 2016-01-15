@@ -287,15 +287,6 @@ class UICustomNSTextView: NSTextView {
 }
 
 // Ends Spelling Check Hack
-
-
-import AppKit
-import AppKit
-import AppKit
-import AppKit
-import AppKit
-import AppKit
-import AppKit
     let LargeNumberForText: CGFloat = 1.0e7
 
 // Any larger dimensions and the text could become blurry.

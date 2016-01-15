@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
 public enum UIBarStyle : Int {
     case Default = 0
     case Black = 1
@@ -63,5 +65,3 @@ extension UIFont {
         return NSFont.systemFontSizeForControlSize(.RegularControlSize)
     }
 }
-
-import AppKit
