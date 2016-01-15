@@ -31,6 +31,7 @@ import Foundation
 public protocol UIAccelerometerDelegate: NSObjectProtocol {
     func accelerometer(accelerometer: UIAccelerometer, didAccelerate acceleration: UIAcceleration)
 }
+
 public class UIAccelerometer: NSObject {
     class func sharedAccelerometer() -> UIAccelerometer? {
         return nil

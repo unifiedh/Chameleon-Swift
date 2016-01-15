@@ -27,7 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-enum .Type : Int {
+enum UITableViewCellAccessoryType : Int {
     case UITableViewCellAccessoryNone
     case UITableViewCellAccessoryDisclosureIndicator
     case UITableViewCellAccessoryDetailDisclosureButton
@@ -59,7 +59,7 @@ enum UITableViewCellEditingStyle : Int {
     case Insert
 }
 
-class UITableViewCell: UIView {
+public class UITableViewCell: UIView {
     convenience override init(style: UITableViewCellStyle, reuseIdentifier: String) {
         if (self = self(frame: CGRectMake(0, 0, 320, UITableViewDefaultRowHeight))) {
             self.style = style
@@ -284,4 +284,5 @@ class UITableViewCell: UIView {
     }
 }
 
-    var _UITableViewDefaultRowHeight: CGFloat
+
+//var _UITableViewDefaultRowHeight: CGFloat

@@ -29,13 +29,19 @@
 
 import Quartz
 import QuartzCore
-let UIViewFrameDidChangeNotification: String = "UIViewFrameDidChangeNotification"
 
-let UIViewBoundsDidChangeNotification: String = "UIViewBoundsDidChangeNotification"
+public let UIViewFrameDidChangeNotification: String = "UIViewFrameDidChangeNotification"
 
-let UIViewDidMoveToSuperviewNotification: String = "UIViewDidMoveToSuperviewNotification"
+public let UIViewBoundsDidChangeNotification: String = "UIViewBoundsDidChangeNotification"
 
-let UIViewHiddenDidChangeNotification: String = "UIViewHiddenDidChangeNotification"
+public let UIViewDidMoveToSuperviewNotification: String = "UIViewDidMoveToSuperviewNotification"
+
+public let UIViewHiddenDidChangeNotification: String = "UIViewHiddenDidChangeNotification"
+
+private var animationGroups = [UIViewAnimationGroup]()
+
+private var animationsEnabled: Bool = true
+
 
 public struct UIViewAutoresizing : OptionSetType {
 	public let rawValue: Int
@@ -123,22 +129,18 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         return CALayer.self
     }
 
-    init(frame: CGRect) {
-		super.init()
-    }
-
-    func addSubview(subview: UIView) {
-        if subview && subview.superview != self {
+    func addSubview(subview: UIView?) {
+        if let subview = subview where subview.superview !== self {
             var oldWindow: UIWindow = subview.window
             var newWindow: UIWindow = self.window
             subview._willMoveFromWindow(oldWindow, toWindow: newWindow)
             subview.willMoveToSuperview(self)
-            if subview.superview {
+            if (subview.superview != nil) {
                 subview.layer.removeFromSuperlayer()
-                subview.superview.subviews.removeObject(subview)
+                subview.superview!._subviews.remove(subview)
             }
             subview.willChangeValueForKey("superview")
-            subviews.append(subview)
+            _subviews.insert(subview)
             subview.superview = self
             layer.addSublayer(subview.layer)
             subview.didChangeValueForKey("superview")
@@ -170,7 +172,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     func removeFromSuperview() {
         if superview != nil {
             var oldWindow: UIWindow = self.window
-            superview.willRemoveSubview(self)
+            superview?.willRemoveSubview(self)
             self._willMoveFromWindow(oldWindow, toWindow: nil)
             self.willMoveToSuperview(nil)
             self.willChangeValueForKey("superview")
@@ -187,7 +189,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
 
     func bringSubviewToFront(subview: UIView) {
         if subview.superview == self {
-            layer.insertSublayer(subview.layer, above: layer.sublayers().lastObject())
+            layer.insertSublayer(subview.layer, above: layer.sublayers?.last)
         }
     }
 
@@ -198,7 +200,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     }
 
     func convertRect(toConvert: CGRect, fromView: UIView) -> CGRect {
-        var origin: CGPoint = self.convertPoint(CGPointMake(CGRectGetMinX(toConvert), CGRectGetMinY(toConvert)), fromView: fromView)
+        var origin: CGPoint = self.convertPoint(CGPointMake(toConvert.minX, toConvert.minY), fromView: fromView)
         var bottom: CGPoint = self.convertPoint(CGPointMake(CGRectGetMaxX(toConvert), CGRectGetMaxY(toConvert)), fromView: fromView)
         return CGRectMake(origin.x, origin.y, bottom.x - origin.x, bottom.y - origin.y)
     }
@@ -209,14 +211,14 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         return CGRectMake(origin.x, origin.y, bottom.x - origin.x, bottom.y - origin.y)
     }
 
-    func convertPoint(toConvert: CGPoint, fromView: UIView) -> CGPoint {
+    func convertPoint(var toConvert: CGPoint, fromView: UIView?) -> CGPoint {
         // NOTE: this is a lot more complex than it needs to be - I just noticed the docs say this method requires fromView and self to
         // belong to the same UIWindow! arg! leaving this for now because, well, it's neat.. but also I'm too tired to really ponder
         // all the implications of a change to something so "low level".
-        if fromView != nil {
+        if let fromView = fromView {
             // If the screens are the same, then we know they share a common parent CALayer, so we can convert directly with the layer's
             // conversion method. If not, though, we need to do something a bit more complicated.
-            if fromView && (self.window.screen == fromView.window.screen) {
+            if (self.window.screen === fromView.window.screen) {
                 return fromView.layer.convertPoint(toConvert, toLayer: self.layer)
             }
             else {
@@ -230,18 +232,18 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         return self.window.layer.convertPoint(toConvert, toLayer: self.layer)
     }
 
-    func convertPoint(toConvert: CGPoint, toView: UIView) -> CGPoint {
+    func convertPoint(var toConvert: CGPoint, toView: UIView?) -> CGPoint {
         // NOTE: this is a lot more complex than it needs to be - I just noticed the docs say this method requires toView and self to
         // belong to the same UIWindow! arg! leaving this for now because, well, it's neat.. but also I'm too tired to really ponder
         // all the implications of a change to something so "low level".
         // See note in convertPoint:fromView: for some explaination about why this is done... :/
-        if toView && (self.window.screen == toView.window.screen) {
+        if let toView = toView where (self.window.screen === toView.window.screen) {
             return self.layer.convertPoint(toConvert, toLayer: toView.layer)
         }
         else {
             // Convert to our window's coordinate space.
             toConvert = self.layer.convertPoint(toConvert, toLayer: self.window.layer)
-            if toView != nil {
+            if let toView = toView {
                 // Convert from one window's coordinate space to another.
                 toConvert = self.window.convertPoint(toConvert, toWindow: toView.window)
                 // Convert from toView's window down to toView's coordinate space.
@@ -256,7 +258,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     }
 
     func setNeedsDisplayInRect(invalidRect: CGRect) {
-        layer.needsDisplayInRect = invalidRect
+		layer.setNeedsDisplayInRect(invalidRect)
     }
 
     func drawRect(rect: CGRect) {
@@ -287,18 +289,15 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     func hitTest(point: CGPoint, withEvent event: UIEvent) -> UIView {
     }
 
-    func viewWithTag(tag: Int) -> UIView {
-    }
-
-    func isDescendantOfView(view: UIView) -> Bool {
-        if view != nil {
-            var testView: UIView = self
-            while testView {
-                if testView == view {
+    func isDescendantOfView(view: UIView?) -> Bool {
+        if let view = view {
+            var testView: UIView? = self
+            while testView != nil {
+                if testView === view {
                     return true
                 }
                 else {
-                    testView = testView.superview
+                    testView = testView?.superview
                 }
             }
         }
@@ -325,7 +324,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     func willMoveToSuperview(newSuperview: UIView) {
     }
 
-    func willMoveToWindow(newWindow: UIWindow) {
+    func willMoveToWindow(newWindow: UIWindow?) {
     }
 
     func willRemoveSubview(subview: UIView) {
@@ -340,7 +339,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     class func animateWithDuration(duration: NSTimeInterval, animations: () -> Void) {
     }
 
-    class func transitionWithView(view: UIView, duration: NSTimeInterval, options: UIViewAnimationOptions, animations: () -> Void, completion: (finished: Bool) -> Void) {
+    class func transitionWithView(view: UIView, duration: NSTimeInterval, options: UIViewAnimationOptions, animations: (() -> Void)?, completion: ((finished: Bool) -> Void)?) {
     }
 
     class func transitionFromView(fromView: UIView, toView: UIView, duration: NSTimeInterval, options: UIViewAnimationOptions, completion: (finished: Bool) -> Void) {
@@ -391,11 +390,6 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     var bounds: CGRect
     var center: CGPoint
     var transform: CGAffineTransform
-    var superview: UIView {
-        get {
-            return self.superview
-        }
-    }
 
     var window: UIWindow! {
         get {
@@ -403,18 +397,19 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         }
     }
 
-    var subviews: [AnyObject] {
+    var subviews: Set<UIView> {
         get {
-            var sublayers: [AnyObject] = layer.sublayers
-            var subviews: [AnyObject] = [AnyObject](minimumCapacity: sublayers.count)
+			var sublayers: [CALayer] = layer.sublayers ?? []
+            var subviews = Set<UIView>()
             // This builds the results from the layer instead of just using _subviews because I want the results to match
             // the order that CALayer has them. It's unclear in the docs if the returned order from this method is guarenteed or not,
             // however several other aspects of the system (namely the hit testing) depends on this order being correct.
-            for layer: CALayer in sublayers {
-                var potentialView: AnyObject = layer.delegate
+            for layer in sublayers {
+				if let potentialView = layer.delegate as? UIView {
                 if subviews.containsObject(potentialView) {
-                    subviews.append(potentialView)
+                    subviews.insert(potentialView)
                 }
+				}
             }
             return subviews
         }
@@ -424,11 +419,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     var opaque: Bool
     var clearsContextBeforeDrawing: Bool
     var backgroundColor: UIColor
-    var layer: CALayer {
-        get {
-            return self.layer
-        }
-    }
+    var layer: CALayer
 
     var clipsToBounds: Bool
     var autoresizesSubviews: Bool
@@ -444,36 +435,29 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     var exclusiveTouch: Bool
     // state is maintained, but it has no effect
     var gestureRecognizers: [AnyObject]
-    var superview: UIView
-    var viewController: UIViewController
-    var subviews: NSMutableSet
+    weak var superview: UIView?
+    weak var viewController: UIViewController?
+    var _subviews: Set<UIView>
     var implementsDrawRect: Bool
-    var gestureRecognizers: NSMutableSet
 
-
-    class func initialize() {
-        if self == UIView {
-            self.animationGroups = [AnyObject]()
-        }
-    }
 
     class func _instanceImplementsDrawRect() -> Bool {
         return UIView.instanceMethodForSelector("drawRect:") != self.instanceMethodForSelector("drawRect:")
     }
 
     convenience override init() {
-        return self(frame: CGRectZero)
+		self.init(frame: CGRectZero)
     }
 
-    convenience override init(frame theFrame: CGRect) {
-        if (self.init()) {
+    public init(frame theFrame: CGRect) {
             self.implementsDrawRect = self._instanceImplementsDrawRect()
             self.clearsContextBeforeDrawing = true
             self.autoresizesSubviews = true
             self.userInteractionEnabled = true
-            self.subviews = NSMutableSet()
-            self.gestureRecognizers = NSMutableSet()
-            self.layer = self.layerClass()()
+            //self.subviews = NSMutableSet()
+            self.gestureRecognizers = []
+            //self.layer = self.dynamicType.layerClass()()
+		layer = CALayer()
             self.layer.delegate = self
             self.layer.layoutManager = UIViewLayoutManager.layoutManager()
             self.contentMode = .ScaleToFill
@@ -482,12 +466,12 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
             self.alpha = 1
             self.opaque = true
             self.setNeedsDisplay()
-        }
+		super.init()
     }
 
-    func dealloc() {
-        gestureRecognizers.makeObjectsPerformSelector("_setView:", withObject: nil)
-        subviews.allObjects().makeObjectsPerformSelector("_removeFromDeallocatedSuperview")
+    deinit {
+        //gestureRecognizers.makeObjectsPerformSelector("_setView:", withObject: nil)
+        //subviews.allObjects().makeObjectsPerformSelector("_removeFromDeallocatedSuperview")
         self.layer.layoutManager = nil
         self.layer.delegate = nil
         layer.removeFromSuperlayer()
@@ -497,20 +481,20 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         self.viewController = theViewController
     }
 
-    func _viewController() -> UIViewController {
+    func _viewController() -> UIViewController? {
         return viewController
     }
 
-    func nextResponder() -> UIResponder {
-        return self._viewController() as! UIResponder ?? superview as! UIResponder
+    override func nextResponder() -> UIResponder? {
+        return self._viewController() as? UIResponder ?? superview as? UIResponder
     }
 
-    func _UIAppearanceContainer() -> AnyObject {
+    override func _UIAppearanceContainer() -> AnyObject? {
         return self.superview
     }
 
-    func _willMoveFromWindow(fromWindow: UIWindow, toWindow: UIWindow) {
-        if fromWindow != toWindow {
+    func _willMoveFromWindow(fromWindow: UIWindow, toWindow: UIWindow?) {
+        if fromWindow !== toWindow {
             // need to manage the responder chain. apparently UIKit (at least by version 4.2) seems to make sure that if a view was first responder
             // and it or it's parent views are disconnected from their window, the first responder gets reset to nil. Honestly, I don't think this
             // was always true - but it's certainly a much better and less-crashy design. Hopefully this check here replicates the behavior properly.
@@ -522,7 +506,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
             for subview: UIView in self.subviews {
                 subview._willMoveFromWindow(fromWindow, toWindow: toWindow)
             }
-            self._viewController().beginAppearanceTransition((toWindow != nil), animated: false)
+            self._viewController()?.beginAppearanceTransition((toWindow != nil), animated: false)
         }
     }
 
@@ -538,14 +522,13 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         }
     }
 
-    func _didMoveFromWindow(fromWindow: UIWindow, toWindow: UIWindow) {
-        if fromWindow != toWindow {
+    func _didMoveFromWindow(fromWindow: UIWindow, toWindow: UIWindow?) {
+        if fromWindow !== toWindow {
             self.didMoveToWindow()
             for subview: UIView in self.subviews {
                 subview._didMoveFromWindow(fromWindow, toWindow: toWindow)
             }
-            var controller: UIViewController = self._viewController()
-            if controller != nil {
+            if let controller = self._viewController() {
                 if self._isAnimating() {
                     var completionBlock = self._animationCompletionBlock()
                     self._setAnimationCompletionBlock({(finished: Bool) -> Void in
@@ -578,7 +561,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         self._abortGestureRecognizers()
     }
 
-    func viewWithTag(tagToFind: Int) -> UIView {
+    func viewWithTag(tagToFind: Int) -> UIView? {
         var foundView: UIView? = nil
         if self.tag == tagToFind {
             foundView = self
@@ -681,6 +664,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         UIGraphicsPopContext()
     }
 
+	/*
     convenience override init(theLayer: CALayer, forKey event: String) {
         if animationsEnabled && animationGroups.lastObject() && theLayer == layer {
             return animationGroups.lastObject().actionForView(self, forKey: event) ?? NSNull() as! AnyObject
@@ -688,7 +672,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         else {
             return NSNull()
         }
-    }
+    }*/
 
     func _superviewSizeDidChangeFrom(oldSize: CGSize, to newSize: CGSize) {
         if autoresizingMask != .None {
@@ -698,9 +682,5 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     }
 }
 
-
-    //var animationGroups: [AnyObject]
-
-    var animationsEnabled: Bool = true
 
 //#define hasAutoresizingFor(x) ((_autoresizingMask & (x)) == (x))

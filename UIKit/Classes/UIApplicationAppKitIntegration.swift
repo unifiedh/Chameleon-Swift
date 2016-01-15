@@ -28,7 +28,7 @@
  */
 
 import AppKit
-    let UIApplicationNetworkActivityIndicatorChangedNotification: String
+let UIApplicationNetworkActivityIndicatorChangedNotification = "UIApplicationNetworkActivityIndicatorChangedNotification"
 
 extension UIApplication {
     // the -terminateApplicationBeforeDate: method will switch the UIApplication to the background state
@@ -47,10 +47,15 @@ extension UIApplication {
     }
     
      */
-    func terminateApplicationBeforeDate(timeoutDate: NSDate) -> NSApplicationTerminateReply {
-    }
+    //func terminateApplicationBeforeDate(timeoutDate: NSDate) -> NSApplicationTerminateReply {
+    //}
 }
 // these are probably more internal the meant to be used publically, but just in case... here they are.
-    var UIApplicationInterruptTouchesInView
+func UIApplicationInterruptTouchesInView(view: UIView) {
+	
+}
 
-    var UIApplicationSendStationaryTouches
+func UIApplicationSendStationaryTouches() {
+	
+}
+

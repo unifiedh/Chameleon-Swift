@@ -38,9 +38,9 @@ enum UIViewAnimationGroupTransition : Int {
     case CrossDissolve
 }
 
-    var UIViewAnimationOptionIsSet: Bool
+    var UIViewAnimationOptionIsSet: Bool = false
 
-class UIViewAnimationGroup: NSObject {
+internal class UIViewAnimationGroup: NSObject {
     convenience override init(animationOptions options: UIViewAnimationOptions) {
         if (self.init()) {
             self.waitingAnimations = 1

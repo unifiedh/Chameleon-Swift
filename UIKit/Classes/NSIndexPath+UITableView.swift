@@ -26,7 +26,9 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 import Foundation
+
 public extension NSIndexPath {
     convenience init(row: Int, inSection section: Int) {
         var path: [Int] = [section, row]
@@ -38,7 +40,8 @@ public extension NSIndexPath {
         }
     }
 
-    var section: Int {
+	///Declared with `@nonobjc` to make Swift happy.
+    @nonobjc var section: Int {
         get {
             return self.indexAtPosition(0)
         }

@@ -33,6 +33,7 @@ public typealias UIAccessibilityNotifications = UInt32
 
 
 public extension NSObject {
+	/*
     public var isAccessibilityElement: Bool {
         get {
             return false
@@ -96,7 +97,7 @@ public extension NSObject {
         set {
             
         }
-    }
+    }*/
 }
 
 public extension NSObject {

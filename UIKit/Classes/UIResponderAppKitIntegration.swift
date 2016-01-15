@@ -32,12 +32,12 @@ import Foundation
 extension UIResponder {
     // Sent when the mouse scroll wheel changes.
     func scrollWheelMoved(delta: CGPoint, withEvent event: UIEvent) {
-        self.nextResponder().scrollWheelMoved(delta, withEvent: event)
+        self.nextResponder()?.scrollWheelMoved(delta, withEvent: event)
     }
     // Sent when the app gets a rightMouseDown-like event from OSX. There is no rightMouseDragged or rightMouseUp.
 
     func rightClick(touch: UITouch, withEvent event: UIEvent) {
-        self.nextResponder().rightClick(touch, withEvent: event)
+        self.nextResponder()?.rightClick(touch, withEvent: event)
     }
     // These message are sent often, but only during hover mouse movements - not when clicking, click-dragging, in a gesture, etc.
     // NOTE: You might get these messages more than once if you are capturing it in superview as messages are generated based on the subview
@@ -46,22 +46,23 @@ extension UIResponder {
     // the UIKitView's bounds, etc.
 
     func mouseEntered(view: UIView, withEvent event: UIEvent) {
-        self.nextResponder().mouseEntered(view, withEvent: event)
+        self.nextResponder()?.mouseEntered(view, withEvent: event)
     }
 
     func mouseMoved(touch: UITouch, withEvent event: UIEvent) {
-        self.nextResponder().mouseMoved(touch, withEvent: event)
+        self.nextResponder()?.mouseMoved(touch, withEvent: event)
     }
 
     func mouseExited(view: UIView, withEvent event: UIEvent) {
-        self.nextResponder().mouseExited(view, withEvent: event)
+        self.nextResponder()?.mouseExited(view, withEvent: event)
     }
     // Return an NSCursor if you want to modify it or nil to use the default arrow. Follows responder chain.
 
-    convenience override init(event: UIEvent) {
-        return self.nextResponder().mouseCursorForEvent(event)
-    }
+	func mouseCursorForEvent(event: UIEvent) -> AnyObject? {
+		return self.nextResponder()?.mouseCursorForEvent(event)
+	}
 }
+
 extension NSObject {
     // This is triggered from AppKit's cancelOperation: so it should be sent in largely the same circumstances. Generally you can think of it as mapping
     // to the ESC key, but CMD-. (period) also maps to it.

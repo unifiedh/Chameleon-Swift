@@ -43,8 +43,6 @@ let UIApplicationDidBecomeActiveNotification: String = "UIApplicationDidBecomeAc
 
 let UIApplicationDidFinishLaunchingNotification: String = "UIApplicationDidFinishLaunchingNotification"
 
-let UIApplicationNetworkActivityIndicatorChangedNotification: String = "UIApplicationNetworkActivityIndicatorChangedNotification"
-
 let UIApplicationLaunchOptionsURLKey: String = "UIApplicationLaunchOptionsURLKey"
 
 let UIApplicationLaunchOptionsSourceApplicationKey: String = "UIApplicationLaunchOptionsSourceApplicationKey"
@@ -307,7 +305,7 @@ class UIApplication: UIResponder {
         }
     }
 
-    weak var delegate: UIApplicationDelegate
+    weak var delegate: UIApplicationDelegate?
     var idleTimerDisabled: Bool
     // has no actual affect
     var applicationSupportsShakeToEdit: Bool
@@ -328,26 +326,25 @@ class UIApplication: UIResponder {
     // see notes near UIApplicationState struct for details!
     var backgroundTimeRemaining: NSTimeInterval {
         get {
-            return backgroundTasksExpirationDate.timeIntervalSinceNow()
+            return backgroundTasksExpirationDate?.timeIntervalSinceNow ?? 0
         }
     }
 
     // always 0
-    var applicationIconBadgeNumber: Int
+    var applicationIconBadgeNumber: Int = 0
     // no effect, but does set/get the number correctly
-    var scheduledLocalNotifications: [AnyObject] {
+    var scheduledLocalNotifications: [AnyObject]? {
         get {
             return nil
         }
     }
-    var self.ignoringInteractionEvents: Int
-    var self.backgroundTasksExpirationDate: NSDate
-    var self.backgroundTasks: [AnyObject]
+    var ignoringInteractionEvents: Int = 0
+    var backgroundTasksExpirationDate: NSDate?
+    var backgroundTasks = [UIBackgroundTask]()
 
 
     convenience override init() {
         if (self.init()) {
-            self.backgroundTasks = [AnyObject]()
             self.applicationState = .Active
             self.applicationSupportsShakeToEdit = true
             // yeah... not *really* true, but UIKit defaults to YES :)
@@ -449,7 +446,7 @@ class UIApplication: UIResponder {
         // otherwise... we have to do a deferred thing so we can show an alert while we wait for background tasks to finish...
         var taskFinisher = {() -> Void in
             var alert: NSAlert = NSAlert()
-            alert.alertStyle = NSInformationalAlertStyle
+            alert.alertStyle = .InformationalAlertStyle
             alert.showsSuppressionButton = false
             alert.messageText = "Quitting"
             alert.informativeText = "Finishing some tasks..."

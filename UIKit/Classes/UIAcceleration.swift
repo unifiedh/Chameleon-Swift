@@ -31,27 +31,11 @@ import Foundation
 public typealias UIAccelerationValue = Double
 
 public class UIAcceleration: NSObject {
-    var x: UIAccelerationValue {
-        get {
-            return self.x
-        }
-    }
+    var x: UIAccelerationValue = 0
 
-    var y: UIAccelerationValue {
-        get {
-            return self.y
-        }
-    }
+    var y: UIAccelerationValue = 0
 
-    var z: UIAccelerationValue {
-        get {
-            return self.z
-        }
-    }
+    var z: UIAccelerationValue = 0
 
-    var timestamp: NSTimeInterval {
-        get {
-            return self.timestamp
-        }
-    }
+    var timestamp: NSTimeInterval = 0
 }

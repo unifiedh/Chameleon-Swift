@@ -27,32 +27,33 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-protocol UIApplicationDelegate: NSObject {
-    func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]) -> Bool
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool
+@objc protocol UIApplicationDelegate: NSObjectProtocol {
+    optional func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]) -> Bool
 
-    func applicationDidFinishLaunching(application: UIApplication)
+    optional func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool
+
+    optional func applicationDidFinishLaunching(application: UIApplication)
     // not recommended
 
-    func applicationDidBecomeActive(application: UIApplication)
+    optional func applicationDidBecomeActive(application: UIApplication)
 
-    func applicationWillResignActive(application: UIApplication)
+    optional func applicationWillResignActive(application: UIApplication)
 
-    func applicationWillTerminate(application: UIApplication)
+    optional func applicationWillTerminate(application: UIApplication)
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject) -> Bool
+    optional func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject) -> Bool
 
-    func applicationDidEnterBackground(application: UIApplication)
+    optional func applicationDidEnterBackground(application: UIApplication)
 
-    func applicationWillEnterForeground(application: UIApplication)
+    optional func applicationWillEnterForeground(application: UIApplication)
     // non-standard
     // these are all called immediately before the normal delegate methods of similar name
     // these do NOT supercede the normal methods, if the normal ones also exist, they are also called!
 
-    func application(application: UIApplication, willFinishLaunchingOnDesktopWithOptions launchOptions: [NSObject : AnyObject])
+    optional func application(application: UIApplication, willFinishLaunchingOnDesktopWithOptions launchOptions: [NSObject : AnyObject])
 
-    func application(application: UIApplication, didFinishLaunchingOnDesktopWithOptions launchOptions: [NSObject : AnyObject])
+    optional func application(application: UIApplication, didFinishLaunchingOnDesktopWithOptions launchOptions: [NSObject : AnyObject])
 
-    func applicationWillTerminateOnDesktop(application: UIApplication)
+    optional func applicationWillTerminateOnDesktop(application: UIApplication)
 }

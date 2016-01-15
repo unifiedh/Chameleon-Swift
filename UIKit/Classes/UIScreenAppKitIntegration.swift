@@ -43,11 +43,11 @@ extension UIScreen {
     // under the app, so this entire thing has to be managed differently. my design here is that each screen has a potential
     // key window which is what is set when a UIWindow is told to become key. the app's keyWindow (as reported by UIApplication)
     // will be the keyWindow of the screen that's currently on the NSWindow that's key.... yeah... confusing, eh?
-    var keyWindow: UIWindow {
-        get {
-            return self.keyWindow
-        }
-    }
+    //var keyWindow: UIWindow {
+    //    get {
+    //        return self.keyWindow
+    //    }
+    //}
 
     // the real NSView that the screen lives on (or nil if there isn't one)
     //var UIKitView: UIKitView {
