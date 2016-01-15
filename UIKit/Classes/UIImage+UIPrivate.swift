@@ -146,7 +146,7 @@ extension UIImage {
         else {
             size = imageSize
         }
-        var rect: CGRect = CGRectMake(0, 0, size.width, size.height)
+        var rect = CGRectMake(0, 0, size.width, size.height)
         UIGraphicsBeginImageContextWithOptions(size, false, self.scale)
         UIColor(red: 101 / 255.0, green: 104 / 255.0, blue: 121 / 255.0, alpha: 1).setFill()
         UIRectFill(rect)

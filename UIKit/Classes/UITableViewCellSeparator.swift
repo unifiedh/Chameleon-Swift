@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
 class UITableViewCellSeparator: UIView {
     func setSeparatorStyle(theStyle: UITableViewCellSeparatorStyle, color theColor: UIColor) {
         if style != theStyle {
@@ -39,19 +41,18 @@ class UITableViewCellSeparator: UIView {
         }
         self.hidden = (style == .None)
     }
-    var self.style: UITableViewCellSeparatorStyle
-    var self.color: UIColor
+    var style: UITableViewCellSeparatorStyle
+    var color: UIColor?
 
 
-    convenience override init(frame: CGRect) {
-        if (self.init(frame: frame)) {
-            self.style = .None
-            self.hidden = true
-        }
+	override init(frame: CGRect) {
+		self.style = .None
+		self.hidden = true
+		super.init(frame: frame)
     }
 
-    func drawRect(rect: CGRect) {
-        if color != nil {
+    override func drawRect(rect: CGRect) {
+        if let color = color {
             if style == .SingleLine {
                 color.setFill()
                 CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, self.bounds.size.width, 1))

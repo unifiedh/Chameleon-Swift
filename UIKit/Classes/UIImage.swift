@@ -192,8 +192,8 @@ public class UIImage: NSObject {
         return img
     }
 
-    convenience override init(contentsOfFile imagePath: String) {
-        return self._initWithRepresentations(UIImageRep.imageRepsWithContentsOfFile(imagePath))
+    convenience init(contentsOfFile imagePath: String) {
+		return self.init(reps: UIImageRep.imageRepsWithContentsOfFile(imagePath))
     }
 }
     var UIImageWriteToSavedPhotosAlbum
