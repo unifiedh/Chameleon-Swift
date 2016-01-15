@@ -31,23 +31,14 @@ import CoreGraphics
 import Foundation
 
 class UINinePartImage: UIImage {
-    convenience override init(representations reps: [AnyObject], leftCapWidth: Int, topCapHeight: Int) {
+    init(representations reps: [AnyObject], leftCapWidth: Int, topCapHeight: Int) {
         if (self = super._initWithRepresentations(reps)) {
             self.leftCapWidth = leftCapWidth
             self.topCapHeight = topCapHeight
         }
     }
-    var leftCapWidth: Int = 0
-    var topCapHeight: Int = 0
-
-
-    func leftCapWidth() -> Int {
-        return leftCapWidth
-    }
-
-    func topCapHeight() -> Int {
-        return topCapHeight
-    }
+    let leftCapWidth: Int = 0
+    let topCapHeight: Int = 0
 
     func _drawRepresentation(rep: UIImageRep, inRect rect: CGRect) {
         let size: CGSize = self.size

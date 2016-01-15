@@ -27,6 +27,9 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import WebKit
+import Cocoa
+
 enum UIWebViewNavigationType : Int {
     case LinkClicked
     case FormSubmitted
@@ -36,14 +39,15 @@ enum UIWebViewNavigationType : Int {
     case Other
 }
 
-protocol UIWebViewDelegate: NSObject {
+protocol UIWebViewDelegate: NSObjectProtocol {
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool
 
     func webView(aWebView: UIWebView, didFailLoadWithError error: NSError)
 
     func webViewDidFinishLoad(webView: UIWebView)
 }
-class UIWebView: UIView {
+
+public class UIWebView: UIView {
     func loadHTMLString(string: String, baseURL: NSURL) {
         webView.mainFrame().loadHTMLString(string, baseURL: baseURL)
     }
@@ -118,17 +122,17 @@ class UIWebView: UIView {
     }
 
     var dataDetectorTypes: UIDataDetectorTypes
-    var scrollView: UIScrollView {
+    var scrollView: UIScrollView? {
         get {
             return nil
         }
     }
-    var self.webView: WebView
-    var self.webViewAdapter: UIViewAdapter
-    var self.delegateHas: struct{unsignedshouldStartLoadWithRequest:1;unsigneddidFailLoadWithError:1;unsigneddidFinishLoad:1;}
+    var webView: WebView
+    var webViewAdapter: UIViewAdapter
+    //var self.delegateHas: struct{unsignedshouldStartLoadWithRequest:1;unsigneddidFailLoadWithError:1;unsigneddidFinishLoad:1;}
 
 
-    convenience override init(frame: CGRect) {
+    override init(frame: CGRect) {
         if (self.init(frame: frame)) {
             self.webView = WebView as! WebView(frame: NSRectFromCGRect(self.bounds))
             webView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable)
@@ -144,20 +148,14 @@ class UIWebView: UIView {
         }
     }
 
-    func dealloc() {
-        webView.policyDelegate = nil
-        webView.frameLoadDelegate = nil
-        webView.UIDelegate = nil
-    }
-
-    func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         self.webViewAdapter.frame = self.bounds
     }
     // The only reason this is here is because Flamingo currently tries a hack to get at the web view's internals UIScrollView to get
     // the desk ad view to stop stealing the scrollsToTop event. Lame, yes...
 
-    convenience override init(key: String) {
+    convenience init?(key: String) {
         return nil
     }
 
@@ -219,7 +217,7 @@ class UIWebView: UIView {
         return false
     }
 
-    func canBecomeFirstResponder() -> Bool {
+    override func canBecomeFirstResponder() -> Bool {
         return true
     }
 
@@ -228,4 +226,3 @@ class UIWebView: UIView {
     }
 }
 
-import WebKit

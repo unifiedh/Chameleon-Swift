@@ -37,7 +37,7 @@ enum UIScrollViewIndicatorStyle : Int {
 
     let UIScrollViewDecelerationRateFast: CGFloat
 
-protocol UIScrollViewDelegate: NSObject {
+protocol UIScrollViewDelegate: NSObjectProtocol {
     func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView)
 
     func scrollViewDidScroll(scrollView: UIScrollView)
@@ -696,29 +696,6 @@ class UIScrollView: UIView {
 
     }
 
-    func _UIScrollerDidBeginDragging(scroller: UIScroller, withEvent event: UIEvent) {
-        self._beginDragging()
-    }
-
-    func _UIScroller(scroller: UIScroller, contentOffsetDidChange newOffset: CGFloat) {
-        if scroller == verticalScroller {
-            self.setContentOffset(CGPointMake(self.contentOffset.x, newOffset), animated: false)
-        }
-        else if scroller == horizontalScroller {
-            self.setContentOffset(CGPointMake(newOffset, self.contentOffset.y), animated: false)
-        }
-
-    }
-
-    func _UIScrollerDidEndDragging(scroller: UIScroller, withEvent event: UIEvent) {
-        var touch: UITouch = event.allTouches().first!
-        let point: CGPoint = touch.locationInView(self)
-        if !CGRectContainsPoint(scroller.frame, point) {
-            scroller.alwaysVisible = false
-        }
-        self._endDraggingWithDecelerationVelocity(CGPointZero)
-    }
-
     func setZoomScale(scale: CGFloat) {
         self.setZoomScale(scale, animated: false)
     }
@@ -769,6 +746,31 @@ class UIScrollView: UIView {
     convenience override init(event: UIEvent) {
         return nil
     }
+}
+
+extension UIScrollView: _UIScrollerDelegate {
+	func _UIScrollerDidBeginDragging(scroller: UIScroller, withEvent event: UIEvent) {
+		self._beginDragging()
+	}
+	
+	func _UIScroller(scroller: UIScroller, contentOffsetDidChange newOffset: CGFloat) {
+		if scroller == verticalScroller {
+			self.setContentOffset(CGPointMake(self.contentOffset.x, newOffset), animated: false)
+		}
+		else if scroller == horizontalScroller {
+			self.setContentOffset(CGPointMake(newOffset, self.contentOffset.y), animated: false)
+		}
+		
+	}
+	
+	func _UIScrollerDidEndDragging(scroller: UIScroller, withEvent event: UIEvent) {
+		var touch: UITouch = event.allTouches()!.first!
+		let point: CGPoint = touch.locationInView(self)
+		if !CGRectContainsPoint(scroller.frame, point) {
+			scroller.alwaysVisible = false
+		}
+		self._endDraggingWithDecelerationVelocity(CGPointZero)
+	}
 }
 
 import QuartzCore

@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
 enum UIImageOrientation : Int {
     case Up
     case Down
@@ -45,8 +47,17 @@ enum UIImageOrientation : Int {
     case RightMirrored
 }
 
-class UIImage: NSObject {
-    var self.representations: [AnyObject]
+public class UIImage: NSObject {
+	
+	init?(reps: [UIImageRep]) {
+		if reps.count == 0 {
+			return nil
+		}
+		self.representations = reps
+		super.init()
+	}
+
+    var representations = [UIImageRep]()
 
     convenience init(name: String) {
         var img: UIImage = self._cachedImageForName(name)
@@ -59,31 +70,15 @@ class UIImage: NSObject {
     }
     // Note, this caches the images somewhat like iPhone OS 2ish in that it never releases them. :)
 
-    class func imageWithData(data: NSData) -> UIImage {
-        return self(data: data)
+    convenience init?(data: NSData) {
+		self.init(reps: [UIImageRep(data: data)])
     }
 
-    class func imageWithContentsOfFile(path: String) -> UIImage {
-        return self(contentsOfFile: path)
+    convenience init(contentsOfFile path: String) {
     }
 
-    class func imageWithCGImage(imageRef: CGImageRef) -> UIImage {
-        return self(CGImage: imageRef)
-    }
-
-    class func imageWithCGImage(imageRef: CGImageRef, scale: CGFloat, orientation: UIImageOrientation) -> UIImage {
-        return self(CGImage: imageRef, scale: scale, orientation: orientation)
-    }
-
-    convenience override init(data: NSData) {
-        return self._initWithRepresentations([UIImageRep(data: data)])
-    }
-
-    convenience override init(contentsOfFile path: String) {
-    }
-
-    convenience override init(CGImage imageRef: CGImageRef) {
-        return self(CGImage: imageRef, scale: 1, orientation: .Up)
+    convenience init(CGImage imageRef: CGImageRef) {
+		self.init(CGImage: imageRef, scale: 1, orientation: .Up)
     }
 
     convenience override init(CGImage imageRef: CGImageRef, scale: CGFloat, orientation: UIImageOrientation) {

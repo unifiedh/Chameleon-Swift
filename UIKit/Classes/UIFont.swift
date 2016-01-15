@@ -27,14 +27,20 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-class UIFont: NSObject {
-    var self.font: CTFontRef
+import CoreText
+import Cocoa
+var UIFontSystemFontName: String? = nil
+
+var UIFontBoldSystemFontName: String? = nil
+
+public class UIFont: NSObject {
+    var font: CTFontRef
 
     class func fontWithName(fontName: String, size fontSize: CGFloat) -> UIFont {
         return self(NSFont: NSFont(name: fontName, size: fontSize))
     }
 
-    class func familyNames() -> [AnyObject] {
+    class func familyNames() -> [String] {
         var collection: CTFontCollectionRef = CTFontCollectionCreateFromAvailableFonts(nil)
         var names: [AnyObject] = getFontCollectionNames(collection, kCTFontFamilyNameAttribute)
         if collection != nil {
@@ -45,11 +51,9 @@ class UIFont: NSObject {
 
     class func fontNamesForFamilyName(familyName: String) -> [AnyObject] {
         var names: [AnyObject]? = nil
-        var descriptor: CTFontDescriptorRef = CTFontDescriptorCreateWithAttributes([
-            String(kCTFontFamilyNameAttribute) : familyName,
-            nil : nil
-        ]
- as! CFDictionaryRef)
+        var descriptor: CTFontDescriptorRef? = CTFontDescriptorCreateWithAttributes([
+            String(kCTFontFamilyNameAttribute) : familyName
+        ])
         if descriptor != nil {
             var descriptors: CFArrayRef = CFArrayCreate(nil, descriptor as! AnyObject, 1, kCFTypeArrayCallBacks)
             if descriptors != nil {
@@ -183,18 +187,8 @@ class UIFont: NSObject {
         }
         return .s.allObjects()
 
-    func dealloc() {
-        if font != nil {
-            CFRelease(font)
-        }
-    }
-
     func NSFont() -> NSFont {
         return NSFont(name: self.fontName, size: self.pointSize)
     }
 }
 
-import Cocoa
-    var UIFontSystemFontName: String? = nil
-
-    var UIFontBoldSystemFontName: String? = nil

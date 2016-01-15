@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import CoreGraphics
+
 extension UIScrollView {
     func _quickFlashScrollIndicators() {
     }

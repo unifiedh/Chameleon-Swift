@@ -47,7 +47,7 @@ public class UITouch: NSObject {
         get {
             return self.timestamp
         }
-        set {
+        set(timestamp) {
             self.timestamp = timestamp
             if phase == .Began {
                 self.beganPhaseTimestamp = timestamp
@@ -59,7 +59,7 @@ public class UITouch: NSObject {
         get {
             return self.tapCount
         }
-        set {
+        set(tapCount) {
             self.tapCount = tapCount
         }
     }
@@ -68,7 +68,7 @@ public class UITouch: NSObject {
         get {
             return self.phase
         }
-        set {
+        set(phase) {
             self.phase = phase
             if phase == .Stationary || phase == .Began {
                 self.previousLocationOnScreen = locationOnScreen
@@ -77,7 +77,7 @@ public class UITouch: NSObject {
     }
 
     var view: UIView {
-        get {
+        get(view) {
             return self.view
         }
         set {
@@ -92,16 +92,11 @@ public class UITouch: NSObject {
         }
     }
 
-    var gestureRecognizers: [AnyObject] {
-        get {
-            return gestureRecognizers.copy()
-        }
-    }
     var locationOnScreen: CGPoint
     var previousLocationOnScreen: CGPoint
     var gestureRecognizers: [AnyObject]
-    var wasDeliveredToView: Bool
-    var wasCancelledInView: Bool
+    //var wasDeliveredToView: Bool
+    //var wasCancelledInView: Bool
     var beganPhaseTimestamp: NSTimeInterval
     var beganPhaseLocationOnScreen: CGPoint
 

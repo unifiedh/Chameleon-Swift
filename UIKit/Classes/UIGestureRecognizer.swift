@@ -28,7 +28,7 @@
  */
 import Foundation
 
-enum UIGestureRecognizerState : Int {
+public enum UIGestureRecognizerState : Int {
     case Possible
     case Began
     case Changed
@@ -36,43 +36,64 @@ enum UIGestureRecognizerState : Int {
     case Cancelled
     case Failed
     //case Recognized = .Ended
+    
+    public static let Recognized = UIGestureRecognizerState.Ended
 }
 
-protocol UIGestureRecognizerDelegate: NSObjectProtocol {
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool
+@objc public protocol UIGestureRecognizerDelegate: NSObjectProtocol {
+    optional func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool
 
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool
+    optional func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool
 
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool
+    optional func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool
 }
 public class UIGestureRecognizer: NSObject {
-    init(target: AnyObject, action: Selector) {
+	private var delegateHas: DelegateHas = []
+	
+	private struct DelegateHas: OptionSetType {
+		let rawValue: UInt8
+		
+		static var ShouldBegin = DelegateHas(rawValue: 1 << 0)
+		static var ShouldReceiveTouch = DelegateHas(rawValue: 1 << 1)
+		static var ShouldRecognizeSimultaneouslyWithGestureRecognizer = DelegateHas(rawValue: 1 << 2)
+	}
+
+    init(target: NSObject, action: Selector) {
             self.state = .Possible
             self.cancelsTouchesInView = true
             self.delaysTouchesBegan = false
             self.delaysTouchesEnded = true
             self.enabled = true
-            self.registeredActions = [AnyObject]()
+            self.registeredActions = [UIAction]()
             self.trackingTouches = [UITouch]()
             self.addTarget(target, action: action)
             
             super.init()
     }
 
-    func addTarget(target: AnyObject, action: Selector) {
+    func addTarget(target: NSObject, action: Selector) {
         //assert(target != nil, "target must not be nil")
         assert(action != nil, "action must not be NULL")
-        var actionRecord: UIAction = UIAction()
+        let actionRecord: UIAction = UIAction()
         actionRecord.target = target
         actionRecord.action = action
         registeredActions.append(actionRecord)
     }
 
-    func removeTarget(target: AnyObject, action: Selector) {
-        var actionRecord: UIAction = UIAction()
+    func removeTarget(target: NSObject, action: Selector) {
+        let actionRecord = UIAction()
         actionRecord.target = target
         actionRecord.action = action
-        registeredActions.removeObject(actionRecord)
+		var location: Int?
+		for (i, obj) in registeredActions.enumerate() {
+			if obj == actionRecord {
+				location = i
+				break
+			}
+		}
+		if let location = location {
+			registeredActions.removeAtIndex(location)
+		}
     }
 
     func requireGestureRecognizerToFail(otherGestureRecognizer: UIGestureRecognizer) {
@@ -103,15 +124,16 @@ public class UIGestureRecognizer: NSObject {
         return trackingTouches.count
     }
     weak var delegate: UIGestureRecognizerDelegate? {
-        get {
-            return self.delegate
-        }
-        set {
-            if aDelegate != delegate {
-                self.delegate = aDelegate
-                self.delegateHas.shouldBegin = delegate.respondsToSelector("gestureRecognizerShouldBegin:")
-                self.delegateHas.shouldReceiveTouch = delegate.respondsToSelector("gestureRecognizer:shouldReceiveTouch:")
-                self.delegateHas.shouldRecognizeSimultaneouslyWithGestureRecognizer = delegate.respondsToSelector("gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:")
+        didSet {
+            if oldValue !== delegate {
+				if delegate?.gestureRecognizerShouldBegin == nil {
+					delegateHas.remove(.ShouldBegin)
+				} else {
+					delegateHas.insert(.ShouldBegin)
+				}
+                //self.delegateHas.shouldBegin = delegate.respondsToSelector("gestureRecognizerShouldBegin:")
+                //self.delegateHas.shouldReceiveTouch = delegate.respondsToSelector("gestureRecognizer:shouldReceiveTouch:")
+                //self.delegateHas.shouldRecognizeSimultaneouslyWithGestureRecognizer = delegate.respondsToSelector("gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:")
             }
         }
     }
@@ -120,32 +142,73 @@ public class UIGestureRecognizer: NSObject {
     var delaysTouchesEnded: Bool
     var cancelsTouchesInView: Bool
     var enabled: Bool
+    private var _state:UIGestureRecognizerState = .Failed
     var state: UIGestureRecognizerState {
         get {
-            return self.state
+            return _state
         }
-        set {
-            if delegateHas.shouldBegin && state == .Possible && (state == .Recognized || state == .Began) {
-                if !delegate.gestureRecognizerShouldBegin(self) {
-                    state = .Failed
+        set(state) {
+            if delegateHas.contains(.ShouldBegin) && state == .Possible && (state == .Recognized || state == .Began) {
+                if !(delegate?.gestureRecognizerShouldBegin?(self) ?? false) {
+                    _state = .Failed
                 }
             }
             // the docs didn't say explicitly if these state transitions were verified, but I suspect they are. if anything, a check like this
             // should help debug things. it also helps me better understand the whole thing, so it's not a total waste of time :)
-            var StateTransition: struct{UIGestureRecognizerStatefromState,toState;BOOLshouldNotify;}
+            struct StateTransition {
+                var fromState: UIGestureRecognizerState
+                var toState: UIGestureRecognizerState
+                var shouldNotify: Bool
+                
+                static let allowedStates: [StateTransition] = [
+                    
+                    // discrete gestures
+                    StateTransition(fromState: .Possible, toState: .Recognized,	shouldNotify: true),
+                    StateTransition(fromState: .Possible, toState: .Failed,		shouldNotify: false),
+                    
+                    // continuous gestures
+                    StateTransition(fromState: .Possible,	toState: .Began,		shouldNotify: true),
+                    StateTransition(fromState: .Began,		toState: .Changed,		shouldNotify: true),
+                    StateTransition(fromState: .Began,		toState: .Cancelled,	shouldNotify: true),
+                    StateTransition(fromState: .Began,		toState: .Ended,		shouldNotify: true),
+                    StateTransition(fromState: .Changed,	toState: .Changed,		shouldNotify: true),
+                    StateTransition(fromState: .Changed,	toState: .Cancelled,	shouldNotify: true),
+                    StateTransition(fromState: .Changed,	toState: .Ended,		shouldNotify: true)
+                ]
+            }
+            
+            var transition: StateTransition?
+            
+            for aTransition in StateTransition.allowedStates {
+                if (aTransition.fromState == _state && aTransition.toState == state) {
+                    transition = aTransition
+                    break;
+                }
+            }
+            
+            if let transition = transition {
+                _state = transition.toState
+				
+				if transition.shouldNotify {
+					for actionRecord in registeredActions {
+						// docs mention that the action messages are sent on the next run loop, so we'll do that here.
+						// note that this means that reset can't happen until the next run loop, either otherwise
+						// the state property is going to be wrong when the action handler looks at it, so as a result
+						// I'm also delaying the reset call (if necessary) below in -continueTrackingWithEvent:
+						actionRecord.target?.performSelector(actionRecord.action!, withObject: self, afterDelay: 0)
+					}
+				}
+
+            } else {
+                assert(false, "invalid state transition from \(_state.rawValue) to \(state.rawValue)")
+            }
+            //var StateTransition: struct{UIGestureRecognizerState fromState,toState;BOOLshouldNotify;}
         }
     }
 
-    var view: UIView {
-        get {
-            return self.view
-        }
-    }
-    var registeredActions: [AnyObject]
+    var registeredActions: [UIAction]
     var trackingTouches: [UITouch]
-    var view: UIView?
-    var delegateHas: struct{unsignedshouldBegin:1;unsignedshouldReceiveTouch:1;unsignedshouldRecognizeSimultaneouslyWithGestureRecognizer:1;}
-
+    internal(set) weak var view: UIView?
 
     func _setView(v: UIView) {
         if v != view {
@@ -158,175 +221,141 @@ public class UIGestureRecognizer: NSObject {
     func locationOfTouch(touchIndex: Int, inView view: UIView) -> CGPoint {
         return trackingTouches[touchIndex].locationInView(view)
     }
+    
+    public override var description: String {
+        var state = "";
+        switch (self.state) {
+        case .Possible:
+            state = "Possible";
+            
+        case .Began:
+            state = "Began";
+            
+        case .Changed:
+            state = "Changed";
+            
+        case .Ended:
+            state = "Ended";
+            
+        case .Cancelled:
+            state = "Cancelled";
+            
+        case .Failed:
+            state = "Failed";
+        }
+        return "<\(self.className): \(self); state = \(state); view = \(self.view!)>"
+    }
+	
+	public func reset()
+	{
+	// note - this is also supposed to ignore any currently tracked touches
+	// the touches themselves may not have gone away, so we don't just remove them from tracking, I think,
+	// but instead just mark them as ignored by this gesture until the touches eventually end themselves.
+	// in any case, this isn't implemented right now because we only have a single touch and so far I
+	// haven't needed it.
+	
+	_state = .Possible;
+	}
+	
+	func canPreventGestureRecognizer(preventedGestureRecognizer: UIGestureRecognizer) -> Bool {
+		return true;
+	}
+	
+	func canBePreventedByGestureRecognizer(preventingGestureRecognizer: UIGestureRecognizer) -> Bool {
+		return true;
+	}
+	
+	final func ignoreTouch(touch: UITouch, forEvent event: UIEvent) {
+		
+	}
+	
+	func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent) {
+	
+	}
+	
+	func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
+		
+	}
+	
+	func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent) {
+		
+	}
+	
+	func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
+		
+	}
+
+	func _beginTrackingTouch(touch: UITouch, withEvent event: UITouchEvent) {
+
+		if enabled {
+			if !delegateHas.contains(.ShouldReceiveTouch) || delegate!.gestureRecognizer!(self, shouldReceiveTouch: touch) {
+				touch._addGestureRecognizer(self)
+				trackingTouches.append(touch)
+			}
+		}
+	}
+
+	func _continueTrackingWithEvent(event: UITouchEvent) {
+		var began = Set<UITouch>()
+		var moved = Set<UITouch>()
+		var ended = Set<UITouch>()
+		var cancelled = Set<UITouch>()
+		var multitouchSequenceIsEnded: Bool = true
+		for touch in trackingTouches {
+			if touch.phase == .Began {
+				multitouchSequenceIsEnded = false
+				began.insert(touch)
+			}
+			else if touch.phase == .Moved {
+				multitouchSequenceIsEnded = false
+				moved.insert(touch)
+			}
+			else if touch.phase == .Stationary {
+				multitouchSequenceIsEnded = false
+			}
+			else if touch.phase == .Ended {
+				ended.insert(touch)
+			}
+			else if touch.phase == .Cancelled {
+				cancelled.insert(touch)
+			}
+		}
+		if state == .Possible || state == .Began || state == .Changed {
+			if began.count > 0 {
+				self.touchesBegan(began, withEvent: event)
+			}
+			if moved.count > 0 {
+				self.touchesMoved(moved, withEvent: event)
+			}
+			if ended.count > 0 {
+				self.touchesEnded(ended, withEvent: event)
+			}
+			if cancelled.count > 0 {
+				self.touchesCancelled(cancelled, withEvent: event)
+			}
+		}
+		// if all the touches are ended or cancelled, then the multitouch sequence must be over - so we can reset
+		// our state back to normal and clear all the tracked touches, etc. to get ready for a new touch sequence
+		// in the future.
+		// this also applies to the special discrete gesture events because those events are only sent once!
+		if multitouchSequenceIsEnded || event.isDiscreteGesture {
+			// see note above in -setState: about the delay here!
+			self.performSelector("reset", withObject: nil, afterDelay: 0)
+		}
+		
+	}
+
+	func _endTrackingTouch(touch: UITouch, withEvent event: UITouchEvent) {
+		touch._removeGestureRecognizer(self)
+		var location: Int?
+		for (i, obj) in trackingTouches.enumerate() {
+			if obj == touch {
+				location = i
+				break
+			}
+		}
+		if let location = location {
+			trackingTouches.removeAtIndex(location)
+		}
+	}
 }
-
-let NumberOfStateTransitions = 9
-    let allowedTransitions: StateTransition = StateTransition()
-    allowedTransitions.    // discrete gestures
-StateTransition()
-    allowedTransitions..Possible
-    allowedTransitions..Recognized
-    allowedTransitions.true
-    allowedTransitions.StateTransition()
-    allowedTransitions..Possible
-    allowedTransitions..Failed
-    allowedTransitions.false
-    allowedTransitions.    // continuous gestures
-StateTransition()
-    allowedTransitions..Possible
-    allowedTransitions..Began
-    allowedTransitions.true
-    allowedTransitions.StateTransition()
-    allowedTransitions..Began
-    allowedTransitions..Changed
-    allowedTransitions.true
-    allowedTransitions.StateTransition()
-    allowedTransitions..Began
-    allowedTransitions..Cancelled
-    allowedTransitions.true
-    allowedTransitions.StateTransition()
-    allowedTransitions..Began
-    allowedTransitions..Ended
-    allowedTransitions.true
-    allowedTransitions.StateTransition()
-    allowedTransitions..Changed
-    allowedTransitions..Changed
-    allowedTransitions.true
-    allowedTransitions.StateTransition()
-    allowedTransitions..Changed
-    allowedTransitions..Cancelled
-    allowedTransitions.true
-    allowedTransitions.StateTransition()
-    allowedTransitions..Changed
-    allowedTransitions..Ended
-    allowedTransitions.true
-
-    let transition: StateTransition? = nil
-
-        t = 0
-        t < NumberOfStateTransitions
-        t++)
-                    if allowedTransitions[t].fromState == state && allowedTransitions[t].toState == state {
-                transition = allowedTransitions[t]
-            }
-
-        NSAssert2((transition != nil), "invalid state transition from %ld to %ld", state, state)
-        if transition! {
-            self.state = transition->toState
-            if transition->shouldNotify {
-                for actionRecord: UIAction in registeredActions {
-                    // docs mention that the action messages are sent on the next run loop, so we'll do that here.
-                    // note that this means that reset can't happen until the next run loop, either otherwise
-                    // the state property is going to be wrong when the action handler looks at it, so as a result
-                    // I'm also delaying the reset call (if necessary) below in -continueTrackingWithEvent:
-                    actionRecord.target.performSelector(actionRecord.action, withObject: self, afterDelay: 0)
-                }
-            }
-        }
-
-        var reset
-                    self.state = .Possible
-
-        -
-
-        return true
-
-        return true
-
-        void ignoreTouch:(UITouch)
-        touch forEvent:(UIEvent)
-
-        void touchesBegan:(Set<AnyObject>)
-        touches withEvent:(UIEvent)
-
-        void touchesMoved:(Set<AnyObject>)
-        touches withEvent:(UIEvent)
-
-        void touchesEnded:(Set<AnyObject>)
-        touches withEvent:(UIEvent)
-
-        void touchesCancelled:(Set<AnyObject>)
-        touches withEvent:(UIEvent)
-
-        void _beginTrackingTouch:(UITouch)
-        touch withEvent:(UITouchEvent)
-
-        if self.enabled {
-            if !delegateHas.shouldReceiveTouch || delegate.gestureRecognizer(self, shouldReceiveTouch: touch) {
-                touch._addGestureRecognizer(self)
-                trackingTouches.append(touch)
-            }
-        }
-
-        void _continueTrackingWithEvent:(UITouchEvent)
-
-        var began: NSMutableSet = NSMutableSet()
-        var moved: NSMutableSet = NSMutableSet()
-        var ended: NSMutableSet = NSMutableSet()
-        var cancelled: NSMutableSet = NSMutableSet()
-        var multitouchSequenceIsEnded: Bool = true
-        for touch: UITouch in trackingTouches {
-            if touch.phase == .Began {
-                multitouchSequenceIsEnded = false
-                began.append(touch)
-            }
-            else if touch.phase == .Moved {
-                multitouchSequenceIsEnded = false
-                moved.append(touch)
-            }
-            else if touch.phase == .Stationary {
-                multitouchSequenceIsEnded = false
-            }
-            else if touch.phase == .Ended {
-                ended.append(touch)
-            }
-            else if touch.phase == .Cancelled {
-                cancelled.append(touch)
-            }
-        }
-        if state == .Possible || state == .Began || state == .Changed {
-            if began.count {
-                self.touchesBegan(began, withEvent: event)
-            }
-            if moved.count {
-                self.touchesMoved(moved, withEvent: event)
-            }
-            if ended.count {
-                self.touchesEnded(ended, withEvent: event)
-            }
-            if cancelled.count {
-                self.touchesCancelled(cancelled, withEvent: event)
-            }
-        }
-        // if all the touches are ended or cancelled, then the multitouch sequence must be over - so we can reset
-        // our state back to normal and clear all the tracked touches, etc. to get ready for a new touch sequence
-        // in the future.
-        // this also applies to the special discrete gesture events because those events are only sent once!
-        if multitouchSequenceIsEnded || event.isDiscreteGesture {
-            // see note above in -setState: about the delay here!
-            self.performSelector("reset", withObject: nil, afterDelay: 0)
-        }
-
-        void _endTrackingTouch:(UITouch)
-        touch withEvent:(UITouchEvent)
-
-        touch._removeGestureRecognizer(self)
-        trackingTouches.removeObject(touch)
-
-        var state: String = ""
-        switch self.state {
-            case .Possible:
-                state = "Possible"
-            case .Began:
-                state = "Began"
-            case .Changed:
-                state = "Changed"
-            case .Ended:
-                state = "Ended"
-            case .Cancelled:
-                state = "Cancelled"
-            case .Failed:
-                state = "Failed"
-        }
-
-        return "<\(self.className()): \(self); state = \(state); view = \(self.view!)>"

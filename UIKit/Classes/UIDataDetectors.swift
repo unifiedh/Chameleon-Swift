@@ -27,9 +27,16 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-enum .s : Int {
-    case UIDataDetectorTypePhoneNumber = 1 << 0
-    case UIDataDetectorTypeLink = 1 << 1
-    case UIDataDetectorTypeNone = 0
-    case UIDataDetectorTypeAll = NSUIntegerMax
+
+public struct UIDataDetectorTypes: OptionSetType {
+    public let rawValue: UInt
+    public init(rawValue: UInt) {
+        self.rawValue = rawValue
+    }
+    
+    public static let PhoneNumber = UIDataDetectorTypes(rawValue: 1 << 0)
+    public static let Link = UIDataDetectorTypes(rawValue: 1 << 1)
+    
+    public static let None = UIDataDetectorTypes(rawValue: 0)
+    public static let All = UIDataDetectorTypes(rawValue: RawValue.max)
 }

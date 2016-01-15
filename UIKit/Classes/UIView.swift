@@ -27,6 +27,16 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Quartz
+import QuartzCore
+let UIViewFrameDidChangeNotification: String = "UIViewFrameDidChangeNotification"
+
+let UIViewBoundsDidChangeNotification: String = "UIViewBoundsDidChangeNotification"
+
+let UIViewDidMoveToSuperviewNotification: String = "UIViewDidMoveToSuperviewNotification"
+
+let UIViewHiddenDidChangeNotification: String = "UIViewHiddenDidChangeNotification"
+
 public struct UIViewAutoresizing : OptionSetType {
 	public let rawValue: Int
     
@@ -110,14 +120,14 @@ public struct UIViewAnimationOptions : OptionSetType {
 
 public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     class func layerClass() -> AnyClass {
-        return CALayer()
+        return CALayer.self
     }
 
-    convenience override init(frame: CGRect) {
+    init(frame: CGRect) {
+		super.init()
     }
 
     func addSubview(subview: UIView) {
-        assert((!subview || (subview is UIView)), "the subview must be a UIView")
         if subview && subview.superview != self {
             var oldWindow: UIWindow = subview.window
             var newWindow: UIWindow = self.window
@@ -688,16 +698,8 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     }
 }
 
-import QuartzCore
-    let UIViewFrameDidChangeNotification: String = "UIViewFrameDidChangeNotification"
 
-    let UIViewBoundsDidChangeNotification: String = "UIViewBoundsDidChangeNotification"
-
-    let UIViewDidMoveToSuperviewNotification: String = "UIViewDidMoveToSuperviewNotification"
-
-    let UIViewHiddenDidChangeNotification: String = "UIViewHiddenDidChangeNotification"
-
-    var animationGroups: [AnyObject]
+    //var animationGroups: [AnyObject]
 
     var animationsEnabled: Bool = true
 

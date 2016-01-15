@@ -26,110 +26,114 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+import Cocoa
 import ApplicationServices
-    var UIGraphicsPushContext
 
-    var UIGraphicsPopContext
+private var contextStack = [NSGraphicsContext]()
+private var imageContextStack = [CGFloat]()
 
-    var UIGraphicsGetCurrentContext: CGContextRef
+public func UIGraphicsPushContext(ctx: CGContextRef?)
+{
+	if let currCtx = NSGraphicsContext.currentContext() {
+		contextStack.append(currCtx)
+	}
+	
+	NSGraphicsContext.setCurrentContext(NSGraphicsContext(CGContext: ctx!, flipped: true))
+}
 
-    var self.UIGraphicsGetContextScaleFactor: CGFloat
+public func UIGraphicsPopContext() {
+	if let aLast = contextStack.last {
+		NSGraphicsContext.setCurrentContext(aLast)
+		contextStack.removeLast()
+	}
+}
 
-    var UIGraphicsBeginImageContextWithOptions
+public func UIGraphicsGetCurrentContext() -> CGContextRef? {
+	return NSGraphicsContext.currentContext()?.CGContext
+}
 
-    var UIGraphicsBeginImageContext
+internal func _UIGraphicsGetContextScaleFactor(ctx: CGContextRef?) -> CGFloat {
+	let rect = CGContextGetClipBoundingBox(ctx)
+	let deviceRect = CGContextConvertRectToDeviceSpace(ctx, rect)
+	let scale = deviceRect.size.height / rect.size.height
+	return scale
+}
 
-    var UIGraphicsGetImageFromCurrentImageContext: UIImage
+public func UIGraphicsBeginImageContextWithOptions(size: CGSize, _ opaque: Bool, var _ scale: CGFloat) {
+	if scale == 0 {
+		scale = UIScreen.mainScreen().scale
+		if scale == 0 {
+			scale = 1
+		}
+	}
+	
+	let width = Int(size.width * scale)
+	let height = Int(size.height * scale)
+	
+	if (width > 0 && height > 0) {
+		imageContextStack.append(scale)
+		
+		let colorSpace = CGColorSpaceCreateDeviceRGB();
+		let ctx = CGBitmapContextCreate(nil, width, height, 8, 4 * width, colorSpace, (opaque ? CGImageAlphaInfo.NoneSkipFirst : CGImageAlphaInfo.PremultipliedFirst).rawValue);
+		CGContextConcatCTM(ctx, CGAffineTransformMake(1, 0, 0, -1, 0, CGFloat(height)))
+		CGContextScaleCTM(ctx, scale, scale);
+		UIGraphicsPushContext(ctx);
+	}
+}
 
-    var UIGraphicsEndImageContext
+public func UIGraphicsBeginImageContext(size: CGSize)
+{
+	UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
+}
 
-    var UIRectClip
+public func UIGraphicsGetImageFromCurrentImageContext() -> UIImage? {
+	if let scale = imageContextStack.last {
+		let theCGImage = CGBitmapContextCreateImage(UIGraphicsGetCurrentContext())
+		let image = UIImage(CGImage: theCGImage!, scale: scale, orientation: .Up)
+		
+		return image
+	} else {
+		return nil
+	}
+}
 
-    var UIRectFill
+public func UIGraphicsEndImageContext() {
+	if let _ = imageContextStack.last {
+		imageContextStack.removeLast()
+		UIGraphicsPopContext()
+	}
+}
 
-    var UIRectFillUsingBlendMode
+public func UIRectClip(rect: CGRect)
+{
+	CGContextClipToRect(UIGraphicsGetCurrentContext(), rect);
+}
 
-    var UIRectFrame
+public func UIRectFill(rect: CGRect)
+{
+	UIRectFillUsingBlendMode(rect, .Copy);
+}
 
-    var UIRectFrameUsingBlendMode
+public func UIRectFillUsingBlendMode(rect: CGRect, _ blendMode: CGBlendMode)
+{
+	let c = UIGraphicsGetCurrentContext();
+	CGContextSaveGState(c);
+	CGContextSetBlendMode(c, blendMode);
+	CGContextFillRect(c, rect);
+	CGContextRestoreGState(c);
+}
 
+public func UIRectFrame(rect: CGRect)
+{
+	CGContextStrokeRect(UIGraphicsGetCurrentContext(), rect)
+}
 
-import AppKit
-    var contextStack: [AnyObject]? = nil
-
-    var imageContextStack: [AnyObject]? = nil
-
-        if !contextStack {
-            contextStack = [AnyObject](capacity: 1)
-        }
-        if NSGraphicsContext.currentContext() {
-            contextStack!.append(NSGraphicsContext.currentContext())
-        }
-        NSGraphicsContext.currentContext = NSGraphicsContext.graphicsContextWithGraphicsPort(ctx as! Void, flipped: true)
-
-        if contextStack!.lastObject() {
-            NSGraphicsContext.currentContext = contextStack!.lastObject()
-            contextStack!.removeLastObject()
-        }
-
-        return NSGraphicsContext.currentContext().graphicsPort()
-
-        let rect: CGRect = CGContextGetClipBoundingBox(ctx)
-        let deviceRect: CGRect = CGContextConvertRectToDeviceSpace(ctx, rect)
-        let scale: CGFloat = deviceRect.size.height / rect.size.height
-        return scale
-
-        if scale == 0.0 {
-            scale = UIScreen.mainScreen().scale ?? 1
-        }
-        let width: size_t = size.width * scale
-        let height: size_t = size.height * scale
-        if width > 0 && height > 0 {
-            if !imageContextStack {
-                imageContextStack = [AnyObject](capacity: 1)
-            }
-            imageContextStack!.append(Int(scale))
-            var colorSpace: CGColorSpaceRef = CGColorSpaceCreateDeviceRGB()
-            var ctx: CGContextRef = CGBitmapContextCreate(nil, width, height, 8, 4 * width, colorSpace, (opaque ? kCGImageAlphaNoneSkipFirst : kCGImageAlphaPremultipliedFirst))
-            CGContextConcatCTM(ctx, CGAffineTransformMake(1, 0, 0, -1, 0, height))
-            CGContextScaleCTM(ctx, scale, scale)
-            CGColorSpaceRelease(colorSpace)
-            UIGraphicsPushContext(ctx)
-            CGContextRelease(ctx)
-        }
-
-        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
-
-        if imageContextStack!.lastObject() {
-            let scale: CGFloat = CFloat(imageContextStack!.lastObject())!
-            var theCGImage: CGImageRef = CGBitmapContextCreateImage(UIGraphicsGetCurrentContext())
-            var image: UIImage = UIImage.imageWithCGImage(theCGImage, scale: scale, orientation: .Up)
-            CGImageRelease(theCGImage)
-            return image
-        }
-        else {
-            return nil
-        }
-
-        if imageContextStack!.lastObject() {
-            imageContextStack!.removeLastObject()
-            UIGraphicsPopContext()
-        }
-
-        CGContextClipToRect(UIGraphicsGetCurrentContext(), rect)
-
-        UIRectFillUsingBlendMode(rect, kCGBlendModeCopy)
-
-        var c: CGContextRef = UIGraphicsGetCurrentContext()
-        CGContextSaveGState(c)
-        CGContextSetBlendMode(c, blendMode)
-        CGContextFillRect(c, rect)
-        CGContextRestoreGState(c)
-
-        CGContextStrokeRect(UIGraphicsGetCurrentContext(), rect)
-
-        var c: CGContextRef = UIGraphicsGetCurrentContext()
-        CGContextSaveGState(c)
-        CGContextSetBlendMode(c, blendMode)
-        UIRectFrame(rect)
-        CGContextRestoreGState(c)
+public func UIRectFrameUsingBlendMode(rect: CGRect, _ blendMode: CGBlendMode)
+{
+	let c = UIGraphicsGetCurrentContext()
+	CGContextSaveGState(c)
+	CGContextSetBlendMode(c, blendMode)
+	UIRectFrame(rect)
+	CGContextRestoreGState(c)
+}

@@ -29,23 +29,28 @@
 
 import Foundation
 
-let UIKeyInputUpArrow: String = "UIKeyInputUpArrow"
+public let UIKeyInputUpArrow: String = "UIKeyInputUpArrow"
 
-let UIKeyInputDownArrow: String = "UIKeyInputDownArrow"
+public let UIKeyInputDownArrow: String = "UIKeyInputDownArrow"
 
-let UIKeyInputLeftArrow: String = "UIKeyInputLeftArrow"
+public let UIKeyInputLeftArrow: String = "UIKeyInputLeftArrow"
 
-let UIKeyInputRightArrow: String = "UIKeyInputRightArrow"
+public let UIKeyInputRightArrow: String = "UIKeyInputRightArrow"
 
-let UIKeyInputEscape: String = "UIKeyInputEscape"
+public let UIKeyInputEscape: String = "UIKeyInputEscape"
 
-class UIResponder: NSObject {
+public class UIResponder: NSObject {
     func nextResponder() -> UIResponder? {
         return nil
     }
+	
+	public override init() {
+		
+		super.init()
+	}
 
     func isFirstResponder() -> Bool {
-        return (self._responderWindow()._firstResponder() == self)
+        return (self._responderWindow()?._firstResponder() == self)
     }
 
     func canBecomeFirstResponder() -> Bool {
@@ -59,7 +64,7 @@ class UIResponder: NSObject {
         else {
             var window: UIWindow! = self._responderWindow()
             var firstResponder: UIResponder = window._firstResponder()
-            if window && self.canBecomeFirstResponder() {
+            if window != nil && self.canBecomeFirstResponder() {
                 var didResign: Bool = false
                 if firstResponder && firstResponder.canResignFirstResponder() {
                     didResign = firstResponder.resignFirstResponder()
@@ -112,19 +117,19 @@ class UIResponder: NSObject {
         }
     }
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.nextResponder().touchesBegan(touches, withEvent: event)
     }
 
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.nextResponder().touchesMoved(touches, withEvent: event)
     }
 
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.nextResponder().touchesEnded(touches, withEvent: event)
     }
 
-    func touchesCancelled(touches: Set<AnyObject>, withEvent event: UIEvent) {
+    func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
         self.nextResponder().touchesCancelled(touches, withEvent: event)
     }
 
@@ -139,36 +144,36 @@ class UIResponder: NSObject {
     func motionCancelled(motion: UIEventSubtype, withEvent event: UIEvent) {
         self.nextResponder().motionCancelled(motion, withEvent: event)
     }
-    var keyCommands: [AnyObject] {
+    var keyCommands: [AnyObject]? {
         get {
             return nil
         }
     }
 
-    var inputAccessoryView: UIView {
+    var inputAccessoryView: UIView? {
         get {
             return nil
         }
     }
 
-    var inputView: UIView {
+    var inputView: UIView? {
         get {
             return nil
         }
     }
 
-    var undoManager: NSUndoManager {
+    var undoManager: NSUndoManager? {
         get {
-            return self.nextResponder().undoManager()
+            return self.nextResponder()?.undoManager
         }
     }
 
-    func _responderWindow() -> UIWindow {
-        if (self is UIView) {
-            return self as! UIView.window()
+    func _responderWindow() -> UIWindow? {
+        if let selUI = self as? UIView {
+            return selUI.window
         }
         else {
-            return self.nextResponder()._responderWindow()
+            return self.nextResponder()?._responderWindow()
         }
     }
     // curiously, the documentation states that all of the following methods do nothing by default but that
@@ -193,40 +198,34 @@ public struct UIKeyModifierFlags: OptionSetType {
 
 
 class UIKeyCommand: NSObject, NSCopying, NSSecureCoding {
-    class func keyCommandWithInput(input: String, modifierFlags: UIKeyModifierFlags, action: Selector) -> UIKeyCommand? {
+    init?(input: String, modifierFlags: UIKeyModifierFlags, action: Selector) {
         // TODO
         return nil
     }
-    var input: String {
-        get {
-            return self.input
-        }
-    }
+    var input: String
 
-    var modifierFlags: UIKeyModifierFlags {
-        get {
-            return self.modifierFlags
-        }
-    }
+    var modifierFlags: UIKeyModifierFlags
 
     class func supportsSecureCoding() -> Bool {
         return true
     }
 
-    convenience required init(coder decoder: NSCoder) {
+    convenience required init?(coder decoder: NSCoder) {
         // note, this requires NSSecureCoding, so you have to do something like this:
         //id obj = [decoder decodeObjectOfClass:[MyClass class] forKey:@"myKey"];
         // TODO
-        self.init()
+        //self.init()
+        return nil
     }
 
     func encodeWithCoder(encoder: NSCoder) {
         // TODO
     }
 
-    convenience override init(zone: NSZone) {
+    func copyWithZone(zone: NSZone) -> AnyObject {
         // this should be okay, because this is an immutable object
 
+        return self
     }
 }
 

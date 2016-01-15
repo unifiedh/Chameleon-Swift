@@ -27,7 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-enum UIEventType : Int {
+
+public enum UIEventType : Int {
     case Touches
     case Motion
     // nonstandard
@@ -35,50 +36,46 @@ enum UIEventType : Int {
     case Action
 }
 
-enum UIEventSubtype : Int {
+public enum UIEventSubtype : Int {
     case None = 0
     case MotionShake = 1
 }
 
-class UIEvent: NSObject {
-    func allTouches() -> Set<AnyObject> {
+public class UIEvent: NSObject {
+    func allTouches() -> Set<UITouch>? {
         return nil
     }
 
-    func touchesForView(view: UIView) -> Set<AnyObject> {
-        var touches: NSMutableSet = NSMutableSet.setWithCapacity(1)
-        for touch: UITouch in self.allTouches() {
+    func touchesForView(view: UIView) -> Set<UITouch> {
+        var touches = Set<UITouch>()
+        for touch in self.allTouches() ?? [] {
             if touch.view == view {
-                touches.append(touch)
+                touches.insert(touch)
             }
         }
         return touches
     }
 
-    func touchesForWindow(window: UIWindow) -> Set<AnyObject> {
-        var touches: NSMutableSet = NSMutableSet.setWithCapacity(1)
-        for touch: UITouch in self.allTouches() {
+    func touchesForWindow(window: UIWindow) -> Set<UITouch> {
+        var touches = Set<UITouch>()
+        for touch in self.allTouches() ?? [] {
             if touch.window == window {
-                touches.append(touch)
+                touches.insert(touch)
             }
         }
         return touches
     }
 
-    func touchesForGestureRecognizer(gesture: UIGestureRecognizer) -> Set<AnyObject> {
-        var touches: NSMutableSet = NSMutableSet.setWithCapacity(1)
-        for touch: UITouch in self.allTouches() {
+    func touchesForGestureRecognizer(gesture: UIGestureRecognizer) -> Set<UITouch> {
+        var touches = Set<UITouch>()
+        for touch in self.allTouches() ?? [] {
             if touch.gestureRecognizers.containsObject(gesture) {
-                touches.append(touch)
+                touches.insert(touch)
             }
         }
         return touches
     }
-    var timestamp: NSTimeInterval {
-        get {
-            return self.timestamp
-        }
-    }
+    private(set) var timestamp: NSTimeInterval
 
     var type: UIEventType {
         get {
@@ -92,9 +89,8 @@ class UIEvent: NSObject {
         }
     }
 
-    convenience override init() {
-        if (self.init()) {
-            self.timestamp = NSDate.timeIntervalSinceReferenceDate()
-        }
+    override init() {
+        self.timestamp = NSDate.timeIntervalSinceReferenceDate()
+        super.init()
     }
 }

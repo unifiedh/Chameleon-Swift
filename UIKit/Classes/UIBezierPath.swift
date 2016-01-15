@@ -27,12 +27,20 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-enum UIRectCorner : Int {
-    case TopLeft = 1 << 0
-    case TopRight = 1 << 1
-    case BottomLeft = 1 << 2
-    case BottomRight = 1 << 3
-    case AllCorners = ~0
+
+public struct UIRectCorner : OptionSetType {
+	public let rawValue: UInt
+	
+	public init(rawValue: UInt) {
+		self.rawValue = rawValue
+	}
+	
+	//public static let TopLeft
+    public static let TopLeft = UIRectCorner(rawValue: 1 << 0)
+    public static let TopRight = UIRectCorner(rawValue: 1 << 1)
+    public static let BottomLeft = UIRectCorner(rawValue: 1 << 2)
+    public static let BottomRight = UIRectCorner(rawValue: 1 << 3)
+    public static let AllCorners = UIRectCorner(rawValue: ~0)
 }
 
 class UIBezierPath: NSObject, NSCopying {
@@ -306,29 +314,22 @@ class UIBezierPath: NSObject, NSCopying {
             return CGPathGetBoundingBox(path)
         }
     }
-    var self.lineDashPattern: CGFloat
-    var self.lineDashCount: Int
-    var self.lineDashPhase: CGFloat
+    var lineDashPattern: CGFloat
+    var lineDashCount: Int
+    var lineDashPhase: CGFloat
 
 
-    convenience override init() {
-        if (self.init()) {
+	override init() {
             self.lineWidth = 1
-            self.lineCapStyle = kCGLineCapButt
-            self.lineJoinStyle = kCGLineJoinMiter
+            self.lineCapStyle = CGLineCap.Butt
+            self.lineJoinStyle = CGLineJoin.Miter
             self.miterLimit = 10
             self.flatness = 0.6
             self.usesEvenOddFillRule = false
             self.lineDashPattern = nil
             self.lineDashCount = 0
             self.lineDashPhase = 0
-        }
-    }
-
-    func dealloc() {
-        if path != nil {
-            CGPathRelease(path)
-        }
+			super.init()
     }
 
     convenience override init(zone: NSZone) {

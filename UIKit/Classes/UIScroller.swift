@@ -27,16 +27,34 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-    var UIScrollerWidthForBoundsSize: CGFloat
+import Foundation
 
-protocol _UIScrollerDelegate {
-    func _UIScrollerDidBeginDragging(scroller: UIScroller, withEvent event: UIEvent)
+
+private let UIScrollerMinimumAlpha: CGFloat = 0;
+
+private let UIScrollerGutterEnabled = false;
+private let UIScrollerJumpToSpotThatIsClicked = false;	// _UIScrollerGutterEnabled must be YES for this to have any meaning
+
+func UIScrollerWidthForBoundsSize(boundsSize: CGSize) -> CGFloat
+{
+	let minViewSize: CGFloat = 50;
+	
+	if (boundsSize.width <= minViewSize || boundsSize.height <= minViewSize) {
+		return 6;
+	} else {
+		return 10;
+	}
+}
+
+protocol _UIScrollerDelegate: NSObjectProtocol {
+    func _UIScrollerDidBeginDragging(scroller: UIScroller, withEvent event: UIEvent!)
 
     func _UIScroller(scroller: UIScroller, contentOffsetDidChange newOffset: CGFloat)
 
-    func _UIScrollerDidEndDragging(scroller: UIScroller, withEvent event: UIEvent)
+    func _UIScrollerDidEndDragging(scroller: UIScroller, withEvent event: UIEvent!)
 }
-class UIScroller: UIView {
+
+internal class UIScroller: UIView {
     // NOTE: UIScroller set's its own alpha to 0 when it is created, so it is NOT visible by default!
     // the flash/quickFlash methods alter its own alpha in order to fade in/out, etc.
     func flash() {
@@ -56,12 +74,12 @@ class UIScroller: UIView {
         get {
             return self.alwaysVisible
         }
-        set {
+        set(v) {
             self.alwaysVisible = v
             if alwaysVisible {
                 self._fadeIn()
             }
-            else if self.alpha > UIScrollerMinimumAlpha && !fadeTimer {
+            else if self.alpha > UIScrollerMinimumAlpha && fadeTimer == nil {
                 self._fadeOut()
             }
     
@@ -69,12 +87,12 @@ class UIScroller: UIView {
     }
 
     // if YES, -flash has no effect on the scroller's alpha, setting YES fades alpha to 1, setting NO fades it out if it was visible
-    weak var delegate: _UIScrollerDelegate
+    weak var delegate: _UIScrollerDelegate?
     var contentSize: CGFloat {
         get {
             return self.contentSize
         }
-        set {
+        set(newContentSize) {
             self.contentSize = newContentSize
             self.setNeedsDisplay()
         }
@@ -85,7 +103,7 @@ class UIScroller: UIView {
         get {
             return self.contentOffset
         }
-        set {
+        set(newOffset) {
             self.contentOffset = min(max(0, newOffset), contentSize)
             self.setNeedsDisplay()
         }
@@ -96,34 +114,34 @@ class UIScroller: UIView {
         get {
             return self.indicatorStyle
         }
-        set {
+        set(style) {
             self.indicatorStyle = style
             self.setNeedsDisplay()
         }
     }
-    var self.dragOffset: CGFloat
-    var self.draggingKnob: Bool
-    var self.isVertical: Bool
-    var self.lastTouchLocation: CGPoint
-    var self.holdTimer: NSTimer
-    var self.fadeTimer: NSTimer
+    var dragOffset: CGFloat = 0
+    var draggingKnob: Bool = false
+    var isVertical: Bool = false
+    var lastTouchLocation: CGPoint = .zero
+    var holdTimer: NSTimer?
+    var fadeTimer: NSTimer?
 
 
-    convenience override init(frame: CGRect) {
-        if (self.init(frame: frame)) {
+	override init(frame: CGRect) {
             self.opaque = false
             self.alpha = UIScrollerMinimumAlpha
             self.indicatorStyle = .Default
-        }
+		super.init(frame: frame)
     }
 
-    func setFrame(frame: CGRect) {
-        self.isVertical = (frame.size.height > frame.size.width)
-        super.frame = frame
-    }
+	override var frame: CGRect {
+		willSet {
+			self.isVertical = (newValue.size.height > newValue.size.width)
+		}
+	}
 
     func _fadeOut() {
-        fadeTimer.invalidate()
+        fadeTimer?.invalidate()
         self.fadeTimer = nil
         UIView.animateWithDuration(0.33, delay: 0, options: [.CurveEaseOut, .TransitionNone, .AllowUserInteraction, .BeginFromCurrentState], animations: {() -> Void in
             self.alpha = UIScrollerMinimumAlpha
@@ -131,12 +149,12 @@ class UIScroller: UIView {
     }
 
     func _fadeOutAfterDelay(time: NSTimeInterval) {
-        fadeTimer.invalidate()
+        fadeTimer?.invalidate()
         self.fadeTimer = NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: "_fadeOut", userInfo: nil, repeats: false)
     }
 
     func _fadeIn() {
-        fadeTimer.invalidate()
+        fadeTimer?.invalidate()
         self.fadeTimer = nil
         UIView.animateWithDuration(0.33, delay: 0, options: [.CurveEaseOut, .TransitionNone, .AllowUserInteraction, .BeginFromCurrentState], animations: {() -> Void in
             self.alpha = 1
@@ -219,15 +237,14 @@ class UIScroller: UIView {
         self.holdTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: "autoPageContent", userInfo: nil, repeats: true)
     }
 
-    func drawRect(rect: CGRect) {
+    override func drawRect(rect: CGRect) {
         var knobRect: CGRect = self.knobRect()
         if isVertical {
             knobRect.origin.y += 2
             knobRect.size.height -= 4
             knobRect.origin.x += 1
             knobRect.size.width -= 3
-        }
-        else {
+        } else {
             knobRect.origin.y += 1
             knobRect.size.height -= 3
             knobRect.origin.x += 2
@@ -235,14 +252,14 @@ class UIScroller: UIView {
         }
         var path: UIBezierPath = UIBezierPath(roundedRect: knobRect, cornerRadius: 4)
         if indicatorStyle == .Black {
-            UIColor.blackColor()(alphaComponent: 0.5).setFill()
+            UIColor.blackColor().colorWithAlphaComponent(0.5).setFill()
         }
         else if indicatorStyle == .White {
-            UIColor.whiteColor()(alphaComponent: 0.5).setFill()
+            UIColor.whiteColor().colorWithAlphaComponent(0.5).setFill()
         }
         else {
-            UIColor.blackColor()(alphaComponent: 0.5).setFill()
-            UIColor.whiteColor()(alphaComponent: 0.3).setStroke()
+            UIColor.blackColor().colorWithAlphaComponent(0.5).setFill()
+            UIColor.whiteColor().colorWithAlphaComponent(0.5).setStroke()
             path.lineWidth = 1.8
             path.stroke()
         }
@@ -256,51 +273,48 @@ class UIScroller: UIView {
         if CGRectContainsPoint(knobRect, lastTouchLocation) {
             if isVertical {
                 self.dragOffset = lastTouchLocation.y - knobRect.origin.y
-            }
-            else {
+            } else {
                 self.dragOffset = lastTouchLocation.x - knobRect.origin.x
             }
             self.draggingKnob = true
-            delegate._UIScrollerDidBeginDragging(self, withEvent: event)
+            delegate?._UIScrollerDidBeginDragging(self, withEvent: event)
         }
         else if UIScrollerGutterEnabled {
-            delegate._UIScrollerDidBeginDragging(self, withEvent: event)
+            delegate?._UIScrollerDidBeginDragging(self, withEvent: event)
             if UIScrollerJumpToSpotThatIsClicked {
                 self.dragOffset = self.knobSize() / 2.0
                 self.draggingKnob = true
                 self.setContentOffsetWithLastTouch()
-                delegate._UIScroller(self, contentOffsetDidChange: contentOffset)
-            }
-            else {
+                delegate?._UIScroller(self, contentOffsetDidChange: contentOffset)
+            } else {
                 self.autoPageContent()
                 self.holdTimer = NSTimer.scheduledTimerWithTimeInterval(0.33, target: self, selector: "startHoldPaging", userInfo: nil, repeats: false)
             }
         }
-
     }
 
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.lastTouchLocation = touches.first!.locationInView(self)
         if draggingKnob {
             self.setContentOffsetWithLastTouch()
-            delegate._UIScroller(self, contentOffsetDidChange: contentOffset)
+            delegate?._UIScroller(self, contentOffsetDidChange: contentOffset)
         }
     }
 
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if draggingKnob {
             self.draggingKnob = false
-            delegate._UIScrollerDidEndDragging(self, withEvent: event)
+            delegate?._UIScrollerDidEndDragging(self, withEvent: event)
         }
-        else if holdTimer {
-            delegate._UIScrollerDidEndDragging(self, withEvent: event)
+        else if let holdTimer = holdTimer {
+            delegate?._UIScrollerDidEndDragging(self, withEvent: event)
             holdTimer.invalidate()
             self.holdTimer = nil
         }
 
     }
 
-    func hitTest(point: CGPoint, withEvent event: UIEvent) -> UIView {
+    override func hitTest(point: CGPoint, withEvent event: UIEvent) -> UIView {
         var hit: UIView = super.hitTest(point, withEvent: event)
         // if the gutter is disabled, then we pretend the view is invisible to events if the user clicks in the gutter
         // otherwise the scroller would capture those clicks and things wouldn't work as expected.
@@ -311,17 +325,3 @@ class UIScroller: UIView {
     }
 }
 
-    let self.UIScrollerGutterEnabled: Bool = false
-
-    let self.UIScrollerJumpToSpotThatIsClicked: Bool = false
-
-// _UIScrollerGutterEnabled must be YES for this to have any meaning
-    let self.UIScrollerMinimumAlpha: CGFloat = 0
-
-        let minViewSize: CGFloat = 50
-        if boundsSize.width <= minViewSize || boundsSize.height <= minViewSize {
-            return 6
-        }
-        else {
-            return 10
-        }
