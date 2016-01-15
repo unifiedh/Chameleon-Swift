@@ -156,7 +156,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
 
     func insertSubview(subview: UIView, atIndex index: Int) {
         self.addSubview(subview)
-        layer.insertSublayer(subview.layer, atIndex: index)
+        //layer.insertSublayer(subview.layer, atIndex: index)
     }
 
     func insertSubview(subview: UIView, belowSubview below: UIView) {
@@ -418,7 +418,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     var alpha: CGFloat
     var opaque: Bool
     var clearsContextBeforeDrawing: Bool
-    var backgroundColor: UIColor
+    var backgroundColor: UIColor?
     var layer: CALayer
 
     var clipsToBounds: Bool
@@ -450,13 +450,13 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     }
 
     public init(frame theFrame: CGRect) {
-            self.implementsDrawRect = self._instanceImplementsDrawRect()
+            self.implementsDrawRect = self.dynamicType._instanceImplementsDrawRect()
             self.clearsContextBeforeDrawing = true
             self.autoresizesSubviews = true
             self.userInteractionEnabled = true
             //self.subviews = NSMutableSet()
             self.gestureRecognizers = []
-            //self.layer = self.dynamicType.layerClass()()
+            //self.layer = self.dynamicType.layerClass().dynamicType.init()!
 		layer = CALayer()
             self.layer.delegate = self
             self.layer.layoutManager = UIViewLayoutManager.layoutManager()
@@ -600,10 +600,10 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         // a bunch of unnecessary memory in those cases - but you can still use background colors because CALayer manages that effeciently.
         // note that the last time I checked this, the layer's background color was being set immediately on call to -setBackgroundColor:
         // when there was no -drawRect: implementation, but I needed to change this to work around issues with pattern image colors in HiDPI.
-        self.layer.backgroundColor = self.backgroundColor._bestRepresentationForProposedScale(self.window.screen.scale).CGColor
+        self.layer.backgroundColor = self.backgroundColor?._bestRepresentationForProposedScale(self.window.screen.scale).CGColor
     }
 
-    func respondsToSelector(aSelector: Selector) -> Bool {
+    public override func respondsToSelector(aSelector: Selector) -> Bool {
         // For notes about why this is done, see displayLayer: above.
         if aSelector == "displayLayer:" {
             return !implementsDrawRect
@@ -613,7 +613,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         }
     }
 
-    func drawLayer(layer: CALayer, inContext ctx: CGContextRef) {
+    public override func drawLayer(layer: CALayer, inContext ctx: CGContextRef) {
         // We only get here if the UIView subclass implements drawRect:. To do this without a drawRect: is a huge waste of memory.
         // See the discussion in drawLayer: above.
         let bounds: CGRect = CGContextGetClipBoundingBox(ctx)
@@ -622,8 +622,8 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         if clearsContextBeforeDrawing {
             CGContextClearRect(ctx, bounds)
         }
-        if backgroundColor! {
-            backgroundColor!.setFill()
+        if let backgroundColor = backgroundColor {
+            backgroundColor.setFill()
             CGContextFillRect(ctx, bounds)
         }
         /*

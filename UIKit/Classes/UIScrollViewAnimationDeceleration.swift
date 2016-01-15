@@ -27,7 +27,16 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-    var UIScrollViewAnimationDecelerationComponent: struct{NSTimeIntervaldecelerateTime;CGFloatposition;CGFloatvelocity;NSTimeIntervalreturnTime;CGFloatreturnFrom;BOOLbounced;}
+import Foundation
+
+struct UIScrollViewAnimationDecelerationComponent {
+	var decelerateTime: NSTimeInterval = 0
+	var position: CGFloat = 0
+	var velocity: CGFloat = 0
+	var returnTime: NSTimeInterval = 0
+	var returnFrom: CGFloat
+	var bounced: Bool = false
+};
 
 class UIScrollViewAnimationDeceleration: UIScrollViewAnimation {
     convenience override init(scrollView sv: UIScrollView, velocity v: CGPoint) {

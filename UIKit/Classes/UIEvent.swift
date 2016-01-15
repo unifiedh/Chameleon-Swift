@@ -79,7 +79,7 @@ public class UIEvent: NSObject {
 
     var type: UIEventType {
         get {
-            return -1
+            return .Keyboard
         }
     }
 

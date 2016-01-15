@@ -27,7 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-enum UIButtonType : Int {
+public enum UIButtonType : Int {
     case Custom = 0
     case RoundedRect
     case DetailDisclosure
@@ -36,7 +36,7 @@ enum UIButtonType : Int {
     case ContactAdd
 }
 
-class UIButton: UIControl {
+public class UIButton: UIControl {
     var self.buttonType: UIButtonType
 
     convenience init(buttonType: UIButtonType) {
