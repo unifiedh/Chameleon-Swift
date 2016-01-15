@@ -32,44 +32,44 @@ import QuartzCore
 
     public typealias UIWindowLevel = CGFloat
 
-let UIWindowLevelNormal: UIWindowLevel = 0
+public let UIWindowLevelNormal: UIWindowLevel = 0
 
-let UIWindowLevelStatusBar: UIWindowLevel = 1000
+public let UIWindowLevelStatusBar: UIWindowLevel = 1000
 
-let UIWindowLevelAlert: UIWindowLevel = 2000
+public let UIWindowLevelAlert: UIWindowLevel = 2000
 
-let UIWindowDidBecomeVisibleNotification: String = "UIWindowDidBecomeVisibleNotification"
+public let UIWindowDidBecomeVisibleNotification: String = "UIWindowDidBecomeVisibleNotification"
 
-let UIWindowDidBecomeHiddenNotification: String = "UIWindowDidBecomeHiddenNotification"
+public let UIWindowDidBecomeHiddenNotification: String = "UIWindowDidBecomeHiddenNotification"
 
-let UIWindowDidBecomeKeyNotification: String = "UIWindowDidBecomeKeyNotification"
+public let UIWindowDidBecomeKeyNotification: String = "UIWindowDidBecomeKeyNotification"
 
-let UIWindowDidResignKeyNotification: String = "UIWindowDidResignKeyNotification"
+public let UIWindowDidResignKeyNotification: String = "UIWindowDidResignKeyNotification"
 
-let UIKeyboardWillShowNotification: String = "UIKeyboardWillShowNotification"
+public let UIKeyboardWillShowNotification: String = "UIKeyboardWillShowNotification"
 
-let UIKeyboardDidShowNotification: String = "UIKeyboardDidShowNotification"
+public let UIKeyboardDidShowNotification: String = "UIKeyboardDidShowNotification"
 
-let UIKeyboardWillHideNotification: String = "UIKeyboardWillHideNotification"
+public let UIKeyboardWillHideNotification: String = "UIKeyboardWillHideNotification"
 
-let UIKeyboardDidHideNotification: String = "UIKeyboardDidHideNotification"
+public let UIKeyboardDidHideNotification: String = "UIKeyboardDidHideNotification"
 
-let UIKeyboardWillChangeFrameNotification: String = "UIKeyboardWillChangeFrameNotification"
+public let UIKeyboardWillChangeFrameNotification: String = "UIKeyboardWillChangeFrameNotification"
 
-let UIKeyboardFrameBeginUserInfoKey: String = "UIKeyboardFrameBeginUserInfoKey"
+public let UIKeyboardFrameBeginUserInfoKey: String = "UIKeyboardFrameBeginUserInfoKey"
 
-let UIKeyboardFrameEndUserInfoKey: String = "UIKeyboardFrameEndUserInfoKey"
+public let UIKeyboardFrameEndUserInfoKey: String = "UIKeyboardFrameEndUserInfoKey"
 
-let UIKeyboardAnimationDurationUserInfoKey: String = "UIKeyboardAnimationDurationUserInfoKey"
+public let UIKeyboardAnimationDurationUserInfoKey: String = "UIKeyboardAnimationDurationUserInfoKey"
 
-let UIKeyboardAnimationCurveUserInfoKey: String = "UIKeyboardAnimationCurveUserInfoKey"
+public let UIKeyboardAnimationCurveUserInfoKey: String = "UIKeyboardAnimationCurveUserInfoKey"
 
 // deprecated
-let UIKeyboardCenterBeginUserInfoKey: String = "UIKeyboardCenterBeginUserInfoKey"
+public let UIKeyboardCenterBeginUserInfoKey: String = "UIKeyboardCenterBeginUserInfoKey"
 
-let UIKeyboardCenterEndUserInfoKey: String = "UIKeyboardCenterEndUserInfoKey"
+public let UIKeyboardCenterEndUserInfoKey: String = "UIKeyboardCenterEndUserInfoKey"
 
-let UIKeyboardBoundsUserInfoKey: String = "UIKeyboardBoundsUserInfoKey"
+public let UIKeyboardBoundsUserInfoKey: String = "UIKeyboardBoundsUserInfoKey"
 
 public class UIWindow: UIView {
     func convertPoint(var toConvert: CGPoint, toWindow: UIWindow?) -> CGPoint {

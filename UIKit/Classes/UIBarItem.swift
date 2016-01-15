@@ -27,23 +27,24 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-class UIBarItem: NSObject, UIAppearance {
-    func setTitleTextAttributes(attributes: [NSObject : AnyObject], forState state: UIControlState) {
+import Foundation
+
+public class UIBarItem: NSObject, UIAppearance {
+    public func setTitleTextAttributes(attributes: [NSObject : AnyObject], forState state: UIControlState) {
     }
 
-    func titleTextAttributesForState(state: UIControlState) -> [NSObject : AnyObject] {
+    public func titleTextAttributesForState(state: UIControlState) -> [NSObject : AnyObject]? {
         return nil
     }
     var enabled: Bool
-    var image: UIImage
+    var image: UIImage?
     var imageInsets: UIEdgeInsets
-    var title: String
-    var tag: Int
+    var title: String?
+    var tag: Int = 0
 
-    convenience override init() {
-        if (self.init()) {
-            self.enabled = true
-            self.imageInsets = UIEdgeInsetsZero
-        }
+    public override init() {
+		enabled = true
+		imageInsets = UIEdgeInsetsZero
+		super.init()
     }
 }

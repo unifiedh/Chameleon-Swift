@@ -60,9 +60,9 @@ enum UIBarButtonItemStyle : Int {
     case Done
 }
 
-class UIBarButtonItem: UIBarItem {
-    var self.isSystemItem: Bool
-    var self.systemItem: UIBarButtonSystemItem
+public class UIBarButtonItem: UIBarItem {
+    var isSystemItem: Bool = false
+    var systemItem: UIBarButtonSystemItem = .Done
 
     convenience override init(barButtonSystemItem systemItem: UIBarButtonSystemItem, target: AnyObject, action: Selector) {
         if (self = self()) {

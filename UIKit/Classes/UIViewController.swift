@@ -29,14 +29,14 @@
 
 import Foundation
 
-enum UIModalPresentationStyle : Int {
+public enum UIModalPresentationStyle : Int {
     case UIModalPresentationFullScreen = 0
     case UIModalPresentationPageSheet
     case UIModalPresentationFormSheet
     case UIModalPresentationCurrentContext
 }
 
-enum UIModalTransitionStyle : Int {
+public enum UIModalTransitionStyle : Int {
     case CoverVertical = 0
     case FlipHorizontal
     case CrossDissolve
@@ -52,46 +52,46 @@ public class UIViewController: UIResponder {
     }
     // won't load a nib no matter what you do!
 
-    func isViewLoaded() -> Bool {
+    public func isViewLoaded() -> Bool {
         return (view != nil)
     }
 
-	func loadView() {
+	public func loadView() {
         self.view = UIView(frame: CGRectMake(0, 0, 320, 480))
     }
 
-	func viewDidLoad() {
+	public func viewDidLoad() {
     }
 
-    func viewDidUnload() {
+    public func viewDidUnload() {
     }
 
-	func viewWillAppear(animated: Bool) {
+	public func viewWillAppear(animated: Bool) {
     }
 
-	func viewDidAppear(animated: Bool) {
+	public func viewDidAppear(animated: Bool) {
     }
 
-	func viewWillDisappear(animated: Bool) {
+	public func viewWillDisappear(animated: Bool) {
     }
 
-	func viewDidDisappear(animated: Bool) {
+	public func viewDidDisappear(animated: Bool) {
     }
 
-    func viewWillLayoutSubviews() {
+    public func viewWillLayoutSubviews() {
     }
 
-    func viewDidLayoutSubviews() {
+    public func viewDidLayoutSubviews() {
     }
 
-    func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: () -> Void) {
+    public func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: () -> Void) {
     }
 
-    func dismissViewControllerAnimated(flag: Bool, completion: () -> Void) {
+    public func dismissViewControllerAnimated(flag: Bool, completion: () -> Void) {
     }
     // these are deprecated on iOS 6
 
-	func presentModalViewController(modalViewController: UIViewController, animated: Bool) {
+	public func presentModalViewController(modalViewController: UIViewController, animated: Bool) {
         /*
             if (!_modalViewController && _modalViewController != self) {
                 _modalViewController = modalViewController;
@@ -117,7 +117,7 @@ public class UIViewController: UIResponder {
     }
     // works, but not exactly correctly.
 
-	func dismissModalViewControllerAnimated(animated: Bool) {
+	public func dismissModalViewControllerAnimated(animated: Bool) {
         /*
             // NOTE: This is not implemented entirely correctly - the actual dismissModalViewController is somewhat subtle.
             // There is supposed to be a stack of modal view controllers that dismiss in a specific way,e tc.
@@ -147,27 +147,27 @@ public class UIViewController: UIResponder {
     }
     // see comments in dismissModalViewController
 
-	func didReceiveMemoryWarning() {
+	public func didReceiveMemoryWarning() {
     }
     // is called when UIApplicationDidReceiveMemoryWarningNotification is posted, which is currently only done by private API for.. fun, I guess?
 
-    func setToolbarItems(toolbarItems: [UIToolbarItem], animated: Bool) {
+    public func setToolbarItems(toolbarItems: [UIToolbarItem], animated: Bool) {
 		if toolbarItems == toolbarItems {
 			self.toolbarItems = toolbarItems
 			self.navigationController?.toolbar.setItems(toolbarItems, animated: animated)
 		}
     }
 
-    func setEditing(editing: Bool, animated: Bool) {
+    public func setEditing(editing: Bool, animated: Bool) {
         _editing = editing
     }
 
-    func editButtonItem() -> UIBarButtonItem? {
+    public func editButtonItem() -> UIBarButtonItem? {
         // this should really return a fancy bar button item that toggles between edit/done and sends setEditing:animated: messages to this controller
         return nil
     }
 
-	func shouldAutorotateToInterfaceOrientation(interfaceOrientation: UIInterfaceOrientation) -> Bool {
+	public func shouldAutorotateToInterfaceOrientation(interfaceOrientation: UIInterfaceOrientation) -> Bool {
         return (interfaceOrientation == .Portrait)
     }
 

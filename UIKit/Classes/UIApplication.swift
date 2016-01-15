@@ -28,7 +28,7 @@
  */
 
 
-    import Cocoa
+import Cocoa
 
 
 let UIApplicationDidChangeStatusBarOrientationNotification: String = "UIApplicationDidChangeStatusBarOrientationNotification"
@@ -73,30 +73,36 @@ enum UIStatusBarAnimation : Int {
     case Slide
 }
 
-enum UIInterfaceOrientation : Int {
-    case Portrait = .Portrait
-    case PortraitUpsideDown = .PortraitUpsideDown
-    case LandscapeLeft = .LandscapeRight
-    case LandscapeRight = .LandscapeLeft
+public enum UIInterfaceOrientation : Int {
+    case Portrait = 1
+    case PortraitUpsideDown = 2
+    case LandscapeLeft = 3
+    case LandscapeRight = 4
+	
+	var isPortrait: Bool {
+		return self == .Portrait ||
+			self == .PortraitUpsideDown
+	}
+
+	var isLandscape: Bool {
+		return self == .LandscapeLeft || self == .LandscapeRight
+	}
 }
 
-enum .Mask : Int {
-    case UIInterfaceOrientationMaskPortrait = (1 << .Portrait)
-    case UIInterfaceOrientationMaskLandscapeLeft = (1 << .LandscapeLeft)
-    case UIInterfaceOrientationMaskLandscapeRight = (1 << .LandscapeRight)
-    case UIInterfaceOrientationMaskPortraitUpsideDown = (1 << .PortraitUpsideDown)
-    case UIInterfaceOrientationMaskLandscape = ([.LandscapeLeft, .LandscapeRight])
-    case UIInterfaceOrientationMaskAll = ([.Portrait, .LandscapeLeft, .LandscapeRight, .PortraitUpsideDown])
-    case UIInterfaceOrientationMaskAllButUpsideDown = ([.Portrait, .LandscapeLeft, .LandscapeRight])
+struct UIInterfaceOrientationMask : OptionSetType {
+	typealias RawValue = UInt
+	let rawValue: UInt
+    static let Portrait = UIInterfaceOrientationMask(rawValue: UInt(1 << UIInterfaceOrientation.Portrait.rawValue))
+	static let LandscapeLeft = UIInterfaceOrientationMask(rawValue: UInt(1 << UIInterfaceOrientation.LandscapeLeft.rawValue))
+	static let LandscapeRight = UIInterfaceOrientationMask(rawValue: UInt(1 << UIInterfaceOrientation.LandscapeRight.rawValue))
+	static let PortraitUpsideDown = UIInterfaceOrientationMask(rawValue: UInt(1 << UIInterfaceOrientation.PortraitUpsideDown.rawValue))
+
+	static let Landscape: UIInterfaceOrientationMask = [.LandscapeLeft, .LandscapeRight]
+	static let All: UIInterfaceOrientationMask = [.Portrait, .LandscapeLeft, .LandscapeRight, .PortraitUpsideDown]
+	static let AllButUpsideDown: UIInterfaceOrientationMask = [.Portrait, .LandscapeLeft, .LandscapeRight]
 }
 
-//#define UIInterfaceOrientationIsPortrait(orientation) \
-        .Portrait || 
-        (orientation) == .PortraitUpsideDown)
 
-//#define UIInterfaceOrientationIsLandscape(orientation) \
-        .LandscapeLeft || 
-        (orientation) == .LandscapeRight)
         // push is not gonna work in mac os, unless you are apple (facetime)
 enum UIRemoteNotificationType : Int {
         case None = 0
