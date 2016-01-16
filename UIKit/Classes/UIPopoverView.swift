@@ -237,50 +237,47 @@ private struct LineSegment {
 }
 
 private func LineSegmentMake(from: CGPoint, _ to: CGPoint) -> LineSegment {
-        var segment: LineSegment
-        segment.from = from
-        segment.to = to
-        return segment
+	return LineSegment(from: from, to: to)
 }
 
 private func LineSegmentsIntersect(line1: LineSegment, _ line2: LineSegment, _ intersection: UnsafeMutablePointer<CGPoint>) -> Bool {
-        /*
-             E = B-A = ( Bx-Ax, By-Ay )
-             F = D-C = ( Dx-Cx, Dy-Cy ) 
-             P = ( -Ey, Ex )
-             h = ( (A-C) * P ) / ( F * P )
-             
-             I = C + F*h
-             */
-        let A: CGPoint = line1.from
-        let B: CGPoint = line1.to
-        let C: CGPoint = line2.from
-        let D: CGPoint = line2.to
-        let E: CGPoint = CGPointMake(B.x - A.x, B.y - A.y)
-        let F: CGPoint = CGPointMake(D.x - C.x, D.y - C.y)
-        let P: CGPoint = CGPointMake(-E.y, E.x)
-        let AC: CGPoint = CGPointMake(A.x - C.x, A.y - C.y)
-        let h2: CGFloat = F.x * P.x + F.y * P.y
-        // if h2 is 0, the lines are parallel
-        if h2 != 0 {
-            let h1: CGFloat = AC.x * P.x + AC.y * P.y
-            let h: CGFloat = h1 / h2
-            // if h is exactly 0 or 1, the lines touched on the end - we won't consider that an intersection
-            if h > 0 && h < 1 {
-                if intersection != nil {
-                    let I: CGPoint = CGPointMake(C.x + F.x * h, C.y + F.y * h)
-                    intersection.memory.x = I.x
-                    intersection.memory.y = I.y
-                }
-                return true
-            }
-        }
-        return false
+	/*
+	E = B-A = ( Bx-Ax, By-Ay )
+	F = D-C = ( Dx-Cx, Dy-Cy )
+	P = ( -Ey, Ex )
+	h = ( (A-C) * P ) / ( F * P )
+	
+	I = C + F*h
+	*/
+	let A: CGPoint = line1.from
+	let B: CGPoint = line1.to
+	let C: CGPoint = line2.from
+	let D: CGPoint = line2.to
+	let E: CGPoint = CGPointMake(B.x - A.x, B.y - A.y)
+	let F: CGPoint = CGPointMake(D.x - C.x, D.y - C.y)
+	let P: CGPoint = CGPointMake(-E.y, E.x)
+	let AC: CGPoint = CGPointMake(A.x - C.x, A.y - C.y)
+	let h2: CGFloat = F.x * P.x + F.y * P.y
+	// if h2 is 0, the lines are parallel
+	if h2 != 0 {
+		let h1: CGFloat = AC.x * P.x + AC.y * P.y
+		let h: CGFloat = h1 / h2
+		// if h is exactly 0 or 1, the lines touched on the end - we won't consider that an intersection
+		if h > 0 && h < 1 {
+			if intersection != nil {
+				let I: CGPoint = CGPointMake(C.x + F.x * h, C.y + F.y * h)
+				intersection.memory.x = I.x
+				intersection.memory.y = I.y
+			}
+			return true
+		}
+	}
+	return false
 }
 
 private func DistanceBetweenTwoPoints(A: CGPoint, _ B: CGPoint) -> CGFloat {
-        var a: CGFloat = B.x - A.x
-        var b: CGFloat = B.y - A.y
-        return sqrt((a * a) + (b * b))
+	let a = B.x - A.x
+	let b = B.y - A.y
+	return sqrt((a * a) + (b * b))
 }
 

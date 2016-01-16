@@ -212,7 +212,7 @@ public class UIWindow: UIView {
         }
     }
 
-    var rootViewController: UIViewController {
+    var rootViewController: UIViewController? {
         get {
             return self.rootViewController
         }
@@ -229,7 +229,7 @@ public class UIWindow: UIView {
             }
         }
     }
-    var firstResponder: UIResponder
+    var firstResponder: UIResponder?
 
 
     override init(frame theFrame: CGRect) {
@@ -255,12 +255,12 @@ public class UIWindow: UIView {
         self.rootViewController = nil
     }
 
-    internal func _firstResponder() -> UIResponder {
+    internal func _firstResponder() -> UIResponder? {
         return firstResponder
     }
 
-    func _setFirstResponder(newFirstResponder: UIResponder) {
-        self.firstResponder = newFirstResponder
+    func _setFirstResponder(newFirstResponder: UIResponder?) {
+        firstResponder = newFirstResponder
     }
 
     func undoManager() -> NSUndoManager {

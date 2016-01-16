@@ -26,19 +26,17 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import AppKit
+
+import Cocoa
+
 class UIPopoverNSWindow: NSWindow {
-    func setPopoverController(controller: UIPopoverController) {
-        self.popoverController = controller!
-    }
-    var self.popoverController: UIPopoverController
+    var popoverController: UIPopoverController?
 
-
-    func canBecomeKeyWindow() -> Bool {
+	override var canBecomeKeyWindow: Bool {
         return true
     }
 
-    func cancelOperation(sender: AnyObject) {
-        popoverController._closePopoverWindowIfPossible()
+    override func cancelOperation(sender: AnyObject) {
+        popoverController?._closePopoverWindowIfPossible()
     }
 }

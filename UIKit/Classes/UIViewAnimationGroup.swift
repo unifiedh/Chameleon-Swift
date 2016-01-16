@@ -94,16 +94,18 @@ internal class UIViewAnimationGroup: NSObject {
         }
     }
 
-    convenience override init(view: UIView, forKey keyPath: String) {
-                    animatingViews.append(view)
+    func actionForView(view: UIView, forKey keyPath: String) -> CAAnimation? {
+		//@synchronized(runningAnimationGroups) {
+		animatingViews.insert(view)
+		//}
 
-        if transitionView && self.transition != .None {
+        if transitionView != nil && self.transition != .None {
             return nil
         }
         else {
             var layer: CALayer = view.layer
             var animation: CABasicAnimation = CABasicAnimation(keyPath: keyPath)
-            animation.fromValue = self.beginsFromCurrentState ? layer.presentationLayer[keyPath] : layer[keyPath]
+            animation.fromValue = self.beginsFromCurrentState ? layer.presentationLayer()?.valueForKey(keyPath) : layer.valueForKey(keyPath)
             return self.addAnimation(animation)
         }
     }
@@ -113,8 +115,8 @@ internal class UIViewAnimationGroup: NSObject {
         self.transitionShouldCache = cache
     }
 
-    func allAnimatingViews() -> [AnyObject] {
-		return animatingViews.allObjects
+    func allAnimatingViews() -> [UIView] {
+		return Array(animatingViews)
 
     }
     var name: String
@@ -169,7 +171,7 @@ internal class UIViewAnimationGroup: NSObject {
     var animationBeginTime: CFTimeInterval
     var transitionView: UIView?
     var transitionShouldCache: Bool
-    var animatingViews: NSMutableSet
+    var animatingViews = Set<UIView>()
 
 
     class func initialize() {
@@ -234,20 +236,22 @@ internal class UIViewAnimationGroup: NSObject {
 
     var runningAnimationGroups: NSMutableSet? = nil
 
+private func CAMediaTimingFunctionFromUIViewAnimationCurve(curve: UIViewAnimationCurve) -> CAMediaTimingFunction?
+{
+	switch (curve) {
+	case .EaseInOut:
+		return CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+	case .EaseIn:
+		return CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+	case .EaseOut:
+		return CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+	case .Linear:
+		return CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+	}
+	return nil;
+}
+
 /*
-        switch curve {
-            case .EaseInOut:
-                return CAMediaTimingFunction.functionWithName(kCAMediaTimingFunctionEaseInEaseOut)
-            case .EaseIn:
-                return CAMediaTimingFunction.functionWithName(kCAMediaTimingFunctionEaseIn)
-            case .EaseOut:
-                return CAMediaTimingFunction.functionWithName(kCAMediaTimingFunctionEaseOut)
-            case .Linear:
-                return CAMediaTimingFunction.functionWithName(kCAMediaTimingFunctionLinear)
-        }
-
-        return nil
-
         return ((options & option) == option)
 
         return (options & ([.CurveEaseInOut, .CurveEaseIn, .CurveEaseOut, .CurveLinear]))

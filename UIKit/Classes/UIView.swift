@@ -604,20 +604,75 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         UIGraphicsPopContext()
     }
 
-	/*
-    convenience override init(theLayer: CALayer, forKey event: String) {
-        if animationsEnabled && animationGroups.lastObject() && theLayer == layer {
-            return animationGroups.lastObject().actionForView(self, forKey: event) ?? NSNull() as! AnyObject
+    public override func actionForLayer(theLayer: CALayer, forKey event: String) -> CAAction? {
+        if UIView.animationsEnabled && animationGroups.last != nil && theLayer == layer {
+            return animationGroups.last!.actionForView(self, forKey: event) ?? NSNull() 
         }
         else {
             return NSNull()
         }
-    }*/
+    }
 
     func _superviewSizeDidChangeFrom(oldSize: CGSize, to newSize: CGSize) {
         if autoresizingMask != .None {
             var frame: CGRect = self.frame
             let delta: CGSize = CGSizeMake(newSize.width - oldSize.width, newSize.height - oldSize.height)
+			
+			func hasAutoresizingFor(a: UIViewAutoresizing) -> Bool {
+				return autoresizingMask.contains(a)
+			}
+			
+			/*
+			
+			top + bottom + height      => y = floor(y + (y / HEIGHT * delta)); height = floor(height + (height / HEIGHT * delta))
+			top + height               => t = y + height; y = floor(y + (y / t * delta); height = floor(height + (height / t * delta);
+			bottom + height            => height = floor(height + (height / (HEIGHT - y) * delta))
+			top + bottom               => y = floor(y + (delta / 2))
+			height                     => height = floor(height + delta)
+			top                        => y = floor(y + delta)
+			bottom                     => y = floor(y)
+			
+			*/
+			
+			if hasAutoresizingFor([.FlexibleTopMargin, .FlexibleHeight , .FlexibleBottomMargin]) {
+				frame.origin.y = floor(frame.origin.y + (frame.origin.y / oldSize.height * delta.height));
+				frame.size.height = floor(frame.size.height + (frame.size.height / oldSize.height * delta.height));
+			} else if hasAutoresizingFor([.FlexibleTopMargin, .FlexibleHeight]) {
+				let t = frame.origin.y + frame.size.height;
+				frame.origin.y = floor(frame.origin.y + (frame.origin.y / t * delta.height));
+				frame.size.height = floor(frame.size.height + (frame.size.height / t * delta.height));
+			} else if hasAutoresizingFor([.FlexibleBottomMargin, .FlexibleHeight]) {
+				frame.size.height = floor(frame.size.height + (frame.size.height / (oldSize.height - frame.origin.y) * delta.height));
+			} else if hasAutoresizingFor([.FlexibleBottomMargin, .FlexibleTopMargin]) {
+				frame.origin.y = floor(frame.origin.y + (delta.height / 2.0));
+			} else if hasAutoresizingFor(.FlexibleHeight) {
+				frame.size.height = floor(frame.size.height + delta.height);
+			} else if hasAutoresizingFor(.FlexibleTopMargin) {
+				frame.origin.y = floor(frame.origin.y + delta.height);
+			} else if hasAutoresizingFor(.FlexibleBottomMargin) {
+				frame.origin.y = floor(frame.origin.y);
+			}
+			
+			if hasAutoresizingFor([.FlexibleLeftMargin, .FlexibleWidth, .FlexibleRightMargin]) {
+				frame.origin.x = floor(frame.origin.x + (frame.origin.x / oldSize.width * delta.width));
+				frame.size.width = floor(frame.size.width + (frame.size.width / oldSize.width * delta.width));
+			} else if hasAutoresizingFor([.FlexibleLeftMargin, .FlexibleWidth]) {
+				let t = frame.origin.x + frame.size.width;
+				frame.origin.x = floor(frame.origin.x + (frame.origin.x / t * delta.width));
+				frame.size.width = floor(frame.size.width + (frame.size.width / t * delta.width));
+			} else if hasAutoresizingFor([.FlexibleRightMargin, .FlexibleWidth]) {
+				frame.size.width = floor(frame.size.width + (frame.size.width / (oldSize.width - frame.origin.x) * delta.width));
+			} else if hasAutoresizingFor([.FlexibleRightMargin, .FlexibleLeftMargin]) {
+				frame.origin.x = floor(frame.origin.x + (delta.width / 2.0));
+			} else if hasAutoresizingFor(.FlexibleWidth) {
+				frame.size.width = floor(frame.size.width + delta.width);
+			} else if hasAutoresizingFor(.FlexibleLeftMargin) {
+				frame.origin.x = floor(frame.origin.x + delta.width);
+			} else if hasAutoresizingFor(.FlexibleRightMargin) {
+				frame.origin.x = floor(frame.origin.x);
+			}
+			
+			self.frame = frame;
         }
     }
 }

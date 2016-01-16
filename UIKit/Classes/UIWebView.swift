@@ -104,6 +104,9 @@ public class UIWebView: UIView, WebPolicyDelegate, WebUIDelegate, WebFrameLoadDe
         get {
             return false
         }
+		set {
+			// do nothing
+		}
     }
 
     private(set) var request: NSURLRequest?
@@ -141,9 +144,11 @@ public class UIWebView: UIView, WebPolicyDelegate, WebUIDelegate, WebFrameLoadDe
     // The only reason this is here is because Flamingo currently tries a hack to get at the web view's internals UIScrollView to get
     // the desk ad view to stop stealing the scrollsToTop event. Lame, yes...
 
-    convenience init?(key: String) {
-        return nil
-    }
+	public override func valueForUndefinedKey(key: String) -> AnyObject? {
+		return nil
+	}
+	
+	// MARK: - WebView Policy Delegate
 
     public func webView(webView: WebView, decidePolicyForNavigationAction actionInformation: [NSObject : AnyObject], request: NSURLRequest, frame: WebFrame, decisionListener listener: WebPolicyDecisionListener) {
         var shouldStartLoad: Bool = false
@@ -175,6 +180,9 @@ public class UIWebView: UIView, WebPolicyDelegate, WebUIDelegate, WebFrameLoadDe
         }
     }
 
+	// MARK: - WebView Frame Load Delegate
+
+	
     public func webView(sender: WebView, didFinishLoadForFrame frame: WebFrame) {
 		delegate?.webViewDidFinishLoad?(self)
         //    [_webViewAdapter becomeFirstResponder];
@@ -185,6 +193,7 @@ public class UIWebView: UIView, WebPolicyDelegate, WebUIDelegate, WebFrameLoadDe
 		delegate?.webView?(self, didFailLoadWithError: error)
     }
 
+	// MARK: - WebView UI Delegate
     public func webView(sender: WebView, makeFirstResponder responder: NSResponder) {
         webViewAdapter.NSView.window().makeFirstResponder(responder)
     }
@@ -197,7 +206,7 @@ public class UIWebView: UIView, WebPolicyDelegate, WebUIDelegate, WebFrameLoadDe
         return false
     }
 
-    override func canBecomeFirstResponder() -> Bool {
+    public override func canBecomeFirstResponder() -> Bool {
         return true
     }
 

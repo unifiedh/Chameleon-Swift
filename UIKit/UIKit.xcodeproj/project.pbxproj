@@ -97,7 +97,6 @@
 		1489860212EE2D9F003D4751 /* UIRotationGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489860012EE2D9F003D4751 /* UIRotationGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		1489860612EE2DBD003D4751 /* UISwipeGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489860412EE2DBD003D4751 /* UISwipeGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		1489860A12EE2DDC003D4751 /* UIPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1489860812EE2DDC003D4751 /* UIPanGestureRecognizer.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1490AFE01219C31C00774286 /* UIPopoverController+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1490AFDE1219C31C00774286 /* UIPopoverController+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
 		149148BC12EE45ED00F7C34E /* UIGestureRecognizerSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149148BA12EE45ED00F7C34E /* UIGestureRecognizerSubclass.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		14A726D71213303400648C9B /* UIImage+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A726B41213303400648C9B /* UIImage+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
 		14A726D81213303400648C9B /* UIImageView+UIPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A726B51213303400648C9B /* UIImageView+UIPrivate.swift */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -608,7 +607,6 @@
 				14A726DA1213303400648C9B /* UIScreen+UIPrivate.swift in Sources */,
 				14A726DC1213303400648C9B /* UITableViewCell+UIPrivate.swift in Sources */,
 				14A726DD1213303400648C9B /* UITouch+UIPrivate.swift in Sources */,
-				1490AFE01219C31C00774286 /* UIPopoverController+UIPrivate.swift in Sources */,
 				14FA8C5F121DA4A000C4264B /* UINinePartImage.swift in Sources */,
 				14FA8C67121DA4A000C4264B /* UIScroller.swift in Sources */,
 				14FA8C69121DA4A000C4264B /* UITableViewCellSeparator.swift in Sources */,

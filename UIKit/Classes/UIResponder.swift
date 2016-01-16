@@ -49,32 +49,30 @@ public class UIResponder: NSObject {
 		super.init()
 	}
 
-    func isFirstResponder() -> Bool {
+    public func isFirstResponder() -> Bool {
         return (self._responderWindow()?._firstResponder() == self)
     }
 
-    func canBecomeFirstResponder() -> Bool {
+    public func canBecomeFirstResponder() -> Bool {
         return false
     }
 
-    func becomeFirstResponder() -> Bool {
+    public func becomeFirstResponder() -> Bool {
         if self.isFirstResponder() {
             return true
-        }
-        else {
+        } else {
             var window: UIWindow! = self._responderWindow()
-            var firstResponder: UIResponder = window._firstResponder()
+            var firstResponder: UIResponder? = window._firstResponder()
             if window != nil && self.canBecomeFirstResponder() {
                 var didResign: Bool = false
-                if firstResponder && firstResponder.canResignFirstResponder() {
+                if let firstResponder = firstResponder where firstResponder.canResignFirstResponder() {
                     didResign = firstResponder.resignFirstResponder()
-                }
-                else {
+                } else {
                     didResign = true
                 }
                 if didResign {
                     window._setFirstResponder(self)
-                    if self.conformsToProtocol() {
+                    if let _ = self as? UIKeyInput {
                         // I have no idea how iOS manages this stuff, but here I'm modeling UIMenuController since it also uses the first
                         // responder to do its work. My thinking is that if there were an on-screen keyboard, something here could detect
                         // if self conforms to UITextInputTraits and UIKeyInput and/or UITextInput and then build/fetch the correct keyboard
@@ -84,7 +82,7 @@ public class UIResponder: NSObject {
                         var controller: UIInputController = UIInputController.sharedInputController()
                         controller.inputAccessoryView = self.inputAccessoryView
                         controller.inputView = self.inputView
-                        controller.keyInputResponder = self as! UIResponder<UIKeyInput>
+                        controller.keyInputResponder = self
                         controller.setInputVisible(true, animated: true)
                         // key input won't very well work without this
                         window.makeKeyWindow()
@@ -96,53 +94,52 @@ public class UIResponder: NSObject {
         }
     }
 
-    func canResignFirstResponder() -> Bool {
+    public func canResignFirstResponder() -> Bool {
         return true
     }
 
-    func resignFirstResponder() -> Bool {
+    public func resignFirstResponder() -> Bool {
         if self.isFirstResponder() {
-            self._responderWindow()._setFirstResponder(nil)
+            self._responderWindow()?._setFirstResponder(nil)
             UIInputController.sharedInputController().setInputVisible(false, animated: true)
         }
         return true
     }
 
-    func canPerformAction(action: Selector, withSender sender: AnyObject) -> Bool {
-        if self.instancesRespondToSelector(action) {
+    public func canPerformAction(action: Selector, withSender sender: AnyObject) -> Bool {
+        if self.dynamicType.instancesRespondToSelector(action) {
             return true
+        } else {
+            return self.nextResponder()?.canPerformAction(action, withSender: sender) ?? false
         }
-        else {
-            return self.nextResponder().canPerformAction(action, withSender: sender)
-        }
     }
 
-    func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.nextResponder().touchesBegan(touches, withEvent: event)
+    public func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.nextResponder()?.touchesBegan(touches, withEvent: event)
     }
 
-    func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.nextResponder().touchesMoved(touches, withEvent: event)
+    public func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.nextResponder()?.touchesMoved(touches, withEvent: event)
     }
 
-    func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.nextResponder().touchesEnded(touches, withEvent: event)
+    public func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.nextResponder()?.touchesEnded(touches, withEvent: event)
     }
 
-    func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
-        self.nextResponder().touchesCancelled(touches, withEvent: event)
+    public func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
+        self.nextResponder()?.touchesCancelled(touches, withEvent: event)
     }
 
-    func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent) {
-        self.nextResponder().motionBegan(motion, withEvent: event)
+    public func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent) {
+        self.nextResponder()?.motionBegan(motion, withEvent: event)
     }
 
-    func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
-        self.nextResponder().motionEnded(motion, withEvent: event)
+    public func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
+        self.nextResponder()?.motionEnded(motion, withEvent: event)
     }
 
-    func motionCancelled(motion: UIEventSubtype, withEvent event: UIEvent) {
-        self.nextResponder().motionCancelled(motion, withEvent: event)
+    public func motionCancelled(motion: UIEventSubtype, withEvent event: UIEvent) {
+        self.nextResponder()?.motionCancelled(motion, withEvent: event)
     }
     var keyCommands: [AnyObject]? {
         get {

@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
 class UIInputController: NSObject {
     class func sharedInputController() -> UIInputController {
         var controller: UIInputController? = nil
@@ -59,7 +61,7 @@ class UIInputController: NSObject {
             NSNotificationCenter.defaultCenter().postNotificationName(UIKeyboardDidHideNotification, object: nil, userInfo: fakeAnimationInfo)
         }
     }
-    var inputAccessoryView: UIView {
+    var inputAccessoryView: UIView? {
         get {
             return self.inputAccessoryView
         }
@@ -72,7 +74,7 @@ class UIInputController: NSObject {
         }
     }
 
-    var inputView: UIView {
+    var inputView: UIView? {
         get {
             return self.inputView
         }
@@ -191,9 +193,11 @@ class UIInputController: NSObject {
     }
 }
 
+/*
         // find the reference view's "container" view, which I'm going to define as the nearest view of a UIViewController or a UIWindow.
         var containerView: UIView = view
         while containerView && !((containerView is UIWindow) || containerView._viewController()) {
             containerView = containerView.superview()
         }
         return containerView
+*/
