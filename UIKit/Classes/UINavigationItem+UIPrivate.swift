@@ -27,4 +27,4 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-    let UINavigationItemDidChange: String
+internal let UINavigationItemDidChange: String = "UINavigationItemDidChange"

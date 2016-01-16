@@ -27,12 +27,14 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
 class UITapGestureRecognizer: UIGestureRecognizer {
     var numberOfTapsRequired: Int
     var numberOfTouchesRequired: Int
 
-    convenience override init(target: AnyObject, action: Selector) {
-        if (self.init(target: target, action: action)) {
+    override init(target: AnyObject, action: Selector) {
+        if (super.init(target: target, action: action)) {
             self.numberOfTapsRequired = 1
             self.numberOfTouchesRequired = 1
         }

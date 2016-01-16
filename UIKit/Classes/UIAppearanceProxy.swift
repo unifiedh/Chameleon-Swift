@@ -27,20 +27,20 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import UIKit
+import Foundation
+
 class UIAppearanceProxy: NSObject {
-    convenience override init(class k: Class<UIAppearance>) {
-        if (self.init()) {
-            self.targetClass = k
-            self.settings = [NSObject : AnyObject](capacity: 0)
-        }
+    init(`class` k: UIAppearance) {
+        self.targetClass = k
+        self.settings = [NSObject : AnyObject]()
+        super.init()
     }
 
     func _appearancePropertiesAndValues() -> [NSObject : AnyObject] {
-        return settings.copy()
+        return settings
     }
-    var self.targetClass: Class<UIAppearance>
-    var self.settings: [NSObject : AnyObject]
+    var targetClass: UIAppearance
+    var settings: [NSObject : AnyObject]
 
 
     func forwardInvocation(anInvocation: NSInvocation) {
@@ -147,8 +147,9 @@ class UIAppearanceProxy: NSObject {
         return super.methodSignatureForSelector(aSelector) ?? targetClass as! AnyObject.instanceMethodSignatureForSelector(aSelector)
     }
 }
-    let UIAppearanceSetterOverridesAssociatedObjectKey: Character = "UIAppearanceSetterOverridesAssociatedObjectKey"
 
+let UIAppearanceSetterOverridesAssociatedObjectKey = "UIAppearanceSetterOverridesAssociatedObjectKey"
+/*
         return (t != nil) && (strcmp(t) == 0 || strcmp(t) == 0 || strcmp(t) == 0 || strcmp(t) == 0 || strcmp(t) == 0)
 
         return (t != nil) && (strcmp(t) == 0 || strcmp(t) == 0 || strcmp(t) == 0 || strcmp(t) == 0 || strcmp(t) == 0)
@@ -271,3 +272,5 @@ class UIAppearanceProxy: NSObject {
         else {
             NSException.exceptionWithName(NSInternalInconsistencyException, reason: "no setter implementation for property type", userInfo: nil)
         }
+*/
+

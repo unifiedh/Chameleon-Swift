@@ -81,6 +81,6 @@ class UISlider: UIControl {
     }
 
     func description() -> String {
-        return "<\(self.className()): \(self); frame = (%.0f %.0f; %.0f %.0f); opaque = \(self.frame.origin.x); layer = \(self.frame.origin.y); value = \(self.frame.size.width)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); frame = (%.0f %.0f; %.0f %.0f); opaque = \(self.frame.origin.x); layer = \(self.frame.origin.y); value = \(self.frame.size.width)>"
     }
 }

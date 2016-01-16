@@ -27,6 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
 import AppKit
 
     let UITextFieldTextDidBeginEditingNotification: String
@@ -35,21 +36,21 @@ import AppKit
 
     let UITextFieldTextDidEndEditingNotification: String
 
-enum UITextBorderStyle : Int {
+public enum UITextBorderStyle : Int {
     case None
     case Line
     case Bezel
     case RoundedRect
 }
 
-enum UITextFieldViewMode : Int {
+public enum UITextFieldViewMode : Int {
     case Never
     case WhileEditing
     case UnlessEditing
     case Always
 }
 
-protocol UITextFieldDelegate: NSObject {
+public protocol UITextFieldDelegate: NSObjectProtocol {
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool
 
     func textFieldDidBeginEditing(textField: UITextField)
@@ -64,7 +65,7 @@ protocol UITextFieldDelegate: NSObject {
 
     func textFieldShouldReturn(textField: UITextField) -> Bool
 }
-class UITextField: UIControl, UITextInput {
+public class UITextField: UIControl, UITextInput {
     func borderRectForBounds(bounds: CGRect) -> CGRect {
         return bounds
     }
@@ -471,7 +472,7 @@ class UITextField: UIControl, UITextInput {
 
     func _textDidReceiveReturnKey() {
         if delegateHas.shouldReturn {
-            delegate.textFieldShouldReturn(self)
+            delegate?.textFieldShouldReturn?(self)
         }
     }
 
@@ -486,7 +487,7 @@ class UITextField: UIControl, UITextInput {
                 textAlignment = "Right"
         }
 
-        return "<\(self.className()): \(self); textAlignment = \(textAlignment); editing = \(self.editing ? "YES" : "NO"); textColor = \(self.textColor); font = \(self.font); delegate = \(self.delegate)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); textAlignment = \(textAlignment); editing = \(self.editing ? "YES" : "NO"); textColor = \(self.textColor); font = \(self.font); delegate = \(self.delegate)>"
     }
 
     convenience override init(event: UIEvent) {

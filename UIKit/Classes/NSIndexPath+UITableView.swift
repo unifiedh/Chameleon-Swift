@@ -26,31 +26,24 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 import Foundation
-extension NSIndexPath {
-    class func indexPathForRow(row: Int, inSection section: Int) -> NSIndexPath {
-        var path: Int = Int()
-        path.section
-        path.row
-        return self(withIndexes: path, length: 2)
+
+public extension NSIndexPath {
+    convenience init(row: Int, inSection section: Int) {
+        var path: [Int] = [section, row]
+        self.init(indexes: &path, length: 2)
     }
     var row: Int {
         get {
-            return self.row
+            return self.indexAtPosition(1)
         }
     }
 
-    var section: Int {
+	///Declared with `@nonobjc` to make Swift happy.
+    @nonobjc var section: Int {
         get {
-            return self.section
+            return self.indexAtPosition(0)
         }
-    }
-
-    func row() -> Int {
-        return self.indexAtPosition(1)
-    }
-
-    func section() -> Int {
-        return self.indexAtPosition(0)
     }
 }

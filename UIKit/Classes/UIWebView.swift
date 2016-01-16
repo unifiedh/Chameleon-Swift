@@ -28,8 +28,9 @@
  */
 
 import WebKit
+import Cocoa
 
-enum UIWebViewNavigationType : Int {
+@objc public enum UIWebViewNavigationType : Int {
     case LinkClicked
     case FormSubmitted
     case BackForward
@@ -38,23 +39,24 @@ enum UIWebViewNavigationType : Int {
     case Other
 }
 
-protocol UIWebViewDelegate: NSObject {
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool
+@objc public protocol UIWebViewDelegate: NSObjectProtocol {
+    optional func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool
 
-    func webView(aWebView: UIWebView, didFailLoadWithError error: NSError)
+    optional func webView(aWebView: UIWebView, didFailLoadWithError error: NSError)
 
-    func webViewDidFinishLoad(webView: UIWebView)
+    optional func webViewDidFinishLoad(webView: UIWebView)
 }
-class UIWebView: UIView {
+
+public class UIWebView: UIView, WebPolicyDelegate, WebUIDelegate, WebFrameLoadDelegate {
     func loadHTMLString(string: String, baseURL: NSURL) {
-        webView.mainFrame().loadHTMLString(string, baseURL: baseURL)
+        webView.mainFrame.loadHTMLString(string, baseURL: baseURL)
     }
 
     func loadRequest(request: NSURLRequest) {
-        if request != request {
+        if self.request != request {
             self.request = request
         }
-        webView.mainFrame().loadRequest(request)
+        webView.mainFrame.loadRequest(request)
     }
 
     func stopLoading() {
@@ -76,64 +78,53 @@ class UIWebView: UIView {
     func stringByEvaluatingJavaScriptFromString(script: String) -> String {
         return webView.stringByEvaluatingJavaScriptFromString(script)!
     }
-    weak var delegate: UIWebViewDelegate {
-        get {
-            return self.delegate
-        }
-        set {
-            self.delegate = newDelegate
-            self.delegateHas.shouldStartLoadWithRequest = delegate.respondsToSelector("webView:shouldStartLoadWithRequest:navigationType:")
-            self.delegateHas.didFailLoadWithError = delegate.respondsToSelector("webView:didFailLoadWithError:")
-            self.delegateHas.didFinishLoad = delegate.respondsToSelector("webViewDidFinishLoad:")
-        }
-    }
+	
+    weak var delegate: UIWebViewDelegate?
 
     var loading: Bool {
         get {
-            return webView.isLoading()
+            return webView.loading
         }
     }
 
     var canGoBack: Bool {
         get {
-            return webView.canGoBack()
+            return webView.canGoBack
         }
     }
 
     var canGoForward: Bool {
         get {
-            return webView.canGoForward()
+            return webView.canGoForward
         }
     }
 
+	/// not implemented
     var scalesPageToFit: Bool {
         get {
             return false
         }
+		set {
+			// do nothing
+		}
     }
 
-    // not implemented
-    var request: NSURLRequest {
-        get {
-            return self.request
-        }
-    }
+    private(set) var request: NSURLRequest?
 
     var dataDetectorTypes: UIDataDetectorTypes
-    var scrollView: UIScrollView {
+    var scrollView: UIScrollView? {
         get {
             return nil
         }
     }
-    var self.webView: WebView
-    var self.webViewAdapter: UIViewAdapter
-    var self.delegateHas: struct{unsignedshouldStartLoadWithRequest:1;unsigneddidFailLoadWithError:1;unsigneddidFinishLoad:1;}
+    var webView: WebView
+    var webViewAdapter: UIViewAdapter
+    //var self.delegateHas: struct{unsignedshouldStartLoadWithRequest:1;unsigneddidFailLoadWithError:1;unsigneddidFinishLoad:1;}
 
 
-    convenience override init(frame: CGRect) {
-        if (self.init(frame: frame)) {
-            self.webView = WebView as! WebView(frame: NSRectFromCGRect(self.bounds))
-            webView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable)
+    override init(frame: CGRect) {
+            self.webView = WebView(frame: NSRectFromCGRect(self.bounds))
+            webView.autoresizingMask = [.ViewWidthSizable, .ViewHeightSizable]
             webView.policyDelegate = self
             webView.frameLoadDelegate = self
             webView.UIDelegate = self
@@ -143,89 +134,83 @@ class UIWebView: UIView {
             self.webViewAdapter.scrollEnabled = false
             // WebView does its own scrolling :/
             self.addSubview(webViewAdapter)
-        }
+		super.init(frame: frame)
     }
 
-    func dealloc() {
-        webView.policyDelegate = nil
-        webView.frameLoadDelegate = nil
-        webView.UIDelegate = nil
-    }
-
-    func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         self.webViewAdapter.frame = self.bounds
     }
     // The only reason this is here is because Flamingo currently tries a hack to get at the web view's internals UIScrollView to get
     // the desk ad view to stop stealing the scrollsToTop event. Lame, yes...
 
-    convenience override init(key: String) {
-        return nil
-    }
+	public override func valueForUndefinedKey(key: String) -> AnyObject? {
+		return nil
+	}
+	
+	// MARK: - WebView Policy Delegate
 
-    func webView(webView: WebView, decidePolicyForNavigationAction actionInformation: [NSObject : AnyObject], request: NSURLRequest, frame: WebFrame, decisionListener listener: WebPolicyDecisionListener) {
+    public func webView(webView: WebView, decidePolicyForNavigationAction actionInformation: [NSObject : AnyObject], request: NSURLRequest, frame: WebFrame, decisionListener listener: WebPolicyDecisionListener) {
         var shouldStartLoad: Bool = false
-        if delegateHas.shouldStartLoadWithRequest {
-            var navTypeObject: AnyObject = (actionInformation[WebActionNavigationTypeKey] as! AnyObject)
-            var navTypeCode: Int = CInt(navTypeObject)!
+		if delegate?.webView as ((webView: UIWebView, shouldStartLoadWithRequest: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool)? == nil  {
+            var navTypeObject = (actionInformation[WebActionNavigationTypeKey] as? Int) ?? 0
+            var navTypeCode: WebNavigationType = WebNavigationType(rawValue: navTypeObject) ?? .Other
             var navType: UIWebViewNavigationType = .Other
             switch navTypeCode {
-                case WebNavigationTypeLinkClicked:
+                case .LinkClicked:
                     navType = .LinkClicked
-                case WebNavigationTypeFormSubmitted:
+                case .FormSubmitted:
                     navType = .FormSubmitted
-                case WebNavigationTypeBackForward:
+                case .BackForward:
                     navType = .BackForward
-                case WebNavigationTypeReload:
+                case .Reload:
                     navType = .Reload
-                case WebNavigationTypeFormResubmitted:
+                case .FormResubmitted:
                     navType = .FormResubmitted
             }
 
-            shouldStartLoad = delegate.webView(self, shouldStartLoadWithRequest: request, navigationType: navType)
-        }
-        else {
+            shouldStartLoad = delegate?.webView!(self, shouldStartLoadWithRequest: request, navigationType: navType) ?? false
+        } else {
             shouldStartLoad = true
         }
         if shouldStartLoad {
             listener.use()
-        }
-        else {
+        } else {
             listener.ignore()
         }
     }
 
-    func webView(sender: WebView, didFinishLoadForFrame frame: WebFrame) {
-        if delegateHas.didFinishLoad {
-            delegate.webViewDidFinishLoad(self)
-        }
+	// MARK: - WebView Frame Load Delegate
+
+	
+    public func webView(sender: WebView, didFinishLoadForFrame frame: WebFrame) {
+		delegate?.webViewDidFinishLoad?(self)
         //    [_webViewAdapter becomeFirstResponder];
         //    [_webViewAdapter setNeedsDisplay];
     }
 
-    func webView(sender: WebView, didFailLoadWithError error: NSError, forFrame frame: WebFrame) {
-        if delegateHas.didFailLoadWithError {
-            delegate.webView(self, didFailLoadWithError: error!)
-        }
+    public func webView(sender: WebView!, didFailLoadWithError error: NSError!, forFrame frame: WebFrame!) {
+		delegate?.webView?(self, didFailLoadWithError: error)
     }
 
-    func webView(sender: WebView, makeFirstResponder responder: NSResponder) {
+	// MARK: - WebView UI Delegate
+    public func webView(sender: WebView, makeFirstResponder responder: NSResponder) {
         webViewAdapter.NSView.window().makeFirstResponder(responder)
     }
 
-    func webView(sender: WebView, contextMenuItemsForElement element: [NSObject : AnyObject], defaultMenuItems: [AnyObject]) -> [AnyObject] {
-        return [AnyObject]()
+    public func webView(sender: WebView, contextMenuItemsForElement element: [NSObject : AnyObject], defaultMenuItems: [AnyObject]) -> [AnyObject] {
+        return []
     }
 
-    func webViewIsResizable(sender: WebView) -> Bool {
+    public func webViewIsResizable(sender: WebView) -> Bool {
         return false
     }
 
-    func canBecomeFirstResponder() -> Bool {
+    public override func canBecomeFirstResponder() -> Bool {
         return true
     }
 
-    func webView(sender: WebView, setFrame frame: NSRect) {
+    public func webView(sender: WebView, setFrame frame: NSRect) {
         // DO NOTHING to prevent WebView resize window
     }
 }

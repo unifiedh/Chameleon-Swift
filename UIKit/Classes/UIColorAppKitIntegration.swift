@@ -27,13 +27,25 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Cocoa
+
 extension UIColor {
-    convenience init(NSColor c: NSColor) {
+    convenience init?(NSColor aColor: AppKit.NSColor) {
+		guard let c = aColor.colorUsingColorSpace(NSColorSpace.deviceRGBColorSpace()) else {
+			return nil
+		}
+		var components = [CGFloat](count: c.numberOfComponents, repeatedValue: 0)
+		c.getComponents(&components)
+		let color = CGColorCreate(c.colorSpace.CGColorSpace, components)
+		self.init(CGColor: color)
     }
 
-    convenience override init(NSColor c: NSColor) {
-    }
-
-    func NSColor() -> NSColor {
+    func NSColor() -> AppKit.NSColor {
+		var color: CGColorRef = self.CGColor
+		var colorSpace = NSColorSpace(CGColorSpace: CGColorGetColorSpace(color)!)
+		let numberOfComponents: Int = CGColorGetNumberOfComponents(color)
+		let components: CGFloat = CGColorGetComponents(color)
+		var theColor: NSColor = NSColor(colorSpace: colorSpace, components: components, count: numberOfComponents)
+		return theColor
     }
 }

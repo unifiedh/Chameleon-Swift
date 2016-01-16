@@ -27,70 +27,71 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-enum UIModalPresentationStyle : Int {
+import Foundation
+
+public enum UIModalPresentationStyle : Int {
     case UIModalPresentationFullScreen = 0
     case UIModalPresentationPageSheet
     case UIModalPresentationFormSheet
     case UIModalPresentationCurrentContext
 }
 
-enum UIModalTransitionStyle : Int {
+public enum UIModalTransitionStyle : Int {
     case CoverVertical = 0
     case FlipHorizontal
     case CrossDissolve
     case PartialCurl
 }
 
-class UIViewController: UIResponder {
-    override init(nibName: String, bundle nibBundle: NSBundle) {
-        if (self.init()) {
+public class UIViewController: UIResponder {
+	public init(nibName: String?, bundle nibBundle: NSBundle?) {
             self.contentSizeForViewInPopover = CGSizeMake(320, 1100)
             self.hidesBottomBarWhenPushed = false
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveMemoryWarning", name: UIApplicationDidReceiveMemoryWarningNotification, object: UIApplication.sharedApplication())
-        }
+		super.init()
     }
     // won't load a nib no matter what you do!
 
-    func isViewLoaded() -> Bool {
+    public func isViewLoaded() -> Bool {
         return (view != nil)
     }
 
-    override func loadView() {
+	public func loadView() {
         self.view = UIView(frame: CGRectMake(0, 0, 320, 480))
     }
 
-    override func viewDidLoad() {
+	public func viewDidLoad() {
     }
 
-    func viewDidUnload() {
+    public func viewDidUnload() {
     }
 
-    override func viewWillAppear(animated: Bool) {
+	public func viewWillAppear(animated: Bool) {
     }
 
-    override func viewDidAppear(animated: Bool) {
+	public func viewDidAppear(animated: Bool) {
     }
 
-    override func viewWillDisappear(animated: Bool) {
+	public func viewWillDisappear(animated: Bool) {
     }
 
-    override func viewDidDisappear(animated: Bool) {
+	public func viewDidDisappear(animated: Bool) {
     }
 
-    func viewWillLayoutSubviews() {
+    public func viewWillLayoutSubviews() {
     }
 
-    func viewDidLayoutSubviews() {
+    public func viewDidLayoutSubviews() {
     }
 
-    func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: () -> Void) {
+    public func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: () -> Void) {
     }
 
-    func dismissViewControllerAnimated(flag: Bool, completion: () -> Void) {
+    public func dismissViewControllerAnimated(flag: Bool, completion: () -> Void) {
     }
     // these are deprecated on iOS 6
 
-    override func presentModalViewController(modalViewController: UIViewController, animated: Bool) {
+	public func presentModalViewController(modalViewController: UIViewController, animated: Bool) {
         /*
             if (!_modalViewController && _modalViewController != self) {
                 _modalViewController = modalViewController;
@@ -116,7 +117,7 @@ class UIViewController: UIResponder {
     }
     // works, but not exactly correctly.
 
-    override func dismissModalViewControllerAnimated(animated: Bool) {
+	public func dismissModalViewControllerAnimated(animated: Bool) {
         /*
             // NOTE: This is not implemented entirely correctly - the actual dismissModalViewController is somewhat subtle.
             // There is supposed to be a stack of modal view controllers that dismiss in a specific way,e tc.
@@ -146,33 +147,37 @@ class UIViewController: UIResponder {
     }
     // see comments in dismissModalViewController
 
-    override func didReceiveMemoryWarning() {
+	public func didReceiveMemoryWarning() {
     }
     // is called when UIApplicationDidReceiveMemoryWarningNotification is posted, which is currently only done by private API for.. fun, I guess?
 
-    func setToolbarItems(toolbarItems: [AnyObject], animated: Bool) {
+    public func setToolbarItems(toolbarItems: [UIToolbarItem], animated: Bool) {
+		if toolbarItems == toolbarItems {
+			self.toolbarItems = toolbarItems
+			self.navigationController?.toolbar.setItems(toolbarItems, animated: animated)
+		}
     }
 
-    func setEditing(editing: Bool, animated: Bool) {
-        self.editing = editing
+    public func setEditing(editing: Bool, animated: Bool) {
+        _editing = editing
     }
 
-    func editButtonItem() -> UIBarButtonItem {
+    public func editButtonItem() -> UIBarButtonItem? {
         // this should really return a fancy bar button item that toggles between edit/done and sends setEditing:animated: messages to this controller
         return nil
     }
 
-    override func shouldAutorotateToInterfaceOrientation(interfaceOrientation: UIInterfaceOrientation) -> Bool {
+	public func shouldAutorotateToInterfaceOrientation(interfaceOrientation: UIInterfaceOrientation) -> Bool {
         return (interfaceOrientation == .Portrait)
     }
 
     func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
     }
 
-    override func willAnimateRotationToInterfaceOrientation(interfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+	func willAnimateRotationToInterfaceOrientation(interfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
     }
 
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+	func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
     }
 
     func isMovingFromParentViewController() -> Bool {
@@ -190,11 +195,11 @@ class UIViewController: UIResponder {
         // In all likely hood, all that would happen if you didn't call super from a -will/didMoveToParentViewController:
         // override is that -isMovingFromParentViewController and -isMovingToParentViewController would return the
         // wrong answer, and if you never use them, you'll never even notice that bug!
-        return (appearanceTransitionStack > 0) && (parentageTransition == UIViewControllerParentageTransitionFromParent)
+        return (appearanceTransitionStack > 0) && (parentageTransition == .FromParent)
     }
 
     func isMovingToParentViewController() -> Bool {
-        return (appearanceTransitionStack > 0) && (parentageTransition == UIViewControllerParentageTransitionToParent)
+        return (appearanceTransitionStack > 0) && (parentageTransition == .ToParent)
     }
 
     func isBeingPresented() -> Bool {
@@ -208,14 +213,10 @@ class UIViewController: UIResponder {
     }
 
     func addChildViewController(childController: UIViewController) {
-        assert(childController != nil, "cannot add nil child view controller")
         assert(childController.parentViewController == nil, "thou shalt have no other parent before me")
-        if !childViewControllers {
-            self.childViewControllers = [AnyObject](minimumCapacity: 1)
-        }
         childController.willMoveToParentViewController(self)
         childViewControllers.append(childController)
-        childController->parentViewController = self
+        childController.parentViewController = self
     }
 
     func removeFromParentViewController() {
@@ -232,19 +233,19 @@ class UIViewController: UIResponder {
         return true
     }
 
-    func transitionFromViewController(fromViewController: UIViewController, toViewController: UIViewController, duration: NSTimeInterval, options: UIViewAnimationOptions, animations: () -> Void, completion: (finished: Bool) -> Void) {
+    func transitionFromViewController(fromViewController: UIViewController, toViewController: UIViewController, duration: NSTimeInterval, options: UIViewAnimationOptions, animations: (() -> Void)?, completion: ((finished: Bool) -> Void)?) {
         assert(fromViewController.parentViewController == toViewController.parentViewController && fromViewController.parentViewController != nil, "child controllers must share common parent")
         let animated: Bool = (duration > 0)
         fromViewController.beginAppearanceTransition(false, animated: animated)
         toViewController.beginAppearanceTransition(true, animated: animated)
         UIView.transitionWithView(self.view!, duration: duration, options: options, animations: {() -> Void in
-            if animations != nil {
+            if let animations = animations {
                 animations()
             }
             self.view!.addSubview(toViewController.view!)
         }, completion: {(finished: Bool) -> Void in
-            if completion != nil {
-                completion(finished)
+            if let completion = completion {
+                completion(finished: finished)
             }
             fromViewController.view!.removeFromSuperview()
             fromViewController.endAppearanceTransition()
@@ -252,7 +253,7 @@ class UIViewController: UIResponder {
         })
     }
 
-    override func beginAppearanceTransition(isAppearing: Bool, animated: Bool) {
+	func beginAppearanceTransition(isAppearing: Bool, animated: Bool) {
         if appearanceTransitionStack == 0 || (appearanceTransitionStack > 0 && viewIsAppearing != isAppearing) {
             self.appearanceTransitionStack = 1
             self.appearanceTransitionIsAnimated = animated
@@ -265,7 +266,7 @@ class UIViewController: UIResponder {
                 }
             }
             if viewIsAppearing {
-                self.view!
+                _ = self.view
                 // ensures the view is loaded before viewWillAppear: happens
                 self.viewWillAppear(appearanceTransitionIsAnimated)
             }
@@ -279,7 +280,7 @@ class UIViewController: UIResponder {
     }
     // iOS 6+
 
-    override func endAppearanceTransition() {
+	func endAppearanceTransition() {
         if appearanceTransitionStack > 0 {
             appearanceTransitionStack--
             if appearanceTransitionStack == 0 {
@@ -299,102 +300,87 @@ class UIViewController: UIResponder {
     }
     // iOS 6+
 
-    func willMoveToParentViewController(parent: UIViewController) {
+    func willMoveToParentViewController(parent: UIViewController?) {
         if parent != nil {
-            self.parentageTransition = UIViewControllerParentageTransitionToParent
+            self.parentageTransition = .ToParent
         }
         else {
-            self.parentageTransition = UIViewControllerParentageTransitionFromParent
+            self.parentageTransition = .FromParent
         }
     }
 
-    func didMoveToParentViewController(parent: UIViewController) {
-        self.parentageTransition = UIViewControllerParentageTransitionNone
+    func didMoveToParentViewController(parent: UIViewController?) {
+        //self.parentageTransition = .None
     }
-    var nibName: String {
+    var nibName: String? {
         get {
             return nil
         }
     }
 
-    var nibBundle: NSBundle {
+    var nibBundle: NSBundle? {
         get {
             return nil
         }
     }
 
-    var view: UIView {
+    var view: UIView? {
         get {
             if self.isViewLoaded() {
-                return view
+                return _view!
             }
             else {
-                let wereEnabled: Bool = UIView.areAnimationsEnabled()
-                UIView.animationsEnabled = false
+                let wereEnabled = UIView.areAnimationsEnabled()
+                UIView.setAnimationsEnabled(false)
                 self.loadView()
                 self.viewDidLoad()
-                UIView.animationsEnabled = wereEnabled
-                return view
+				UIView.setAnimationsEnabled(wereEnabled)
+                return _view
             }
         }
-        set {
-            if aView != view {
-                view._setViewController(nil)
+        set(aView) {
+            if aView !== view {
+                self.view?.viewController = nil
                 self.view = aView
-                view._setViewController(self)
+                self.view?.viewController = self
             }
         }
     }
 
     var wantsFullScreenLayout: Bool
     var title: String {
+		didSet {
+			navigationItem.title = title
+		}
+    }
+
+    var interfaceOrientation: UIInterfaceOrientation
+
+	lazy var navigationItem: UINavigationItem = {
+		return UINavigationItem(title: self.title)
+	}()
+
+	private var _toolbarItems: [UIToolbarItem]
+    var toolbarItems: [UIToolbarItem] {
         get {
-            return self.title
+            return _toolbarItems
         }
-        set {
-            if !title!.isEqual(title!) {
-                self.title = title!.copy()
-                self.navigationItem.title = title!
-            }
+        set(theToolbarItems) {
+			setToolbarItems(theToolbarItems, animated: false)
         }
     }
 
-    var interfaceOrientation: UIInterfaceOrientation {
-        get {
-            return .Portrait as! UIInterfaceOrientation
-        }
-    }
-
-    var navigationItem: UINavigationItem {
-        get {
-            if !navigationItem {
-                self.navigationItem = UINavigationItem(title: self.title)
-            }
-            return navigationItem
-        }
-    }
-
-    var toolbarItems: [AnyObject] {
-        get {
-            return self.toolbarItems
-        }
-        set {
-            if !toolbarItems.isEqual(theToolbarItems) {
-                self.toolbarItems = theToolbarItems
-                self.navigationController.toolbar.setItems(toolbarItems, animated: animated)
-            }
-        }
-    }
-
-    var editing: Bool {
-        get {
-            return self.editing
-        }
-        set {
-            self.editing = editing
-        }
-    }
-
+	private var editing: Bool {
+		get {
+			return _editing
+		}
+		set {
+			self.setEditing(editing, animated: false)
+		}
+	}
+	
+	public var _editing: Bool = false
+	
     var hidesBottomBarWhenPushed: Bool
     var contentSizeForViewInPopover: CGSize
     var modalInPopover: Bool
@@ -402,41 +388,33 @@ class UIViewController: UIResponder {
     var modalTransitionStyle: UIModalTransitionStyle
     var definesPresentationContext: Bool
     var providesPresentationContextTransitionStyle: Bool
-    var parentViewController: UIViewController {
-        get {
-            return self.parentViewController
-        }
-    }
+    weak var parentViewController: UIViewController?
 
-    var childViewControllers: [AnyObject] {
-        get {
-            return childViewControllers.copy()
-        }
-    }
+    var childViewControllers = [UIViewController]()
 
-    var presentingViewController: UIViewController {
+    var presentingViewController: UIViewController? {
         get {
             // TODO
             return nil
         }
     }
 
-    var presentedViewController: UIViewController {
+    var presentedViewController: UIViewController? {
         get {
             // TODO
             return nil
         }
     }
 
-    var navigationController: UINavigationController {
+    var navigationController: UINavigationController? {
         get {
-            return self._nearestParentViewControllerThatIsKindOf(UINavigationController)
+            return self.nearestParentViewControllerThatIsKindOf(UINavigationController.self)
         }
     }
 
-    var splitViewController: UISplitViewController {
+    var splitViewController: UISplitViewController? {
         get {
-            return self._nearestParentViewControllerThatIsKindOf(UISplitViewController)
+            return self.nearestParentViewControllerThatIsKindOf(UISplitViewController.self)
         }
     }
 
@@ -459,70 +437,61 @@ class UIViewController: UIResponder {
     }
 
     var tabBarItem: UITabBarItem
-    var self.view: UIView
-    var self.navigationItem: UINavigationItem
-    var self.childViewControllers: [AnyObject]
-    var self.parentViewController: UIViewController
-    var self.appearanceTransitionStack: Int
-    var self.appearanceTransitionIsAnimated: Bool
-    var self.viewIsAppearing: Bool
-    var self.parentageTransition: _UIViewControllerParentageTransition
+    var _view: UIView?
+    var appearanceTransitionStack: Int = 0
+    var appearanceTransitionIsAnimated: Bool = false
+    var viewIsAppearing: Bool = false
+    var parentageTransition: _UIViewControllerParentageTransition = .None
 
 
-    convenience override init() {
-        return self(nibName: nil, bundle: nil)
+    public convenience override init() {
+		self.init(nibName: nil, bundle: nil)
     }
 
-    func dealloc() {
+    deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidReceiveMemoryWarningNotification, object: UIApplication.sharedApplication())
-        view._setViewController(nil)
+        view?.viewController = nil
     }
 
-    func nextResponder() -> UIResponder {
-        return view.superview
+    override func nextResponder() -> UIResponder? {
+        return view?.superview
     }
 
-    func defaultResponderChildViewController() -> UIViewController {
+    func defaultResponderChildViewController() -> UIViewController? {
         return nil
     }
 
-    func defaultResponder() -> UIResponder {
+    func defaultResponder() -> UIResponder? {
         return nil
     }
-
-    func setToolbarItems(theToolbarItems: [AnyObject]) {
-        self.setToolbarItems(theToolbarItems, animated: false)
-    }
-
-    func setEditing(editing: Bool) {
-        self.setEditing(editing, animated: false)
-    }
-
-    convenience override init(c: AnyClass) {
-        var controller: UIViewController = parentViewController
-        while controller && !(controller is c) {
-            controller = controller.parentViewController()
+	
+    func nearestParentViewControllerThatIsKindOf<T>(c: T.Type) -> T? {
+		var controller = parentViewController
+        while controller != nil && !(controller is T) {
+            controller = controller!.parentViewController
         }
-        return controller
+        return controller as? T
     }
 
-    func description() -> String {
-        return "<\(self.className()): \(self); title = \(self.title); view = \(self.view!)>"
+	public override var description: String {
+        return "<\(self.className): \(unsafeAddressOf(self)); title = \(self.title); view = \(self.view!)>"
     }
 
     func _removeFromParentViewController() {
-        if parentViewController {
-            parentViewController->childViewControllers.removeObject(self)
-            if parentViewController->childViewControllers.count == 0 {
-                self.parentViewController->childViewControllers = nil
+        if let parentViewController = parentViewController {
+			if let idx = parentViewController.childViewControllers.indexOf(self) {
+				parentViewController.childViewControllers.removeAtIndex(idx)
+			}
+            if parentViewController.childViewControllers.count == 0 {
+                parentViewController.childViewControllers = []
             }
             self.parentViewController = nil
         }
     }
 }
 
-enum UIViewControllerParentageTransition : Int {
-    case _UIViewControllerParentageTransitionNone = 0
-    case _UIViewControllerParentageTransitionToParent
-    case _UIViewControllerParentageTransitionFromParent
+internal enum _UIViewControllerParentageTransition : Int {
+    case None = 0
+    case ToParent
+    case FromParent
 }

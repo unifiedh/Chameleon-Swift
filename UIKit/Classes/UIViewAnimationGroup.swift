@@ -39,9 +39,9 @@ enum UIViewAnimationGroupTransition : Int {
     case CrossDissolve
 }
 
-    var UIViewAnimationOptionIsSet: Bool
+    var UIViewAnimationOptionIsSet: Bool = false
 
-class UIViewAnimationGroup: NSObject {
+internal class UIViewAnimationGroup: NSObject {
     convenience override init(animationOptions options: UIViewAnimationOptions) {
         if (self.init()) {
             self.waitingAnimations = 1
@@ -94,16 +94,18 @@ class UIViewAnimationGroup: NSObject {
         }
     }
 
-    convenience override init(view: UIView, forKey keyPath: String) {
-                    animatingViews.append(view)
+    func actionForView(view: UIView, forKey keyPath: String) -> CAAnimation? {
+		//@synchronized(runningAnimationGroups) {
+		animatingViews.insert(view)
+		//}
 
-        if transitionView && self.transition != .None {
+        if transitionView != nil && self.transition != .None {
             return nil
         }
         else {
             var layer: CALayer = view.layer
             var animation: CABasicAnimation = CABasicAnimation(keyPath: keyPath)
-            animation.fromValue = self.beginsFromCurrentState ? layer.presentationLayer[keyPath] : layer[keyPath]
+            animation.fromValue = self.beginsFromCurrentState ? layer.presentationLayer()?.valueForKey(keyPath) : layer.valueForKey(keyPath)
             return self.addAnimation(animation)
         }
     }
@@ -113,13 +115,13 @@ class UIViewAnimationGroup: NSObject {
         self.transitionShouldCache = cache
     }
 
-    func allAnimatingViews() -> [AnyObject] {
-                    return animatingViews.allObjects()
+    func allAnimatingViews() -> [UIView] {
+		return Array(animatingViews)
 
     }
     var name: String
-    var context: Void
-    var completionBlock: Void
+    var context: UnsafeMutablePointer<Void>
+    var completionBlock: ((finished: Bool) -> Void)?
     var allowUserInteraction: Bool
     var beginsFromCurrentState: Bool
     var curve: UIViewAnimationCurve
@@ -164,12 +166,12 @@ class UIViewAnimationGroup: NSObject {
         waitingAnimations--
         self.notifyAnimationsDidStopIfNeededUsingStatus(true)
     }
-    var self.waitingAnimations: Int
-    var self.didStart: Bool
-    var self.animationBeginTime: CFTimeInterval
-    var self.transitionView: UIView
-    var self.transitionShouldCache: Bool
-    var self.animatingViews: NSMutableSet
+    var waitingAnimations: Int
+    var didStart: Bool
+    var animationBeginTime: CFTimeInterval
+    var transitionView: UIView?
+    var transitionShouldCache: Bool
+    var animatingViews = Set<UIView>()
 
 
     class func initialize() {
@@ -207,7 +209,7 @@ class UIViewAnimationGroup: NSObject {
         }
     }
 
-    func animationDidStart(theAnimation: CAAnimation) {
+    override func animationDidStart(theAnimation: CAAnimation) {
         assert(NSThread.isMainThread(), "expecting this to be on the main thread")
         self.notifyAnimationsDidStartIfNeeded()
     }
@@ -234,21 +236,26 @@ class UIViewAnimationGroup: NSObject {
 
     var runningAnimationGroups: NSMutableSet? = nil
 
-        switch curve {
-            case .EaseInOut:
-                return CAMediaTimingFunction.functionWithName(kCAMediaTimingFunctionEaseInEaseOut)
-            case .EaseIn:
-                return CAMediaTimingFunction.functionWithName(kCAMediaTimingFunctionEaseIn)
-            case .EaseOut:
-                return CAMediaTimingFunction.functionWithName(kCAMediaTimingFunctionEaseOut)
-            case .Linear:
-                return CAMediaTimingFunction.functionWithName(kCAMediaTimingFunctionLinear)
-        }
+private func CAMediaTimingFunctionFromUIViewAnimationCurve(curve: UIViewAnimationCurve) -> CAMediaTimingFunction?
+{
+	switch (curve) {
+	case .EaseInOut:
+		return CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+	case .EaseIn:
+		return CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+	case .EaseOut:
+		return CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+	case .Linear:
+		return CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+	}
+	return nil;
+}
 
-        return nil
-
+/*
         return ((options & option) == option)
 
         return (options & ([.CurveEaseInOut, .CurveEaseIn, .CurveEaseOut, .CurveLinear]))
 
         return (options & ([.TransitionNone, .TransitionFlipFromLeft, .TransitionFlipFromRight, .TransitionCurlUp, .TransitionCurlDown, .TransitionCrossDissolve, .TransitionFlipFromTop, .TransitionFlipFromBottom]))
+
+*/

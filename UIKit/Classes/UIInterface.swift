@@ -27,41 +27,41 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import AppKit
+import Cocoa
 
-enum UIBarStyle : Int {
+public enum UIBarStyle : Int {
     case Default = 0
     case Black = 1
-    case BlackOpaque = 1
-    // Deprecated
+    /// Deprecated
+	@available(iOS, deprecated=7.0)
     case BlackTranslucent = 2
 }
 
-enum .s : Int {
-    case UIBarMetricsDefault
+public enum UIBarMetrics : Int {
+    case Default
     case UIBarMetricsLandscapePhone
 }
 
 extension UIColor {
-    class func groupTableViewBackgroundColor() -> UIColor {
+    public class func groupTableViewBackgroundColor() -> UIColor {
         return UIColor.lightGrayColor()
         // this is currently not likely to be correct, please fix!
     }
 }
 extension UIFont {
     class func systemFontSize() -> CGFloat {
-        return NSFont.systemFontSize()
+        return AppKit.NSFont.systemFontSize()
     }
 
     class func smallSystemFontSize() -> CGFloat {
-        return NSFont.smallSystemFontSize()
+        return AppKit.NSFont.smallSystemFontSize()
     }
 
     class func labelFontSize() -> CGFloat {
-        return NSFont.labelFontSize()
+        return AppKit.NSFont.labelFontSize()
     }
 
     class func buttonFontSize() -> CGFloat {
-        return NSFont.systemFontSizeForControlSize(NSRegularControlSize)
+        return AppKit.NSFont.systemFontSizeForControlSize(.RegularControlSize)
     }
 }

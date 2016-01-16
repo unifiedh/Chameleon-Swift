@@ -27,17 +27,19 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import CoreGraphics
+
 enum UIToolbarPosition : Int {
     case Any = 0
     case Bottom = 1
     case Top = 2
 }
 
-class UIToolbar: UIView {
+public class UIToolbar: UIView {
     func setItems(items: [AnyObject], animated: Bool) {
     }
 
-    func backgroundImageForToolbarPosition(topOrBottom: UIToolbarPosition, barMetrics: UIBarMetrics) -> UIImage {
+    func backgroundImageForToolbarPosition(topOrBottom: UIToolbarPosition, barMetrics: UIBarMetrics) -> UIImage? {
         return nil
     }
 
@@ -47,7 +49,7 @@ class UIToolbar: UIView {
         get {
             return self.barStyle
         }
-        set {
+        set(newStyle) {
             self.barStyle = newStyle
             // this is for backward compatibility - UIBarStyleBlackTranslucent is deprecated 
             if barStyle == .BlackTranslucent {
@@ -56,7 +58,7 @@ class UIToolbar: UIView {
         }
     }
 
-    var tintColor: UIColor
+    var tintColor: UIColor?
     var items: [AnyObject] {
         get {
             return toolbarItems["item"]
@@ -97,17 +99,16 @@ class UIToolbar: UIView {
     }
 
     var translucent: Bool
-    var self.toolbarItems: [AnyObject]
+    var toolbarItems: [UIToolbarItem]
 
 
-    convenience override init(frame: CGRect) {
+    override init(var frame: CGRect) {
         frame.size.height = kBarHeight
-        if (self.init(frame: frame)) {
-            self.toolbarItems = [AnyObject]()
+            self.toolbarItems = [UIToolbarItem]()
             self.barStyle = .Default
             self.translucent = false
             self.tintColor = nil
-        }
+		super.init(frame: frame)
     }
     /*
     - (void)_updateItemViews
@@ -194,7 +195,7 @@ class UIToolbar: UIView {
         self.setItems(items, animated: false)
     }
 
-    func drawRect(rect: CGRect) {
+    override public func drawRect(rect: CGRect) {
         let bounds: CGRect = self.bounds
         var color: UIColor = tintColor ?? UIColor(red: 21 / 255.0, green: 21 / 255.0, blue: 25 / 255.0, alpha: 1)
         color.setFill()
@@ -203,7 +204,7 @@ class UIToolbar: UIView {
         UIRectFill(CGRectMake(0, 0, bounds.size.width, 1))
     }
 
-    func description() -> String {
+	public override var description: String {
         var barStyle: String = ""
         switch self.barStyle {
             case .Default:
@@ -214,10 +215,10 @@ class UIToolbar: UIView {
                 barStyle = "Black Translucent (Deprecated)"
         }
 
-        return "<\(self.className()): \(self); barStyle = \(barStyle); tintColor = \(self.tintColor.description ?? "Default"), isTranslucent = \(self.translucent ? "YES" : "NO")>"
+        return "<\(self.className): \(unsafeAddressOf(self)); barStyle = \(barStyle); tintColor = \(self.tintColor?.description ?? "Default"), isTranslucent = \(self.translucent ? "YES" : "NO")>"
     }
 
-    func sizeThatFits(size: CGSize) -> CGSize {
+    public override func sizeThatFits(var size: CGSize) -> CGSize {
         size.height = kBarHeight
         return size
     }
@@ -225,37 +226,27 @@ class UIToolbar: UIView {
 
     let kBarHeight: CGFloat = 28
 
-class UIToolbarItem: NSObject {
-    convenience override init(barButtonItem anItem: UIBarButtonItem) {
-        if (self.init()) {
-            assert((anItem != nil), "the bar button item must not be nil")
+public class UIToolbarItem: NSObject {
+    public init(barButtonItem anItem: UIBarButtonItem) {
             self.item = anItem
-            if !item->isSystemItem && item.customView {
+            if !item.isSystemItem && item.customView != nil {
                 self.view = item.customView
             }
-            else if !item->isSystemItem || (item->systemItem != .FixedSpace && item->systemItem != .FlexibleSpace) {
+            else if !item.isSystemItem || (item.systemItem != .FixedSpace && item.systemItem != .FlexibleSpace) {
                 self.view = UIToolbarButton(barButtonItem: item)
             }
-        }
+		super.init()
     }
-    var view: UIView {
-        get {
-            return self.view
-        }
-    }
+    public var view: UIView?
 
-    var item: UIBarButtonItem {
-        get {
-            return self.item
-        }
-    }
+    public let item: UIBarButtonItem
 
-    var width: CGFloat {
+    public var width: CGFloat {
         get {
-            if view != nil {
+            if let view = view {
                 return view.frame.size.width
             }
-            else if item->isSystemItem && item->systemItem == .FixedSpace {
+            else if item.isSystemItem && item.systemItem == .FixedSpace {
                 return item.width
             }
             else {

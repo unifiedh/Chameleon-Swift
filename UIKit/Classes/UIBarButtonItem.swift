@@ -27,7 +27,9 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-enum UIBarButtonSystemItem : Int {
+import Foundation
+
+public enum UIBarButtonSystemItem : Int {
     case Done
     case Cancel
     case Edit
@@ -54,50 +56,50 @@ enum UIBarButtonSystemItem : Int {
     case Redo
 }
 
-enum UIBarButtonItemStyle : Int {
+public enum UIBarButtonItemStyle : Int {
     case Plain
     case Bordered
     case Done
 }
 
-class UIBarButtonItem: UIBarItem {
-    var self.isSystemItem: Bool
-    var self.systemItem: UIBarButtonSystemItem
+public class UIBarButtonItem: UIBarItem {
+    var isSystemItem: Bool = false
+    var systemItem: UIBarButtonSystemItem = .Done
 
-    convenience override init(barButtonSystemItem systemItem: UIBarButtonSystemItem, target: AnyObject, action: Selector) {
-        if (self = self()) {
-            self.isSystemItem = true
-            self.systemItem = systemItem
-            self.target = target
-            self.action = action
-        }
+    public convenience init(barButtonSystemItem systemItem: UIBarButtonSystemItem, target: AnyObject, action: Selector) {
+		self.init()
+		
+		self.isSystemItem = true
+		self.systemItem = systemItem
+		self.target = target
+		self.action = action
     }
 
-    convenience override init(customView: UIView) {
-        if (self = self()) {
-            self.customView = customView
-        }
+    public convenience init(customView: UIView?) {
+		self.init()
+		
+		_customView = customView
     }
 
-    convenience override init(title: String, style: UIBarButtonItemStyle, target: AnyObject, action: Selector) {
-        if (self = self()) {
-            self.title = title!
-            self.style = style
-            self.target = target
-            self.action = action
-        }
+    public convenience init(title: String, style: UIBarButtonItemStyle, target: AnyObject?, action: Selector) {
+		self.init()
+		
+		self.title = title
+		self.style = style
+		self.target = target
+		self.action = action
     }
 
-    convenience override init(image: UIImage, style: UIBarButtonItemStyle, target: AnyObject, action: Selector) {
-        if (self = self()) {
-            self.image = image!
-            self.style = style
-            self.target = target
-            self.action = action
-        }
+    public convenience init(image: UIImage?, style: UIBarButtonItemStyle, target: AnyObject?, action: Selector) {
+		self.init()
+		
+		self.image = image
+		self.style = style
+		self.target = target
+		self.action = action
     }
 
-    func backButtonBackgroundImageForState(state: UIControlState, barMetrics: UIBarMetrics) -> UIImage {
+    func backButtonBackgroundImageForState(state: UIControlState, barMetrics: UIBarMetrics) -> UIImage? {
         return nil
     }
 
@@ -105,7 +107,7 @@ class UIBarButtonItem: UIBarItem {
     }
 
     func backButtonTitlePositionAdjustmentForBarMetrics(barMetrics: UIBarMetrics) -> UIOffset {
-        return UIOffsetZero
+        return .zero
     }
 
     func setBackButtonTitlePositionAdjustment(adjustment: UIOffset, forBarMetrics barMetrics: UIBarMetrics) {
@@ -125,14 +127,14 @@ class UIBarButtonItem: UIBarItem {
     func setBackgroundVerticalPositionAdjustment(adjustment: CGFloat, forBarMetrics barMetrics: UIBarMetrics) {
     }
 
-    func backgroundImageForState(state: UIControlState, barMetrics: UIBarMetrics) -> UIImage {
+    func backgroundImageForState(state: UIControlState, barMetrics: UIBarMetrics) -> UIImage? {
         return nil
     }
 
     func setBackgroundImage(backgroundImage: UIImage, forState state: UIControlState, barMetrics: UIBarMetrics) {
     }
 
-    func backgroundImageForState(state: UIControlState, style: UIBarButtonItemStyle, barMetrics: UIBarMetrics) -> UIImage {
+    func backgroundImageForState(state: UIControlState, style: UIBarButtonItemStyle, barMetrics: UIBarMetrics) -> UIImage? {
         return nil
     }
 
@@ -147,20 +149,20 @@ class UIBarButtonItem: UIBarItem {
     }
     var style: UIBarButtonItemStyle
     var width: CGFloat
-    var customView: UIView {
+	private var _customView: UIView?
+    var customView: UIView? {
         get {
-            return isSystemItem ? nil : customView
+            return isSystemItem ? nil : _customView
         }
     }
 
-    var target: AnyObject
-    var action: Selector
-    var tintColor: UIColor
+    public var target: AnyObject?
+    public var action: Selector
+    public var tintColor: UIColor?
 
-    convenience override init() {
-        if (self.init()) {
-            self.isSystemItem = false
-            self.style = .Plain
-        }
+	public override init() {
+		self.isSystemItem = false
+		self.style = .Plain
+		super.init()
     }
 }

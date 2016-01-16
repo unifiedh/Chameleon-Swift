@@ -26,12 +26,14 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 import Foundation
 import IOKit
 import SystemConfiguration
-    let UIDeviceOrientationDidChangeNotification: String
 
-enum UIDeviceOrientation : Int {
+public let UIDeviceOrientationDidChangeNotification: String = "UIDeviceOrientationDidChangeNotification"
+
+public enum UIDeviceOrientation : Int {
     case Unknown
     case Portrait
     case PortraitUpsideDown
@@ -41,94 +43,90 @@ enum UIDeviceOrientation : Int {
     case FaceDown
 }
 
-enum UIUserInterfaceIdiom : Int {
+public enum UIUserInterfaceIdiom : Int {
     case Phone
     case Pad
     case Desktop
 }
 
+public func UI_USER_INTERFACE_IDIOM() -> UIUserInterfaceIdiom {
+    return UIDevice.currentDevice().userInterfaceIdiom
+}
+
 //#define UI_USER_INTERFACE_IDIOM() \
-        UIDevice.currentDevice().respondsToSelector("userInterfaceIdiom")
-        UIDevice.currentDevice().userInterfaceIdiom():\
+//        UIDevice.currentDevice().respondsToSelector("userInterfaceIdiom")
+//        UIDevice.currentDevice().userInterfaceIdiom():\
 
-//#define UIDeviceOrientationIsPortrait(orientation)  \
-        .Portrait || 
-        (orientation) == .PortraitUpsideDown)
+public func UIDeviceOrientationIsPortrait(orientation: UIDeviceOrientation) -> Bool {
+    return orientation == .Portrait || orientation == .PortraitUpsideDown
+}
 
-//#define UIDeviceOrientationIsLandscape(orientation) \
-        .LandscapeLeft || 
-        (orientation) == .LandscapeRight)
+public func UIDeviceOrientationIsLandscape(orientation: UIDeviceOrientation) -> Bool {
+    return orientation == .LandscapeLeft || orientation == .LandscapeRight
+}
 
-class UIDevice: NSObject {
-    class func currentDevice() -> UIDevice {
+public class UIDevice: NSObject {
+    public class func currentDevice() -> UIDevice {
         return theDevice
     }
 
+    // no effect
     func beginGeneratingDeviceOrientationNotifications() {
     }
-    // no effect
 
+    // no effect
     func endGeneratingDeviceOrientationNotifications() {
     }
-    // no effect
-    var name: String {
+    
+    public var name: String? {
         get {
-            return SCDynamicStoreCopyComputerName(nil, nil) as! __bridge_transfer NSString
+            return SCDynamicStoreCopyComputerName(nil, nil) as? NSString as? String
         }
     }
 
-    var userInterfaceIdiom: UIUserInterfaceIdiom
     // default is UIUserInterfaceIdiomDesktop (obviously real UIKit doesn't allow setting this!)
-    var orientation: UIDeviceOrientation {
+    public private(set) var userInterfaceIdiom: UIUserInterfaceIdiom
+    // always returns UIDeviceOrientationPortrait
+    public var orientation: UIDeviceOrientation {
         get {
             return .Portrait
         }
     }
 
-    // always returns UIDeviceOrientationPortrait
-    var multitaskingSupported: Bool {
+    // always returns YES
+    public var multitaskingSupported: Bool {
         get {
             return true
         }
     }
 
-    // always returns YES
-    var systemName: String {
+    public var systemName: String {
         get {
             return NSProcessInfo.processInfo().operatingSystemName()
         }
     }
 
-    var systemVersion: String {
+    public var systemVersion: String {
         get {
-            return NSProcessInfo.processInfo().operatingSystemVersionString()
+            return NSProcessInfo.processInfo().operatingSystemVersionString
         }
     }
 
-    var model: String {
+    public var model: String {
         get {
             return "Mac"
         }
     }
 
-    var generatesDeviceOrientationNotifications: Bool {
+    public var generatesDeviceOrientationNotifications: Bool {
         get {
             return false
         }
     }
 
-    class func initialize() {
-        if self == UIDevice {
-            theDevice = UIDevice()
-        }
-    }
-
-    convenience override init() {
-        if (self.init()) {
+    override init() {
             self.userInterfaceIdiom = .Desktop
-        }
     }
 }
-    let UIDeviceOrientationDidChangeNotification: String = "UIDeviceOrientationDidChangeNotification"
 
-    var theDevice: UIDevice
+private var theDevice: UIDevice = UIDevice()

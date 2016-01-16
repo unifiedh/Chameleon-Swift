@@ -26,17 +26,18 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import AppKit
+
+import Cocoa
 
 extension UIImage {
-    class func _cacheImage(image: UIImage, forName name: String) {
-        if image && name {
-            imageCache![name] = image
-        }
+    class func _cacheImage(image: UIImage?, forName name: String) {
+		if let image = image {
+            imageCache[name] = image
+		}
     }
 
-    class func _cachedImageForName(name: String) -> UIImage {
-        return (imageCache![name] as! String)
+    class func _cachedImageForName(name: String) -> UIImage? {
+        return imageCache[name]
     }
 
     class func _backButtonImage() -> UIImage {
@@ -103,16 +104,6 @@ extension UIImage {
         return self._frameworkImageWithName("<UITabBar> item.png", leftCapWidth: 8, topCapHeight: 0)
     }
 
-    convenience override init(reps: [AnyObject]) {
-        if reps.count == 0 {
-            self = nil
-        }
-        else if (self.init()) {
-            self.representations = reps.copy()
-        }
-
-    }
-
     func _bestRepresentationForProposedScale(scale: CGFloat) -> UIImageRep {
         var bestRep: UIImageRep? = nil
         for rep: UIImageRep in self._representations() {
@@ -123,14 +114,14 @@ extension UIImage {
                 bestRep = rep
             }
         }
-        return bestRep ?? self._representations().lastObject()
+        return bestRep ?? self._representations().last!
     }
 
     func _drawRepresentation(rep: UIImageRep, inRect rect: CGRect) {
         rep.drawInRect(rect, fromRect: CGRectNull)
     }
 
-    func _representations() -> [AnyObject] {
+    func _representations() -> [UIImageRep] {
         return representations
     }
 
@@ -155,29 +146,26 @@ extension UIImage {
         else {
             size = imageSize
         }
-        var rect: CGRect = CGRectMake(0, 0, size.width, size.height)
+        var rect = CGRectMake(0, 0, size.width, size.height)
         UIGraphicsBeginImageContextWithOptions(size, false, self.scale)
         UIColor(red: 101 / 255.0, green: 104 / 255.0, blue: 121 / 255.0, alpha: 1).setFill()
         UIRectFill(rect)
-        self.drawInRect(rect, blendMode: kCGBlendModeDestinationIn, alpha: 1)
-        var image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        self.drawInRect(rect, blendMode: .DestinationIn, alpha: 1)
+        var image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image
-    }
-
-    class func load() {
-        imageCache = [NSObject : AnyObject]()
+        return image!
     }
 
     class func _frameworkImageWithName(name: String, leftCapWidth: Int, topCapHeight: Int) -> UIImage {
-        var image: UIImage = self._cachedImageForName(name)
-        if !image {
-            var frameworkBundle: NSBundle = NSBundle.bundleWithIdentifier("org.chameleonproject.UIKit")
-            var frameworkFile: String = frameworkBundle.resourcePath().stringByAppendingPathComponent(name)
-            image = self.imageWithContentsOfFile(frameworkFile)!.stretchableImageWithLeftCapWidth(leftCapWidth, topCapHeight: topCapHeight)
+        var image = self._cachedImageForName(name)
+        if image == nil {
+            var frameworkBundle: NSBundle = NSBundle(identifier: "org.chameleonproject.UIKit")!
+            var frameworkFile: String = (frameworkBundle.resourcePath! as NSString).stringByAppendingPathComponent(name)
+			image = UIImage(contentsOfFile: frameworkFile)!.stretchableImageWithLeftCapWidth(leftCapWidth, topCapHeight: topCapHeight)
             self._cacheImage(image, forName: name)
         }
-        return image
+        return image!
     }
 }
-    var imageCache: [NSObject : AnyObject]? = nil
+
+private var imageCache = [String : UIImage]()

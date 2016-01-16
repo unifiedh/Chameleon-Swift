@@ -28,10 +28,10 @@
  */
 import Foundation
 //#define UI_APPEARANCE_SELECTOR
-protocol UIAppearanceContainer: NSObject {
+protocol UIAppearanceContainer: NSObjectProtocol {
 }
-protocol UIAppearance: NSObject {
-    class func appearance() -> AnyObject
+protocol UIAppearance: NSObjectProtocol {
+    static func appearance() -> AnyObject
 
-    convenience init(ContainerClass: Class<UIAppearanceContainer>)
+    init(ContainerClass: UIAppearanceContainer)
 }

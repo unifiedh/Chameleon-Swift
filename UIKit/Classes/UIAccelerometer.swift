@@ -27,13 +27,15 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-protocol UIAccelerometerDelegate: NSObject {
+
+public protocol UIAccelerometerDelegate: NSObjectProtocol {
     func accelerometer(accelerometer: UIAccelerometer, didAccelerate acceleration: UIAcceleration)
 }
-class UIAccelerometer: NSObject {
-    class func sharedAccelerometer() -> UIAccelerometer {
+
+public class UIAccelerometer: NSObject {
+    class func sharedAccelerometer() -> UIAccelerometer? {
         return nil
     }
-    weak var delegate: UIAccelerometerDelegate
-    var updateInterval: NSTimeInterval
+    weak var delegate: UIAccelerometerDelegate?
+    var updateInterval: NSTimeInterval = 0.0
 }

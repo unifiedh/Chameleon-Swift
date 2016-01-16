@@ -27,30 +27,15 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-    var UIAccelerationValue: Double
 
-class UIAcceleration: NSObject {
-    var x: UIAccelerationValue {
-        get {
-            return self.x
-        }
-    }
+public typealias UIAccelerationValue = Double
 
-    var y: UIAccelerationValue {
-        get {
-            return self.y
-        }
-    }
+public class UIAcceleration: NSObject {
+    var x: UIAccelerationValue = 0
 
-    var z: UIAccelerationValue {
-        get {
-            return self.z
-        }
-    }
+    var y: UIAccelerationValue = 0
 
-    var timestamp: NSTimeInterval {
-        get {
-            return self.timestamp
-        }
-    }
+    var z: UIAccelerationValue = 0
+
+    var timestamp: NSTimeInterval = 0
 }

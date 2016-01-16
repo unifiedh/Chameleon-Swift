@@ -27,13 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-enum UIImageViewDrawMode : Int {
+enum _UIImageViewDrawMode : Int {
     case _UIImageViewDrawModeNormal
     case _UIImageViewDrawModeHighlighted
     case _UIImageViewDrawModeDisabled
-}
-
-extension UIImageView {
-    func _setDrawMode(drawMode: _UIImageViewDrawMode) {
-    }
 }

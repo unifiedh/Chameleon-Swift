@@ -27,53 +27,54 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import AppKit
+import Cocoa
 
 extension UIScreen {
     // the windows that make this screen their home
-    var windows: [AnyObject] {
-        get {
-            return self.windows
-        }
-    }
+    //var windows: [AnyObject] {
+    //    get {
+    //        return self.windows
+    //    }
+    //}
 
     // the window from the -windows array which is this screen's key window. this is not really how iOS is likely to work
     // as iOS seems to track a single key window for the whole app, but on OSX the user can change the key window out from
     // under the app, so this entire thing has to be managed differently. my design here is that each screen has a potential
     // key window which is what is set when a UIWindow is told to become key. the app's keyWindow (as reported by UIApplication)
     // will be the keyWindow of the screen that's currently on the NSWindow that's key.... yeah... confusing, eh?
-    var keyWindow: UIWindow {
-        get {
-            return self.keyWindow
-        }
-    }
+    //var keyWindow: UIWindow {
+    //    get {
+    //        return self.keyWindow
+    //    }
+    //}
 
     // the real NSView that the screen lives on (or nil if there isn't one)
-    var UIKitView: UIKitView {
-        get {
-            return self.UIKitView
-        }
-    }
+    //var UIKitView: UIKitView {
+    //    get {
+    //        return self.UIKitView
+    //    }
+    //}
 
     // promotes this screen to the main screen
     // this only changes what [UIScreen mainScreen] returns in the future, it doesn't move anything between views, etc.
 
     func becomeMainScreen() {
-        var entry: NSValue = NSValue(nonretainedObject: self)
-        var index: Int = allScreens.indexOfObject(entry)
-        allScreens.removeAtIndex(index)
-        allScreens.insertObject(entry, atIndex: 0)
+        let entry: NSValue = NSValue(nonretainedObject: self)
+		if let index = allScreens.indexOf(entry) {
+			allScreens.removeAtIndex(index)
+		}
+		allScreens.insert(entry, atIndex: 0)
     }
     // Using a nil screen will convert to OSX screen coordinates.
 
-    func convertPoint(toConvert: CGPoint, toScreen: UIScreen) -> CGPoint {
+    func convertPoint(toConvert: CGPoint, toScreen: UIScreen?) -> CGPoint {
         if toScreen == self {
             return toConvert
         }
         else {
             // Go all the way through OSX screen coordinates.
             var screenCoords: NSPoint = self.UIKitView.window().convertBaseToScreen(self.UIKitView.convertPoint(NSPointFromCGPoint(toConvert), toView: nil))
-            if toScreen {
+            if let toScreen = toScreen {
                 // Now from there back to the toScreen's window's base
                 return NSPointToCGPoint(toScreen.UIKitView.convertPoint(toScreen.UIKitView.window().convertScreenToBase(screenCoords), fromView: nil))
             }
@@ -83,13 +84,13 @@ extension UIScreen {
         }
     }
 
-    func convertPoint(toConvert: CGPoint, fromScreen: UIScreen) -> CGPoint {
+    func convertPoint(toConvert: CGPoint, fromScreen: UIScreen?) -> CGPoint {
         if fromScreen == self {
             return toConvert
         }
         else {
             var screenCoords: NSPoint
-            if fromScreen {
+            if let fromScreen = fromScreen {
                 // Go all the way through OSX screen coordinates.
                 screenCoords = fromScreen.UIKitView.window().convertBaseToScreen(fromScreen.UIKitView.convertPoint(NSPointFromCGPoint(toConvert), toView: nil))
             }
@@ -102,16 +103,17 @@ extension UIScreen {
     }
 
     func convertRect(toConvert: CGRect, toScreen: UIScreen) -> CGRect {
-        var origin: CGPoint = self.convertPoint(CGPointMake(CGRectGetMinX(toConvert), CGRectGetMinY(toConvert)), toScreen: toScreen)
-        var bottom: CGPoint = self.convertPoint(CGPointMake(CGRectGetMaxX(toConvert), CGRectGetMaxY(toConvert)), toScreen: toScreen)
+        let origin: CGPoint = self.convertPoint(CGPointMake(CGRectGetMinX(toConvert), CGRectGetMinY(toConvert)), toScreen: toScreen)
+        let bottom: CGPoint = self.convertPoint(CGPointMake(CGRectGetMaxX(toConvert), CGRectGetMaxY(toConvert)), toScreen: toScreen)
         return CGRectStandardize(CGRectMake(origin.x, origin.y, bottom.x - origin.x, bottom.y - origin.y))
     }
 
     func convertRect(toConvert: CGRect, fromScreen: UIScreen) -> CGRect {
-        var origin: CGPoint = self.convertPoint(CGPointMake(CGRectGetMinX(toConvert), CGRectGetMinY(toConvert)), fromScreen: fromScreen)
-        var bottom: CGPoint = self.convertPoint(CGPointMake(CGRectGetMaxX(toConvert), CGRectGetMaxY(toConvert)), fromScreen: fromScreen)
+        let origin: CGPoint = self.convertPoint(CGPointMake(CGRectGetMinX(toConvert), CGRectGetMinY(toConvert)), fromScreen: fromScreen)
+        let bottom: CGPoint = self.convertPoint(CGPointMake(CGRectGetMaxX(toConvert), CGRectGetMaxY(toConvert)), fromScreen: fromScreen)
         return CGRectStandardize(CGRectMake(origin.x, origin.y, bottom.x - origin.x, bottom.y - origin.y))
     }
 }
 
-    var self.allScreens: [AnyObject]
+
+private var allScreens = [NSValue]()

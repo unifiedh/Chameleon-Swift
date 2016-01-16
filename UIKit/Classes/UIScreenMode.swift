@@ -26,34 +26,25 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import Foundation
+
 import AppKit
-class UIScreenMode: NSObject {
-    var pixelAspectRatio: CGFloat {
-        get {
-            return self.pixelAspectRatio
-        }
-    }
 
-    var size: CGSize {
-        get {
-            return self.size
-        }
-    }
+public class UIScreenMode: NSObject {
+    public let pixelAspectRatio: CGFloat
+    public let size: CGSize
 
-    convenience init(NSView theNSView: NSView) {
-        if theNSView != nil {
-            var mode: UIScreenMode = self()
-            mode->size = NSSizeToCGSize(theNSView.bounds.size)
-            mode->pixelAspectRatio = 1
-            return mode
-        }
-        else {
+	internal init?(NSView theNSView: NSView?) {
+        if let theNSView = theNSView {
+            self.size = NSSizeToCGSize(theNSView.bounds.size)
+            self.pixelAspectRatio = 1
+			
+            return
+        } else {
             return nil
         }
     }
 
-    func description() -> String {
-        return "<\(self.className()): \(self); size = \(NSStringFromCGSize(self.size))>"
+	public override var description: String {
+        return "<\(self.className): \(unsafeAddressOf(self)); size = \(NSStringFromCGSize(self.size))>"
     }
 }

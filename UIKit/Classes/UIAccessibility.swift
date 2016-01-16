@@ -27,142 +27,115 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-    var UIAccessibilityTraits: UInt64
 
-    var UIAccessibilityTraitNone: UIAccessibilityTraits
 
-    var UIAccessibilityTraitButton: UIAccessibilityTraits
+public typealias UIAccessibilityNotifications = UInt32
 
-    var UIAccessibilityTraitLink: UIAccessibilityTraits
 
-    var UIAccessibilityTraitSearchField: UIAccessibilityTraits
-
-    var UIAccessibilityTraitImage: UIAccessibilityTraits
-
-    var UIAccessibilityTraitSelected: UIAccessibilityTraits
-
-    var UIAccessibilityTraitPlaysSound: UIAccessibilityTraits
-
-    var UIAccessibilityTraitKeyboardKey: UIAccessibilityTraits
-
-    var UIAccessibilityTraitStaticText: UIAccessibilityTraits
-
-    var UIAccessibilityTraitSummaryElement: UIAccessibilityTraits
-
-    var UIAccessibilityTraitNotEnabled: UIAccessibilityTraits
-
-    var UIAccessibilityTraitUpdatesFrequently: UIAccessibilityTraits
-
-    var UIAccessibilityTraitHeader: UIAccessibilityTraits
-
-    var UIAccessibilityNotifications: uint32_t
-
-    var UIAccessibilityScreenChangedNotification: UIAccessibilityNotifications
-
-    var UIAccessibilityLayoutChangedNotification: UIAccessibilityNotifications
-
-    var UIAccessibilityAnnouncementNotification: UIAccessibilityNotifications
-
-    var UIAccessibilityPageScrolledNotification: UIAccessibilityNotifications
-
-extension NSObject {
-    var isAccessibilityElement: Bool
-    var accessibilityLabel: String
-    var accessibilityHint: String
-    var accessibilityValue: String
-    var accessibilityTraits: UIAccessibilityTraits
-    var accessibilityFrame: CGRect
-    var accessibilityViewIsModal: Bool
-    var accessibilityElementsHidden: Bool
-
-    func isAccessibilityElement() -> Bool {
-        return false
+public extension NSObject {
+	/*
+    public var isAccessibilityElement: Bool {
+        get {
+            return false
+        }
+        set {
+            
+        }
     }
-
-    func setIsAccessibilityElement(isElement: Bool) {
+    public var accessibilityLabel: String? {
+        get {
+            return nil
+        }
+        set {
+            
+        }
     }
-
-    func accessibilityLabel() -> String {
-        return nil
+    public var accessibilityHint: String? {
+        get {
+            return nil
+        }
+        set {
+            
+        }
     }
-
-    func setAccessibilityLabel(label: String) {
+    public var accessibilityValue: String? {
+        get {
+            return nil
+        }
+        set {
+            
+        }
     }
-
-    func accessibilityHint() -> String {
-        return nil
+    public var accessibilityTraits: UIAccessibilityTraits {
+        get {
+            return .None
+        }
+        set {
+            
+        }
     }
-
-    func setAccessibilityHint(hint: String) {
+    public var accessibilityFrame: CGRect {
+        get {
+            return .null
+        }
+        set {
+            
+        }
     }
-
-    func accessibilityValue() -> String {
-        return nil
+    public var accessibilityViewIsModal: Bool {
+        get {
+            return false
+        }
+        set {
+            
+        }
     }
-
-    func setAccessibilityValue(value: String) {
-    }
-
-    func accessibilityTraits() -> UIAccessibilityTraits {
-        return .None
-        // STUB
-    }
-
-    func setAccessibilityTraits(traits: UIAccessibilityTraits) {
-    }
-
-    func accessibilityFrame() -> CGRect {
-        return CGRectNull
-    }
-
-    func setAccessibilityFrame(frame: CGRect) {
-    }
-
-    func accessibilityViewIsModal() -> Bool {
-        return false
-    }
-
-    func setAccessibilityViewIsModal(isModal: Bool) {
-    }
-
-    func accessibilityElementsHidden() -> Bool {
-        return false
-    }
-
-    func setAccessibilityElementsHidden(accessibilityElementsHidden: Bool) {
-    }
+    public var accessibilityElementsHidden: Bool {
+        get {
+            return false
+        }
+        set {
+            
+        }
+    }*/
 }
-extension NSObject {
-    func accessibilityElementCount() -> Int {
+
+public extension NSObject {
+    public var accessibilityElementCount: Int {
         return 0
     }
 
-    convenience override init(index: Int) {
+    public func accessibilityElementAtIndex(index: Int) -> AnyObject? {
         return nil
     }
 
-    func indexOfAccessibilityElement(element: AnyObject) -> Int {
+    public func indexOfAccessibilityElement(element: AnyObject) -> Int {
         return NSNotFound
     }
 }
-extension NSObject {
-    func accessibilityElementDidBecomeFocused() {
+
+public extension NSObject {
+    public func accessibilityElementDidBecomeFocused() {
     }
 
-    func accessibilityElementDidLoseFocus() {
+    public func accessibilityElementDidLoseFocus() {
     }
 
-    func accessibilityElementIsFocused() -> Bool {
+    public func accessibilityElementIsFocused() -> Bool {
         return false
     }
 }
-    var UIAccessibilityPostNotification
 
-    var UIAccessibilityIsVoiceOverRunning: Bool
+public func UIAccessibilityPostNotification(notification: UIAccessibilityNotifications, argument: AnyObject) {
+    
+}
 
-    let UIAccessibilityVoiceOverStatusChanged: String
+public func UIAccessibilityIsVoiceOverRunning() -> Bool {
+    return false
+}
 
-enum UIAccessibilityScrollDirection : Int {
+
+public enum UIAccessibilityScrollDirection : Int {
     case Right = 1
     case Left
     case Up
@@ -171,40 +144,34 @@ enum UIAccessibilityScrollDirection : Int {
     case Previous
 }
 
-    var UIAccessibilityTraitNone: UIAccessibilityTraits = 0
+public struct UIAccessibilityTraits: OptionSetType {
+    public let rawValue: UInt64
+    public init(rawValue: UInt64) {
+        self.rawValue = rawValue
+    }
+    
+    public static let None = UIAccessibilityTraits(rawValue: 0)
+    public static let Button = UIAccessibilityTraits(rawValue: 1)
+    public static let Link = UIAccessibilityTraits(rawValue: 2)
+    public static let Image = UIAccessibilityTraits(rawValue: 4)
+    public static let Selected = UIAccessibilityTraits(rawValue: 8)
+    public static let PlaysSound = UIAccessibilityTraits(rawValue: 16)
+    public static let KeyboardKey = UIAccessibilityTraits(rawValue: 32)
+    public static let StaticText = UIAccessibilityTraits(rawValue: 64)
+    public static let SummaryElement = UIAccessibilityTraits(rawValue: 128)
+    public static let NotEnabled = UIAccessibilityTraits(rawValue: 256)
+    public static let UpdatesFrequently = UIAccessibilityTraits(rawValue: 512)
+    public static let SearchField = UIAccessibilityTraits(rawValue: 1024)
+    public static let Header = UIAccessibilityTraits(rawValue: 2048)
+}
 
-    var UIAccessibilityTraitButton: UIAccessibilityTraits = 1
+public let UIAccessibilityScreenChangedNotification: UIAccessibilityNotifications = 1000
 
-    var UIAccessibilityTraitLink: UIAccessibilityTraits = 2
+public let UIAccessibilityLayoutChangedNotification: UIAccessibilityNotifications = 1001
 
-    var UIAccessibilityTraitImage: UIAccessibilityTraits = 4
+public let UIAccessibilityAnnouncementNotification: UIAccessibilityNotifications = 1002
 
-    var UIAccessibilityTraitSelected: UIAccessibilityTraits = 8
+public let UIAccessibilityPageScrolledNotification: UIAccessibilityNotifications = 1003
 
-    var UIAccessibilityTraitPlaysSound: UIAccessibilityTraits = 16
+public let UIAccessibilityVoiceOverStatusChanged: String = "UIAccessibilityVoiceOverStatusChanged"
 
-    var UIAccessibilityTraitKeyboardKey: UIAccessibilityTraits = 32
-
-    var UIAccessibilityTraitStaticText: UIAccessibilityTraits = 64
-
-    var UIAccessibilityTraitSummaryElement: UIAccessibilityTraits = 128
-
-    var UIAccessibilityTraitNotEnabled: UIAccessibilityTraits = 256
-
-    var UIAccessibilityTraitUpdatesFrequently: UIAccessibilityTraits = 512
-
-    var UIAccessibilityTraitSearchField: UIAccessibilityTraits = 1024
-
-    var UIAccessibilityTraitHeader: UIAccessibilityTraits = 2048
-
-    var UIAccessibilityScreenChangedNotification: UIAccessibilityNotifications = 1000
-
-    var UIAccessibilityLayoutChangedNotification: UIAccessibilityNotifications = 1001
-
-    var UIAccessibilityAnnouncementNotification: UIAccessibilityNotifications = 1002
-
-    var UIAccessibilityPageScrolledNotification: UIAccessibilityNotifications = 1003
-
-    let UIAccessibilityVoiceOverStatusChanged: String = "UIAccessibilityVoiceOverStatusChanged"
-
-        return false

@@ -30,57 +30,56 @@
 import AppKit
 import QuartzCore
 
-    var UIWindowLevel: CGFloat
+    public typealias UIWindowLevel = CGFloat
 
-    let UIWindowLevelNormal: UIWindowLevel
+public let UIWindowLevelNormal: UIWindowLevel = 0
 
-    let UIWindowLevelStatusBar: UIWindowLevel
+public let UIWindowLevelStatusBar: UIWindowLevel = 1000
 
-    let UIWindowLevelAlert: UIWindowLevel
+public let UIWindowLevelAlert: UIWindowLevel = 2000
 
-    let UIWindowDidBecomeVisibleNotification: String
+public let UIWindowDidBecomeVisibleNotification: String = "UIWindowDidBecomeVisibleNotification"
 
-    let UIWindowDidBecomeHiddenNotification: String
+public let UIWindowDidBecomeHiddenNotification: String = "UIWindowDidBecomeHiddenNotification"
 
-    let UIWindowDidBecomeKeyNotification: String
+public let UIWindowDidBecomeKeyNotification: String = "UIWindowDidBecomeKeyNotification"
 
-    let UIWindowDidResignKeyNotification: String
+public let UIWindowDidResignKeyNotification: String = "UIWindowDidResignKeyNotification"
 
-    let UIKeyboardWillShowNotification: String
+public let UIKeyboardWillShowNotification: String = "UIKeyboardWillShowNotification"
 
-    let UIKeyboardDidShowNotification: String
+public let UIKeyboardDidShowNotification: String = "UIKeyboardDidShowNotification"
 
-    let UIKeyboardWillHideNotification: String
+public let UIKeyboardWillHideNotification: String = "UIKeyboardWillHideNotification"
 
-    let UIKeyboardDidHideNotification: String
+public let UIKeyboardDidHideNotification: String = "UIKeyboardDidHideNotification"
 
-    let UIKeyboardWillChangeFrameNotification: String
+public let UIKeyboardWillChangeFrameNotification: String = "UIKeyboardWillChangeFrameNotification"
 
-    let UIKeyboardFrameBeginUserInfoKey: String
+public let UIKeyboardFrameBeginUserInfoKey: String = "UIKeyboardFrameBeginUserInfoKey"
 
-    let UIKeyboardFrameEndUserInfoKey: String
+public let UIKeyboardFrameEndUserInfoKey: String = "UIKeyboardFrameEndUserInfoKey"
 
-    let UIKeyboardAnimationDurationUserInfoKey: String
+public let UIKeyboardAnimationDurationUserInfoKey: String = "UIKeyboardAnimationDurationUserInfoKey"
 
-    let UIKeyboardAnimationCurveUserInfoKey: String
+public let UIKeyboardAnimationCurveUserInfoKey: String = "UIKeyboardAnimationCurveUserInfoKey"
 
 // deprecated
-    let UIKeyboardCenterBeginUserInfoKey: String
+public let UIKeyboardCenterBeginUserInfoKey: String = "UIKeyboardCenterBeginUserInfoKey"
 
-    let UIKeyboardCenterEndUserInfoKey: String
+public let UIKeyboardCenterEndUserInfoKey: String = "UIKeyboardCenterEndUserInfoKey"
 
-    let UIKeyboardBoundsUserInfoKey: String
+public let UIKeyboardBoundsUserInfoKey: String = "UIKeyboardBoundsUserInfoKey"
 
-class UIWindow: UIView {
-    func convertPoint(toConvert: CGPoint, toWindow: UIWindow) -> CGPoint {
+public class UIWindow: UIView {
+    func convertPoint(var toConvert: CGPoint, toWindow: UIWindow?) -> CGPoint {
         if toWindow == self {
             return toConvert
-        }
-        else {
+        } else {
             // Convert to screen coordinates
             toConvert.x += self.frame.origin.x
             toConvert.y += self.frame.origin.y
-            if toWindow {
+            if let toWindow = toWindow {
                 // Now convert the screen coords into the other screen's coordinate space
                 toConvert = self.screen.convertPoint(toConvert, toScreen: toWindow.screen)
                 // And now convert it from the new screen's space into the window's space
@@ -91,12 +90,12 @@ class UIWindow: UIView {
         }
     }
 
-    func convertPoint(toConvert: CGPoint, fromWindow: UIWindow) -> CGPoint {
+    func convertPoint(var toConvert: CGPoint, fromWindow: UIWindow?) -> CGPoint {
         if fromWindow == self {
             return toConvert
         }
         else {
-            if fromWindow {
+            if let fromWindow = fromWindow {
                 // Convert to screen coordinates
                 toConvert.x += fromWindow.frame.origin.x
                 toConvert.y += fromWindow.frame.origin.y
@@ -111,12 +110,12 @@ class UIWindow: UIView {
     }
 
     func convertRect(toConvert: CGRect, fromWindow: UIWindow) -> CGRect {
-        var convertedOrigin: CGPoint = self.convertPoint(toConvert.origin, fromWindow: fromWindow)
+        let convertedOrigin: CGPoint = self.convertPoint(toConvert.origin, fromWindow: fromWindow)
         return CGRectMake(convertedOrigin.x, convertedOrigin.y, toConvert.size.width, toConvert.size.height)
     }
 
     func convertRect(toConvert: CGRect, toWindow: UIWindow) -> CGRect {
-        var convertedOrigin: CGPoint = self.convertPoint(toConvert.origin, toWindow: toWindow)
+        let convertedOrigin: CGPoint = self.convertPoint(toConvert.origin, toWindow: toWindow)
         return CGRectMake(convertedOrigin.x, convertedOrigin.y, toConvert.size.width, toConvert.size.height)
     }
 
@@ -208,12 +207,12 @@ class UIWindow: UIView {
         get {
             return self.layer.zPosition
         }
-        set {
+        set(level) {
             self.layer.zPosition = level
         }
     }
 
-    var rootViewController: UIViewController {
+    var rootViewController: UIViewController? {
         get {
             return self.rootViewController
         }
@@ -230,12 +229,10 @@ class UIWindow: UIView {
             }
         }
     }
-    var self.firstResponder: UIResponder
-    var self.undoManager: NSUndoManager
+    var firstResponder: UIResponder?
 
 
-    convenience override init(frame theFrame: CGRect) {
-        if (self.init(frame: theFrame)) {
+    override init(frame theFrame: CGRect) {
             self.undoManager = NSUndoManager()
             self._makeHidden()
             // do this first because before the screen is set, it will prevent any visibility notifications from being sent.
@@ -243,10 +240,10 @@ class UIWindow: UIView {
             self.opaque = false
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "_NSWindowDidBecomeKeyNotification:", name: NSWindowDidBecomeKeyNotification, object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "_NSWindowDidResignKeyNotification:", name: NSWindowDidResignKeyNotification, object: nil)
-        }
+        super.init(frame: frame)
     }
 
-    func dealloc() {
+    deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         self._makeHidden()
         // I don't really like this here, but the real UIKit seems to do something like this on window destruction as it sends a notification and we also need to remove it from the app's list of windows
@@ -258,37 +255,38 @@ class UIWindow: UIView {
         self.rootViewController = nil
     }
 
-    func _firstResponder() -> UIResponder {
+    internal func _firstResponder() -> UIResponder? {
         return firstResponder
     }
 
-    func _setFirstResponder(newFirstResponder: UIResponder) {
-        self.firstResponder = newFirstResponder
+    func _setFirstResponder(newFirstResponder: UIResponder?) {
+        firstResponder = newFirstResponder
     }
 
     func undoManager() -> NSUndoManager {
         return undoManager
     }
 
-    func superview() -> UIView {
+    func superview() -> UIView? {
         return nil
         // lies!
     }
 
-    func removeFromSuperview() {
+    override func removeFromSuperview() {
         // does nothing
     }
 
     func window() -> UIWindow {
     }
 
-    func nextResponder() -> UIResponder {
+    override func nextResponder() -> UIResponder {
         return UIApplication.sharedApplication()
     }
 
-    func setFrame(frame: CGRect) {
-        super.frame = frame
-        self.rootViewController.view.frame = self.bounds
+    override var frame: CGRect {
+        didSet {
+            self.rootViewController.view.frame = self.bounds
+        }
     }
 
     func _screenModeChangedNotification(note: NSNotification) {
@@ -300,7 +298,7 @@ class UIWindow: UIView {
     }
 
     func _NSWindowDidBecomeKeyNotification(note: NSNotification) {
-        var nativeWindow: NSWindow = note.object
+        var nativeWindow = note.object as? NSWindow
         // when the underlying screen's NSWindow becomes key, we can use the keyWindow property the screen itself
         // to know if this UIWindow should become key again now or not. If things match up, we fire off -becomeKeyWindow
         // again to let the app know this happened. Normally iOS doesn't run into situations where the user can change
@@ -313,7 +311,7 @@ class UIWindow: UIView {
     }
 
     func _NSWindowDidResignKeyNotification(note: NSNotification) {
-        var nativeWindow: NSWindow = note.object
+        var nativeWindow = note.object as? NSWindow
         // if the resigned key window is the same window that hosts our underlying screen, then we need to resign
         // this UIWindow, too. note that it does NOT actually unset the keyWindow property for the UIScreen!
         // this is because if the user clicks back in the screen's window, we need a way to reconnect this UIWindow
@@ -494,41 +492,3 @@ class UIWindow: UIView {
     }
 }
 
-    let UIWindowLevelNormal: UIWindowLevel = 0
-
-    let UIWindowLevelStatusBar: UIWindowLevel = 1000
-
-    let UIWindowLevelAlert: UIWindowLevel = 2000
-
-    let UIWindowDidBecomeVisibleNotification: String = "UIWindowDidBecomeVisibleNotification"
-
-    let UIWindowDidBecomeHiddenNotification: String = "UIWindowDidBecomeHiddenNotification"
-
-    let UIWindowDidBecomeKeyNotification: String = "UIWindowDidBecomeKeyNotification"
-
-    let UIWindowDidResignKeyNotification: String = "UIWindowDidResignKeyNotification"
-
-    let UIKeyboardWillShowNotification: String = "UIKeyboardWillShowNotification"
-
-    let UIKeyboardDidShowNotification: String = "UIKeyboardDidShowNotification"
-
-    let UIKeyboardWillHideNotification: String = "UIKeyboardWillHideNotification"
-
-    let UIKeyboardDidHideNotification: String = "UIKeyboardDidHideNotification"
-
-    let UIKeyboardWillChangeFrameNotification: String = "UIKeyboardWillChangeFrameNotification"
-
-    let UIKeyboardFrameBeginUserInfoKey: String = "UIKeyboardFrameBeginUserInfoKey"
-
-    let UIKeyboardFrameEndUserInfoKey: String = "UIKeyboardFrameEndUserInfoKey"
-
-    let UIKeyboardAnimationDurationUserInfoKey: String = "UIKeyboardAnimationDurationUserInfoKey"
-
-    let UIKeyboardAnimationCurveUserInfoKey: String = "UIKeyboardAnimationCurveUserInfoKey"
-
-// deprecated
-    let UIKeyboardCenterBeginUserInfoKey: String = "UIKeyboardCenterBeginUserInfoKey"
-
-    let UIKeyboardCenterEndUserInfoKey: String = "UIKeyboardCenterEndUserInfoKey"
-
-    let UIKeyboardBoundsUserInfoKey: String = "UIKeyboardBoundsUserInfoKey"

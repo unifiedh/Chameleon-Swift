@@ -27,21 +27,21 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-enum UIDatePickerMode : Int {
+public enum UIDatePickerMode : Int {
     case Time
     case Date
     case DateAndTime
     case CountDownTimer
 }
 
-class UIDatePicker: UIControl {
-    var calendar: NSCalendar
-    var date: NSDate
-    var locale: NSLocale
-    var timeZone: NSTimeZone
-    var datePickerMode: UIDatePickerMode
-    var minimumDate: NSDate
-    var maximumDate: NSDate
-    var minuteInterval: Int
-    var countDownDuration: NSTimeInterval
+public class UIDatePicker: UIControl {
+    var calendar: NSCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+    var date: NSDate = NSDate()
+    var locale: NSLocale = NSLocale.currentLocale()
+    var timeZone: NSTimeZone = NSTimeZone.systemTimeZone()
+    var datePickerMode: UIDatePickerMode = .Time
+    var minimumDate: NSDate = NSDate()
+    var maximumDate: NSDate = NSDate()
+    var minuteInterval: Int = 0
+    var countDownDuration: NSTimeInterval = 0
 }

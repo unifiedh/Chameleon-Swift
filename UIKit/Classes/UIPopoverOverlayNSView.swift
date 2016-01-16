@@ -26,25 +26,30 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import AppKit
+
+import Cocoa
+
 class UIPopoverOverlayNSView: NSView {
-    convenience override init(frame: NSRect, popoverController controller: UIPopoverController) {
-        if (self.init(frame: frame)) {
-            self.popoverController = controller!
-        }
+	init(frame: NSRect, popoverController controller: UIPopoverController) {
+		self.popoverController = controller
+		super.init(frame: frame)
     }
-    var self.popoverController: UIPopoverController
+
+	required init?(coder: NSCoder) {
+	    fatalError("init(coder:) has not been implemented")
+	}
+    var popoverController: UIPopoverController?
 
 
-    func acceptsFirstMouse(theEvent: NSEvent) -> Bool {
+    override func acceptsFirstMouse(theEvent: NSEvent?) -> Bool {
         return true
     }
 
-    func canBecomeKeyView() -> Bool {
-        return false
-    }
+	override var canBecomeKeyView: Bool {
+		return false
+	}
 
-    func mouseDown(theEvent: NSEvent) {
-        popoverController._closePopoverWindowIfPossible()
+    override func mouseDown(theEvent: NSEvent?) {
+        popoverController?._closePopoverWindowIfPossible()
     }
 }

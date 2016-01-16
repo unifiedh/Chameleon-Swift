@@ -29,135 +29,90 @@
 
 import AppKit
 
-class UILabel: UIView {
+public class UILabel: UIView {
     func textRectForBounds(bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
         if text.characters.count > 0 {
             var maxSize: CGSize = bounds.size
             if numberOfLines > 0 {
-                maxSize.height = font.lineHeight * numberOfLines
+                maxSize.height = font.lineHeight * CGFloat(numberOfLines)
             }
-            var size: CGSize = text.sizeWithFont(font, constrainedToSize: maxSize, lineBreakMode: lineBreakMode)
-            var rect = CGRect()
-            rect.bounds.origin
-            rect.size
-            return rect
+            let size: CGSize = text.sizeWithFont(font, constrainedToSize: maxSize, lineBreakMode: lineBreakMode)
+			return CGRect(origin: bounds.origin, size: size)
         }
-        var rect = CGRect()
-        rect.bounds.origin
-        rect.CGRect()
-        rect.0
-        rect.0
-        return rect
+        return CGRect(origin: bounds.origin, size: .zero)
     }
 
     func drawTextInRect(rect: CGRect) {
         text.drawInRect(rect, withFont: font, lineBreakMode: lineBreakMode, alignment: textAlignment)
     }
     var text: String {
-        get {
-            return self.text
-        }
-        set {
+        didSet(newText) {
             if text != newText {
-                self.text = newText.copy()
-                self.setNeedsDisplay()
+				setNeedsDisplay()
             }
         }
     }
 
     var font: UIFont {
-        get {
-            return self.font
-        }
-        set {
-            assert(newFont != nil)
+        didSet(newFont) {
             if newFont != font {
-                self.font = newFont
-                self.setNeedsDisplay()
+				setNeedsDisplay()
             }
         }
     }
 
     var textColor: UIColor {
-        get {
-            return self.textColor
-        }
-        set {
-            if newColor != textColor {
-                self.textColor = newColor
-                self.setNeedsDisplay()
-            }
-        }
+		didSet(oldColor) {
+			if oldColor != textColor {
+				setNeedsDisplay()
+			}
+		}
     }
 
     var highlightedTextColor: UIColor
     var shadowColor: UIColor {
-        get {
-            return self.shadowColor
-        }
-        set {
-            if newColor != shadowColor {
-                self.shadowColor = newColor
-                self.setNeedsDisplay()
-            }
-        }
+		didSet {
+			if oldValue != shadowColor {
+				setNeedsDisplay()
+			}
+		}
     }
 
     var shadowOffset: CGSize {
-        get {
-            return self.shadowOffset
-        }
-        set {
+        didSet(newOffset) {
             if !CGSizeEqualToSize(newOffset, shadowOffset) {
-                self.shadowOffset = newOffset
-                self.setNeedsDisplay()
+                setNeedsDisplay()
             }
         }
     }
 
     var textAlignment: UITextAlignment {
-        get {
-            return self.textAlignment
-        }
-        set {
+        didSet(newAlignment) {
             if newAlignment != textAlignment {
-                self.textAlignment = newAlignment
-                self.setNeedsDisplay()
+                setNeedsDisplay()
             }
         }
     }
 
     var lineBreakMode: UILineBreakMode {
-        get {
-            return self.lineBreakMode
-        }
-        set {
+        didSet(newMode) {
             if newMode != lineBreakMode {
-                self.lineBreakMode = newMode
-                self.setNeedsDisplay()
+                setNeedsDisplay()
             }
         }
     }
 
     var enabled: Bool {
-        get {
-            return self.enabled
-        }
-        set {
+        didSet(newEnabled) {
             if newEnabled != enabled {
-                self.enabled = newEnabled
-                self.setNeedsDisplay()
+                setNeedsDisplay()
             }
         }
     }
 
     var numberOfLines: Int {
-        get {
-            return self.numberOfLines
-        }
-        set {
+        didSet(lines) {
             if lines != numberOfLines {
-                self.numberOfLines = lines
                 self.setNeedsDisplay()
             }
         }
@@ -171,35 +126,30 @@ class UILabel: UIView {
     var minimumFontSize: CGFloat
     // not implemented
     var highlighted: Bool {
-        get {
-            return self.highlighted
-        }
-        set {
-            if highlighted != highlighted {
-                self.highlighted = highlighted
+        didSet(highlighted) {
+            if self.highlighted != highlighted {
                 self.setNeedsDisplay()
             }
         }
     }
 
-    convenience override init(frame: CGRect) {
-        if (self.init(frame: frame)) {
-            self.userInteractionEnabled = false
-            self.textAlignment = .Left
-            self.lineBreakMode = .TailTruncation
-            self.textColor = UIColor.blackColor()
-            self.backgroundColor = UIColor.whiteColor()
-            self.enabled = true
-            self.font = UIFont.systemFontOfSize(17)
-            self.numberOfLines = 1
-            self.contentMode = .Left
-            self.clipsToBounds = true
-            self.shadowOffset = CGSizeMake(0, -1)
-            self.baselineAdjustment = .AlignBaselines
-        }
+	override init(frame: CGRect) {
+		self.userInteractionEnabled = false
+		self.textAlignment = .Left
+		self.lineBreakMode = .TailTruncation
+		self.textColor = UIColor.blackColor()
+		self.backgroundColor = UIColor.whiteColor()
+		self.enabled = true
+		self.font = UIFont.systemFontOfSize(17)
+		self.numberOfLines = 1
+		self.contentMode = .Left
+		self.clipsToBounds = true
+		self.shadowOffset = CGSizeMake(0, -1)
+		self.baselineAdjustment = .AlignBaselines
+		super.init(frame: frame)
     }
 
-    func drawRect(rect: CGRect) {
+    override func drawRect(rect: CGRect) {
         if text.characters.count > 0 {
             CGContextSaveGState(UIGraphicsGetCurrentContext)
             let bounds: CGRect = self.bounds

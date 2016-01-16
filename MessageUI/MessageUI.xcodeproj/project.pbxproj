@@ -8,23 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		143B578F1230357600F43562 /* MFMailComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FB132C12302FD900B615ED /* MFMailComposeViewController.swift */; };
-		143B57941230357C00F43562 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14FB133A1230307C00B615ED /* UIKit.framework */; };
-		14C25EF31211ED0400622309 /* MessageUI.swift in Headers */ = {isa = PBXBuildFile; fileRef = 14C25EF21211ED0400622309 /* MessageUI.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		14C25EF31211ED0400622309 /* MessageUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C25EF21211ED0400622309 /* MessageUI.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		14EFB1BB1211DB5300D19B0C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFB1BA1211DB5300D19B0C /* Cocoa.framework */; };
-		78CB48DD133ABB2C008636DA /* MFMessageComposeViewController.swift in Headers */ = {isa = PBXBuildFile; fileRef = 78CB48DB133ABB2C008636DA /* MFMessageComposeViewController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		55CD9CE91C444661007F36B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 780E7545133AC53400D8C77B /* UIKit.framework */; };
+		78CB48DD133ABB2C008636DA /* MFMessageComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CB48DB133ABB2C008636DA /* MFMessageComposeViewController.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		14FB13391230307C00B615ED /* PBXContainerItemProxy */ = {
+		55CD9CEA1C444667007F36B2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 14FB13351230307C00B615ED /* UIKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = UIKit;
-		};
-		14FB133C1230308E00B615ED /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 14FB13351230307C00B615ED /* UIKit.xcodeproj */;
+			containerPortal = 780E7540133AC53400D8C77B /* UIKit.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = UIKit;
@@ -45,7 +38,6 @@
 		14EFB1BA1211DB5300D19B0C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		14FB132512302F8700B615ED /* MessageUI_Prefix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageUI_Prefix.swift; sourceTree = "<group>"; };
 		14FB132C12302FD900B615ED /* MFMailComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MFMailComposeViewController.swift; path = Classes/MFMailComposeViewController.swift; sourceTree = "<group>"; };
-		14FB13351230307C00B615ED /* UIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UIKit.xcodeproj; path = ../UIKit/UIKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		780E7540133AC53400D8C77B /* UIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UIKit.xcodeproj; path = ../UIKit/UIKit.xcodeproj; sourceTree = "<group>"; };
 		78CB48DB133ABB2C008636DA /* MFMessageComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MFMessageComposeViewController.swift; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -57,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				143B57941230357C00F43562 /* UIKit.framework in Frameworks */,
+				55CD9CE91C444661007F36B2 /* UIKit.framework in Frameworks */,
 				14EFB1BB1211DB5300D19B0C /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,25 +68,24 @@
 		0867D691FE84028FC02AAC07 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				14FB13351230307C00B615ED /* UIKit.xcodeproj */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
-				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				780E7540133AC53400D8C77B /* UIKit.xcodeproj */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
 		};
-		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
 				14EFB1BA1211DB5300D19B0C /* Cocoa.framework */,
 			);
-			name = "External Frameworks and Libraries";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		089C1665FE841158C02AAC07 /* Resources */ = {
@@ -113,14 +104,6 @@
 				78CB48DB133ABB2C008636DA /* MFMessageComposeViewController.swift */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		14FB13361230307C00B615ED /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				14FB133A1230307C00B615ED /* UIKit.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
@@ -146,8 +129,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14C25EF31211ED0400622309 /* MessageUI.swift in Headers */,
-				78CB48DD133ABB2C008636DA /* MFMessageComposeViewController.swift in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,7 +147,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				14FB133D1230308E00B615ED /* PBXTargetDependency */,
+				55CD9CEB1C444667007F36B2 /* PBXTargetDependency */,
 			);
 			name = MessageUI;
 			productInstallPath = "$(HOME)/Library/Frameworks";
@@ -201,10 +182,6 @@
 					ProductGroup = 780E7541133AC53400D8C77B /* Products */;
 					ProjectRef = 780E7540133AC53400D8C77B /* UIKit.xcodeproj */;
 				},
-				{
-					ProductGroup = 14FB13361230307C00B615ED /* Products */;
-					ProjectRef = 14FB13351230307C00B615ED /* UIKit.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -214,13 +191,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		14FB133A1230307C00B615ED /* UIKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = UIKit.framework;
-			remoteRef = 14FB13391230307C00B615ED /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		780E7545133AC53400D8C77B /* UIKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -246,16 +216,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				143B578F1230357600F43562 /* MFMailComposeViewController.swift in Sources */,
+				14C25EF31211ED0400622309 /* MessageUI.swift in Sources */,
+				78CB48DD133ABB2C008636DA /* MFMessageComposeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		14FB133D1230308E00B615ED /* PBXTargetDependency */ = {
+		55CD9CEB1C444667007F36B2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UIKit;
-			targetProxy = 14FB133C1230308E00B615ED /* PBXContainerItemProxy */;
+			targetProxy = 55CD9CEA1C444667007F36B2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

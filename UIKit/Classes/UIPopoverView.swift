@@ -27,9 +27,12 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+import QuartzCore
+
+
 class UIPopoverView: UIView {
-    convenience override init(contentView aView: UIView, size aSize: CGSize) {
-        if (self.init(frame: CGRectMake(0, 0, 320, 480))) {
+	init(contentView aView: UIView, size aSize: CGSize) {
             self.contentView = aView
             var backgroundImage: UIImage = UIImage._popoverBackgroundImage()
             self.backgroundView = UIImageView(image: backgroundImage)
@@ -42,7 +45,8 @@ class UIPopoverView: UIView {
             self.addSubview(contentContainerView)
             contentContainerView.addSubview(contentView)
             self.contentSize = aSize
-        }
+		super.init(frame: CGRectMake(0, 0, 320, 480))
+
     }
 
     func pointTo(point: CGPoint, inView view: UIView) {
@@ -79,65 +83,65 @@ class UIPopoverView: UIView {
         let leftSide: LineSegment = LineSegmentMake(bounds.origin, bottomLeft)
         var intersection: CGPoint = CGPointZero
         var bestIntersection: CGPoint = CGPointZero
-        var bestDistance: CGFloat = CGFLOAT_MAX
-        var closestEdge: CGRectEdge = CGRectMinXEdge
-        if LineSegmentsIntersect(arrowLine, rightSide, intersection) {
+        var bestDistance: CGFloat = CGFloat.max
+        var closestEdge: CGRectEdge = .MinXEdge
+        if LineSegmentsIntersect(arrowLine, rightSide, &intersection) {
             let distance: CGFloat = DistanceBetweenTwoPoints(intersection, arrowPoint)
             if distance < bestDistance {
                 bestDistance = distance
-                closestEdge = CGRectMaxXEdge
+                closestEdge = .MaxXEdge
                 bestIntersection = intersection
             }
         }
-        if LineSegmentsIntersect(arrowLine, topSide, intersection) {
+        if LineSegmentsIntersect(arrowLine, topSide, &intersection) {
             let distance: CGFloat = DistanceBetweenTwoPoints(intersection, arrowPoint)
             if distance < bestDistance {
                 bestDistance = distance
-                closestEdge = CGRectMinYEdge
+                closestEdge = .MinYEdge
                 bestIntersection = intersection
             }
         }
-        if LineSegmentsIntersect(arrowLine, bottomSide, intersection) {
+        if LineSegmentsIntersect(arrowLine, bottomSide, &intersection) {
             let distance: CGFloat = DistanceBetweenTwoPoints(intersection, arrowPoint)
             if distance < bestDistance {
                 bestDistance = distance
-                closestEdge = CGRectMaxYEdge
+                closestEdge = .MaxYEdge
                 bestIntersection = intersection
             }
         }
-        if LineSegmentsIntersect(arrowLine, leftSide, intersection) {
+        if LineSegmentsIntersect(arrowLine, leftSide, &intersection) {
             let distance: CGFloat = DistanceBetweenTwoPoints(intersection, arrowPoint)
             if distance < bestDistance {
                 //bestDistance = distance;  -- commented out to avoid a harmless analyzer warning
-                closestEdge = CGRectMinXEdge
+                closestEdge = .MinXEdge
                 bestIntersection = intersection
             }
         }
         var clampVertical: Bool = false
-        if closestEdge == CGRectMaxXEdge {
+        if closestEdge == .MaxXEdge {
             // right side
-            self.arrowView.image = UIImage._rightPopoverArrowImage()
+            self.arrowView?.image = UIImage._rightPopoverArrowImage()
             clampVertical = true
         }
-        else if closestEdge == CGRectMaxYEdge {
+        else if closestEdge == .MaxYEdge {
             // bottom side
-            self.arrowView.image = UIImage._bottomPopoverArrowImage()
+            self.arrowView?.image = UIImage._bottomPopoverArrowImage()
             clampVertical = false
         }
-        else if closestEdge == CGRectMinYEdge {
+        else if closestEdge == .MinYEdge {
             // top side
-            self.arrowView.image = UIImage._topPopoverArrowImage()
+            self.arrowView?.image = UIImage._topPopoverArrowImage()
             clampVertical = false
         }
         else {
             // left side
-            self.arrowView.image = UIImage._leftPopoverArrowImage()
+            self.arrowView?.image = UIImage._leftPopoverArrowImage()
             clampVertical = true
         }
 
         // this will clamp where the arrow is positioned so that it doesn't slide off the edges of
         // the popover and look dumb and disconnected.
-        let innerBounds: CGRect = CGRectInset(myBounds, 42, 42)
+        let innerBounds: CGRect = myBounds.insetBy(dx: 42, dy: 42)
         if clampVertical {
             if bestIntersection.y < innerBounds.origin.y {
                 bestIntersection.y = innerBounds.origin.y
@@ -154,40 +158,32 @@ class UIPopoverView: UIView {
                 bestIntersection.x = innerBounds.origin.x + innerBounds.size.width
             }
         }
-        arrowView.sizeToFit()
-        self.arrowView.center = bestIntersection
-        var arrowFrame: CGRect = arrowView.frame
-        arrowFrame.origin.x = roundf(arrowFrame.origin.x)
-        arrowFrame.origin.y = roundf(arrowFrame.origin.y)
-        self.arrowView.frame = arrowFrame
+        arrowView?.sizeToFit()
+        self.arrowView?.center = bestIntersection
+        var arrowFrame: CGRect = arrowView?.frame ?? .zero
+        arrowFrame.origin.x = round(arrowFrame.origin.x)
+        arrowFrame.origin.y = round(arrowFrame.origin.y)
+        self.arrowView?.frame = arrowFrame
     }
 
-    func setContentView(aView: UIView, animated: Bool) {
-        if aView != contentView {
-            contentView.removeFromSuperview()
-            self.contentView = aView
-            self.addSubview(contentView)
-        }
+    func setContentView(aView: UIView?, animated: Bool) {
+		contentView = aView
     }
 
     func setContentSize(aSize: CGSize, animated: Bool) {
         var frame: CGRect = self.frame
-        frame.size = self.frameSizeForContentSize(aSize, withNavigationBar: false)
+        frame.size = self.dynamicType.frameSizeForContentSize(aSize, withNavigationBar: false)
         UIView.animateWithDuration(animated ? 0.2 : 0, animations: {() -> Void in
             self.frame = frame
         })
     }
-    var contentView: UIView {
-        get {
-            return self.contentView
-        }
-        set {
-            if aView != contentView {
-                contentView.removeFromSuperview()
-                self.contentView = aView
-                self.addSubview(contentView)
-            }
-        }
+    var contentView: UIView? {
+		willSet {
+			contentView?.removeFromSuperview()
+		}
+		didSet {
+			self.addSubview(contentView)
+		}
     }
 
     var contentSize: CGSize {
@@ -195,16 +191,12 @@ class UIPopoverView: UIView {
             return contentContainerView.bounds.size
         }
         set {
-            var frame: CGRect = self.frame
-            frame.size = self.frameSizeForContentSize(aSize, withNavigationBar: false)
-            UIView.animateWithDuration(animated ? 0.2 : 0, animations: {() -> Void in
-                self.frame = frame
-            })
+			self.setContentSize(newValue, animated: false)
         }
     }
-    var self.backgroundView: UIImageView
-    var self.arrowView: UIImageView
-    var self.contentContainerView: UIView
+    var backgroundView: UIImageView?
+    var arrowView: UIImageView?
+    var contentContainerView: UIView
 
 
     class func insetForArrows() -> UIEdgeInsets {
@@ -228,65 +220,64 @@ class UIPopoverView: UIView {
         return frameSize
     }
 
-    func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         let bounds: CGRect = self.bounds
-        self.backgroundView.frame = self.backgroundRectForBounds(bounds)
-        self.contentContainerView.frame = self.contentRectForBounds(bounds, withNavigationBar: false)
-        self.contentView.frame = contentContainerView.bounds
-    }
-
-    func setContentView(aView: UIView) {
-        self.setContentView(aView, animated: false)
-    }
-
-    func setContentSize(newSize: CGSize) {
-        self.setContentSize(newSize, animated: false)
+        self.backgroundView?.frame = self.dynamicType.backgroundRectForBounds(bounds)
+        self.contentContainerView.frame = self.dynamicType.contentRectForBounds(bounds, withNavigationBar: false)
+        self.contentView?.frame = contentContainerView.bounds
     }
 }
 
 
-import QuartzCore
-    var LineSegment: struct{CGPointfrom;CGPointto;}
 
-        var segment: LineSegment
-        segment.from = from
-        segment.to = to
-        return segment
+private struct LineSegment {
+	var from: CGPoint
+	var to: CGPoint
+}
 
-        /*
-             E = B-A = ( Bx-Ax, By-Ay )
-             F = D-C = ( Dx-Cx, Dy-Cy ) 
-             P = ( -Ey, Ex )
-             h = ( (A-C) * P ) / ( F * P )
-             
-             I = C + F*h
-             */
-        let A: CGPoint = line1.from
-        let B: CGPoint = line1.to
-        let C: CGPoint = line2.from
-        let D: CGPoint = line2.to
-        let E: CGPoint = CGPointMake(B.x - A.x, B.y - A.y)
-        let F: CGPoint = CGPointMake(D.x - C.x, D.y - C.y)
-        let P: CGPoint = CGPointMake(-E.y, E.x)
-        let AC: CGPoint = CGPointMake(A.x - C.x, A.y - C.y)
-        let h2: CGFloat = F.x * P.x + F.y * P.y
-        // if h2 is 0, the lines are parallel
-        if h2 != 0 {
-            let h1: CGFloat = AC.x * P.x + AC.y * P.y
-            let h: CGFloat = h1 / h2
-            // if h is exactly 0 or 1, the lines touched on the end - we won't consider that an intersection
-            if h > 0 && h < 1 {
-                if intersection != nil {
-                    let I: CGPoint = CGPointMake(C.x + F.x * h, C.y + F.y * h)
-                    intersection->x = I.x
-                    intersection->y = I.y
-                }
-                return true
-            }
-        }
-        return false
+private func LineSegmentMake(from: CGPoint, _ to: CGPoint) -> LineSegment {
+	return LineSegment(from: from, to: to)
+}
 
-        var a: CGFloat = B.x - A.x
-        var b: CGFloat = B.y - A.y
-        return sqrtf((a * a) + (b * b))
+private func LineSegmentsIntersect(line1: LineSegment, _ line2: LineSegment, _ intersection: UnsafeMutablePointer<CGPoint>) -> Bool {
+	/*
+	E = B-A = ( Bx-Ax, By-Ay )
+	F = D-C = ( Dx-Cx, Dy-Cy )
+	P = ( -Ey, Ex )
+	h = ( (A-C) * P ) / ( F * P )
+	
+	I = C + F*h
+	*/
+	let A: CGPoint = line1.from
+	let B: CGPoint = line1.to
+	let C: CGPoint = line2.from
+	let D: CGPoint = line2.to
+	let E: CGPoint = CGPointMake(B.x - A.x, B.y - A.y)
+	let F: CGPoint = CGPointMake(D.x - C.x, D.y - C.y)
+	let P: CGPoint = CGPointMake(-E.y, E.x)
+	let AC: CGPoint = CGPointMake(A.x - C.x, A.y - C.y)
+	let h2: CGFloat = F.x * P.x + F.y * P.y
+	// if h2 is 0, the lines are parallel
+	if h2 != 0 {
+		let h1: CGFloat = AC.x * P.x + AC.y * P.y
+		let h: CGFloat = h1 / h2
+		// if h is exactly 0 or 1, the lines touched on the end - we won't consider that an intersection
+		if h > 0 && h < 1 {
+			if intersection != nil {
+				let I: CGPoint = CGPointMake(C.x + F.x * h, C.y + F.y * h)
+				intersection.memory.x = I.x
+				intersection.memory.y = I.y
+			}
+			return true
+		}
+	}
+	return false
+}
+
+private func DistanceBetweenTwoPoints(A: CGPoint, _ B: CGPoint) -> CGFloat {
+	let a = B.x - A.x
+	let b = B.y - A.y
+	return sqrt((a * a) + (b * b))
+}
+

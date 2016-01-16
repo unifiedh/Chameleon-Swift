@@ -28,135 +28,186 @@
  */
 import Foundation
 import ApplicationServices
-    var UIEdgeInsets: structUIEdgeInsets{CGFloattop,left,bottom,right;}
 
-        var edgeInsets = UIEdgeInsets()
-        edgeInsets.top
-        edgeInsets.left
-        edgeInsets.bottom
-        edgeInsets.right
-        return edgeInsets
+/// specify amount to inset (positive) for each of the edges. values can be negative to 'outset'
+public struct UIEdgeInsets {
+    public var top: CGFloat = 0
+    public var left: CGFloat = 0
+    public var bottom: CGFloat = 0
+    public var right: CGFloat = 0
+    
+    public static let zero = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    
+    public func insetRect(var rect: CGRect) -> CGRect {
+        rect.origin.x    += self.left;
+        rect.origin.y    += self.top;
+        rect.size.width  -= (self.left + self.right);
+        rect.size.height -= (self.top  + self.bottom);
+        return rect;
+    }
+}
 
-        rect.origin.x += insets.left
-        rect.origin.y += insets.top
-        rect.size.width -= (insets.left + insets.right)
-        rect.size.height -= (insets.top + insets.bottom)
-        return rect
+extension UIEdgeInsets: Equatable {
+    
+}
 
-        return CGRectEqualToRect(CGRectMake(insets1.left, insets1.top, insets1.right, insets1.bottom), CGRectMake(insets2.left, insets2.top, insets2.right, insets2.bottom))
+public func ==(lhs: UIEdgeInsets, rhs: UIEdgeInsets) -> Bool {
+    return CGRect(x: lhs.left, y: lhs.top, width: lhs.right, height: lhs.bottom) ==
+        CGRect(x: rhs.left, y: rhs.top, width: rhs.right, height: rhs.bottom)
+}
 
-    let UIEdgeInsetsZero: UIEdgeInsets
+public func UIEdgeInsetsMake(top: CGFloat, _ left: CGFloat, _ bottom: CGFloat, _ right: CGFloat)-> UIEdgeInsets {
+    return UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+}
 
-    var UIOffset: structUIOffset{CGFloathorizontal,vertical;}
+public func UIEdgeInsetsInsetRect(rect: CGRect, _ insets: UIEdgeInsets) -> CGRect {
+    return insets.insetRect(rect)
+}
 
-        var offset = UIOffset()
-        offset.horizontal
-        offset.vertical
-        return offset
+public func UIEdgeInsetsEqualToEdgeInsets(insets1: UIEdgeInsets, _ insets2: UIEdgeInsets) -> Bool {
+    return insets1 == insets2;
+}
 
-        return offset1.horizontal == offset2.horizontal && offset1.vertical == offset2.vertical
+public var UIEdgeInsetsZero: UIEdgeInsets {
+    return .zero
+}
 
-    let UIOffsetZero: UIOffset
+public struct UIOffset {
+    public var horizontal: CGFloat = 0
+    public var vertical: CGFloat = 0
+    
+    public static let zero = UIOffset(horizontal: CGFloat(0), vertical: 0)
+}
 
-    var NSStringFromCGPoint: String
+public extension UIOffset {
+    public init(horizontal: Double, vertical: Double) {
+        self.horizontal = CGFloat(horizontal)
+        self.vertical = CGFloat(vertical)
+    }
+    
+    public init(horizontal: Int, vertical: Int) {
+        self.horizontal = CGFloat(horizontal)
+        self.vertical = CGFloat(vertical)
+    }
+}
 
-    var NSStringFromCGRect: String
+extension UIOffset: Equatable {
+    
+}
 
-    var NSStringFromCGSize: String
+public func ==(rhs: UIOffset, lhs: UIOffset) -> Bool {
+    return rhs.horizontal == lhs.horizontal && rhs.vertical == lhs.vertical
+}
 
-    var NSStringFromCGAffineTransform: String
+func UIOffsetEqualToOffset(offset1: UIOffset, _ offset2: UIOffset) -> Bool {
+    return offset1 == offset2
+}
 
-    var NSStringFromUIEdgeInsets: String
+public var UIOffsetZero: UIOffset {
+    return .zero
+}
 
-    var NSStringFromUIOffset: String
+public func NSStringFromCGPoint(p: CGPoint) -> String {
+    return NSStringFromPoint(NSPointFromCGPoint(p))
+}
+
+public func NSStringFromCGRect(r: CGRect) -> String {
+    return NSStringFromRect(NSRectFromCGRect(r))
+}
+
+public func NSStringFromCGSize(s: CGSize) -> String {
+    return NSStringFromSize(NSSizeFromCGSize(s));
+}
+
+public func NSStringFromCGAffineTransform(transform: CGAffineTransform) -> String {
+    return "[\(transform.a), \(transform.b), \(transform.c), \(transform.d), \(transform.tx), \(transform.ty)]"
+}
+
+public func NSStringFromUIEdgeInsets(insets: UIEdgeInsets) -> String {
+    return "{\(insets.top), \(insets.left), \(insets.bottom), \(insets.right)}"
+}
+
+public func NSStringFromUIOffset(offset: UIOffset) -> String {
+    return "{\(offset.horizontal), \(offset.vertical)}"
+}
 
 extension NSValue {
     class func valueWithCGPoint(point: CGPoint) -> NSValue {
-        return NSValue(point: NSPointFromCGPoint(point))
+        return NSValue(point: point)
     }
 
     class func valueWithCGRect(rect: CGRect) -> NSValue {
-        return NSValue(rect: NSRectFromCGRect(rect))
+        return NSValue(rect: rect)
     }
 
     class func valueWithCGSize(size: CGSize) -> NSValue {
         return NSValue(size: NSSizeFromCGSize(size))
     }
 
-    class func valueWithUIEdgeInsets(insets: UIEdgeInsets) -> NSValue {
-        return NSValue(bytes: insets, objCType: )
+    class func valueWithUIEdgeInsets(var insets: UIEdgeInsets) -> NSValue {
+        return NSValue(bytes: &insets, objCType: "{UIEdgeInsets=dddd}")
     }
 
-    class func valueWithUIOffset(offset: UIOffset) -> NSValue {
-        return NSValue(bytes: offset, objCType: )
+    class func valueWithUIOffset(var offset: UIOffset) -> NSValue {
+        return NSValue(bytes: &offset, objCType: "{UIOffset=dd}")
     }
 
     func CGPointValue() -> CGPoint {
-        return NSPointToCGPoint(self.pointValue())
+        return NSPointToCGPoint(self.pointValue)
     }
 
     func CGRectValue() -> CGRect {
-        return NSRectToCGRect(self.rectValue())
+        return NSRectToCGRect(self.rectValue)
     }
 
     func CGSizeValue() -> CGSize {
-        return NSSizeToCGSize(self.sizeValue())
+        return NSSizeToCGSize(self.sizeValue)
     }
 
     func UIEdgeInsetsValue() -> UIEdgeInsets {
-        if strcmp(self.objCType) == 0 {
-            var insets: UIEdgeInsets
-            self.getValue(insets)
+        if strcmp(self.objCType, "{UIEdgeInsets=dddd}") == 0 {
+            var insets = UIEdgeInsets()
+            self.getValue(&insets)
             return insets
+        } else if strcmp(self.objCType, "{UIEdgeInsets=ffff}") == 0 {
+            var tmpFloat: [Float] = [0,0,0,0]
+            self.getValue(&tmpFloat)
+            return UIEdgeInsets(top: CGFloat(tmpFloat[0]), left: CGFloat(tmpFloat[1]), bottom: CGFloat(tmpFloat[2]), right: CGFloat(tmpFloat[3]))
         }
+
         return UIEdgeInsetsZero
     }
 
     func UIOffsetValue() -> UIOffset {
-        if strcmp(self.objCType) == 0 {
-            var offset: UIOffset
-            self.getValue(offset)
+        if strcmp(self.objCType, "{UIOffset=dd}") == 0 {
+            var offset = UIOffset()
+            self.getValue(&offset)
             return offset
+        } else if strcmp(self.objCType, "{UIOffset=ff}") == 0 {
+            var tmpFloats: [Float] = [0,0]
+            self.getValue(&tmpFloats)
+            return UIOffset(horizontal: CGFloat(tmpFloats[0]), vertical: CGFloat(tmpFloats[1]))
         }
+
         return UIOffsetZero
     }
 }
+
 extension NSCoder {
     func encodeCGPoint(point: CGPoint, forKey key: String) {
-        self.encodePoint(NSPointFromCGPoint(point), forKey: key)
+        self.encodePoint(point, forKey: key)
     }
 
     func decodeCGPointForKey(key: String) -> CGPoint {
-        return NSPointToCGPoint(self.decodePointForKey(key))
+        return self.decodePointForKey(key)
     }
 
     func encodeCGRect(rect: CGRect, forKey key: String) {
-        self.encodeRect(NSRectFromCGRect(rect), forKey: key)
+        self.encodeRect(rect, forKey: key)
     }
 
     func decodeCGRectForKey(key: String) -> CGRect {
-        return NSRectToCGRect(self.decodeRectForKey(key))
+        return self.decodeRectForKey(key)
     }
 }
 
-    let UIEdgeInsetsZero: UIEdgeInsets = UIEdgeInsets()
-    UIEdgeInsetsZero.0
-    UIEdgeInsetsZero.0
-    UIEdgeInsetsZero.0
-    UIEdgeInsetsZero.0
-
-    let UIOffsetZero: UIOffset = UIOffset()
-    UIOffsetZero.0
-    UIOffsetZero.0
-
-        return NSStringFromPoint(NSPointFromCGPoint(p))
-
-        return NSStringFromRect(NSRectFromCGRect(r))
-
-        return NSStringFromSize(NSSizeFromCGSize(s))
-
-        return "[\(transform.a), \(transform.b), \(transform.c), \(transform.d), \(transform.tx), \(transform.ty)]"
-
-        return "{\(insets.top), \(insets.left), \(insets.bottom), \(insets.right)}"
-
-        return "{\(offset.horizontal), \(offset.vertical)}"

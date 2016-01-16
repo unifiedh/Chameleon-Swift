@@ -26,87 +26,93 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import AppKit
+
+import Cocoa
 import QuartzCore
-protocol UICustomNSClipViewBehaviorDelegate {
+
+@objc protocol UICustomNSClipViewBehaviorDelegate: NSObjectProtocol {
     // the point should be in the clip view's superview coordinate space - aka the "screen" coordinate space because if everything
     // is being done correctly, this view is never nested inside any other kind of NSView.
-    func hitTestForClipViewPoint(point: NSPoint) -> Bool
+    optional func hitTestForClipViewPoint(point: NSPoint) -> Bool
     // return NO if scroll wheel events should be ignored, otherwise return YES
 
-    func clipViewShouldScroll() -> Bool
+    optional func clipViewShouldScroll() -> Bool
 }
 class UICustomNSClipView: NSClipView {
-    convenience override init(frame: NSRect) {
-        if (self.init(frame: frame)) {
-            self.drawsBackground = false
-            self.wantsLayer = true
-        }
+     override init(frame: NSRect) {
+		self.drawsBackground = false
+		self.wantsLayer = true
+		super.init(frame: frame)
     }
+
+     required init?(coder: NSCoder) {
+         fatalError("init(coder:) has not been implemented")
+     }
     // A layer parent is just a layer that UICustonNSClipView will attempt to always remain a sublayer of.
     // Circumventing AppKit for fun and profit!
     // The hitDelegate is for faking out the NSView's usual hitTest: checks to handle cases where UIViews are above
     // the UIView that's displaying this layer.
-    weak var parentLayer: CALayer
-    weak var behaviorDelegate: UICustomNSClipViewBehaviorDelegate
+    weak var parentLayer: CALayer?
+    weak var behaviorDelegate: UICustomNSClipViewBehaviorDelegate?
 
-    func scrollWheel(event: NSEvent) {
-        if self.behaviorDelegate.clipViewShouldScroll() {
+    override func scrollWheel(event: NSEvent) {
+        if self.behaviorDelegate?.clipViewShouldScroll?() ?? false {
             var offset: NSPoint = self.bounds.origin
-            offset.x += event.deltaX()
-            offset.y -= event.deltaY()
+            offset.x += event.deltaX
+            offset.y -= event.deltaY
             offset.x = floor(offset.x)
             offset.y = floor(offset.y)
             self.scrollToPoint(self.constrainScrollPoint(offset))
         }
         else {
-            self.nextResponder().scrollWheel(event)
+            self.nextResponder?.scrollWheel(event)
         }
     }
 
     func fixupTheLayer() {
-        if self.superview() && self.parentLayer {
+        if let parentLayer = self.parentLayer where self.superview != nil {
             CATransaction.begin()
             CATransaction.setAnimationDuration(0)
-            var layer: CALayer = self.layer
-            if self.parentLayer != layer.superlayer {
-                self.parentLayer.addSublayer(layer)
+            let layer = self.layer!
+            if parentLayer != layer.superlayer {
+                parentLayer.addSublayer(layer)
             }
-            if !CGRectEqualToRect(layer.frame, self.parentLayer.bounds) {
-                layer.frame = self.parentLayer.bounds
+            if !CGRectEqualToRect(layer.frame, parentLayer.bounds) {
+                layer.frame = parentLayer.bounds
             }
             CATransaction.commit()
         }
     }
 
-    func viewDidMoveToSuperview() {
+    override func viewDidMoveToSuperview() {
         super.viewDidMoveToSuperview()
         self.fixupTheLayer()
     }
 
-    func viewWillDraw() {
+    override func viewWillDraw() {
         super.viewWillDraw()
-        self.fixupTheLayer()
+        fixupTheLayer()
     }
 
-    func setFrame(frame: NSRect) {
-        super.frame = frame
-        self.fixupTheLayer()
-    }
+	override var frame: NSRect {
+		didSet {
+			fixupTheLayer()
+		}
+	}
 
-    func viewDidUnhide() {
+    override func viewDidUnhide() {
         super.viewDidUnhide()
         self.fixupTheLayer()
     }
 
-    func hitTest(aPoint: NSPoint) -> NSView {
-        var hit: NSView = super.hitTest(aPoint)
-        if hit && self.behaviorDelegate {
+    override func hitTest(aPoint: NSPoint) -> NSView? {
+        var hit = super.hitTest(aPoint)
+        if hit != nil && self.behaviorDelegate != nil {
             // call out to the text layer via a delegate or something and ask if this point should be considered a hit or not.
             // if not, then we set hit to nil, otherwise we return it like normal.
             // the purpose of this is to make the NSView act invisible/hidden to clicks when it's visually behind other UIViews.
             // super tricky, eh?
-            if !self.behaviorDelegate.hitTestForClipViewPoint(aPoint) {
+            if !(self.behaviorDelegate?.hitTestForClipViewPoint?(aPoint) ?? false) {
                 hit = nil
             }
         }

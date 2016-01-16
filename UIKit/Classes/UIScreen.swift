@@ -26,15 +26,15 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import Foundation
+import Cocoa
 import ApplicationServices
-import AppKit
 import QuartzCore
-    let UIScreenDidConnectNotification: String
 
-    let UIScreenDidDisconnectNotification: String
+let UIScreenDidConnectNotification: String = "UIScreenDidConnectNotification"
 
-    let UIScreenModeDidChangeNotification: String
+let UIScreenDidDisconnectNotification: String = "UIScreenDidDisconnectNotification"
+
+let UIScreenModeDidChangeNotification: String = "UIScreenModeDidChangeNotification"
 
 class UIScreen: NSObject {
     class func mainScreen() -> UIScreen {
@@ -220,13 +220,8 @@ class UIScreen: NSObject {
     }
 
     func description() -> String {
-        return "<\(self.className()): \(self); bounds = \(NSStringFromCGRect(self.bounds)); mode = \(self.currentMode)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); bounds = \(NSStringFromCGRect(self.bounds)); mode = \(self.currentMode)>"
     }
 }
-    let UIScreenDidConnectNotification: String = "UIScreenDidConnectNotification"
-
-    let UIScreenDidDisconnectNotification: String = "UIScreenDidDisconnectNotification"
-
-    let UIScreenModeDidChangeNotification: String = "UIScreenModeDidChangeNotification"
 
     var self.allScreens: [AnyObject]? = nil

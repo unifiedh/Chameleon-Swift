@@ -27,22 +27,24 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import QuartzCore
+
 extension UIScreen {
-    func _setUIKitView(theView: UIKitView) {
+    //func _setUIKitView(theView: UIKitView) {
+    //}
+
+    //func _setKeyWindow(window: UIWindow) {
+    //}
+
+    internal func _addWindow(window: UIWindow) {
     }
 
-    func _setKeyWindow(window: UIWindow) {
+    internal func _removeWindow(window: UIWindow) {
     }
 
-    func _addWindow(window: UIWindow) {
+    internal func _layer() -> CALayer {
     }
 
-    func _removeWindow(window: UIWindow) {
-    }
-
-    func _layer() -> CALayer {
-    }
-
-    func _hasResizeIndicator() -> Bool {
+    internal func _hasResizeIndicator() -> Bool {
     }
 }

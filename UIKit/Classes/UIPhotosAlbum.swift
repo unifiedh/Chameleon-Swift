@@ -26,8 +26,9 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import Foundation
-import AppKit
+
+import Cocoa
+
 class UIPhotosAlbum: NSObject {
     class func sharedPhotosAlbum() -> UIPhotosAlbum {
         var album: UIPhotosAlbum? = nil

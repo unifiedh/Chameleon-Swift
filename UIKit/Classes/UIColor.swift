@@ -26,180 +26,191 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import Foundation
-import AppKit
-class UIColor: NSObject {
-    class func colorWithWhite(white: CGFloat, alpha: CGFloat) -> UIColor {
-        return self(white: white, alpha: alpha)
+
+import Cocoa
+
+
+public class UIColor: NSObject {
+
+    public final class func blackColor() -> UIColor {
+		if BlackColor == nil {
+			BlackColor = UIColor(NSColor: AppKit.NSColor.blackColor())!
+		}
+        return BlackColor!
     }
 
-    class func colorWithHue(hue: CGFloat, saturation: CGFloat, brightness: CGFloat, alpha: CGFloat) -> UIColor {
-        return self(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
+    public final class func darkGrayColor() -> UIColor {
+		if DarkGrayColor == nil {
+			DarkGrayColor = UIColor(NSColor: AppKit.NSColor.darkGrayColor())!
+		}
+        return DarkGrayColor!
     }
 
-    class func colorWithRed(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) -> UIColor {
-        return self(red: red, green: green, blue: blue, alpha: alpha)
+    public final class func lightGrayColor() -> UIColor {
+		if LightGrayColor == nil {
+			LightGrayColor = UIColor(NSColor: AppKit.NSColor.lightGrayColor())!
+		}
+        return LightGrayColor!
     }
 
-    class func colorWithCGColor(ref: CGColorRef) -> UIColor {
-        return self(CGColor: ref)
+    public final class func whiteColor() -> UIColor {
+		if WhiteColor == nil {
+			WhiteColor = UIColor(NSColor: AppKit.NSColor.whiteColor())!
+		}
+        return WhiteColor!
     }
 
-    class func colorWithPatternImage(patternImage: UIImage) -> UIColor {
-        return self(patternImage: patternImage)
+    public final class func grayColor() -> UIColor {
+		if GrayColor == nil {
+			GrayColor = UIColor(NSColor: AppKit.NSColor.grayColor())!
+		}
+        return GrayColor!
     }
 
-    class func blackColor() -> UIColor {
-        return BlackColor ?? (BlackColor = self(NSColor: NSColor.blackColor()))
+    public final class func redColor() -> UIColor {
+		if RedColor == nil {
+			RedColor = UIColor(NSColor: AppKit.NSColor.redColor())!
+		}
+        return RedColor!
     }
 
-    class func darkGrayColor() -> UIColor {
-        return DarkGrayColor ?? (DarkGrayColor = self(NSColor: NSColor.darkGrayColor()))
+    public final class func greenColor() -> UIColor {
+		if GreenColor == nil {
+			GreenColor = UIColor(NSColor: AppKit.NSColor.greenColor())!
+		}
+        return GreenColor!
     }
 
-    class func lightGrayColor() -> UIColor {
-        return LightGrayColor ?? (LightGrayColor = self(NSColor: NSColor.lightGrayColor()))
+    public final class func blueColor() -> UIColor {
+		if BlueColor == nil {
+			BlueColor = UIColor(NSColor: AppKit.NSColor.blueColor())!
+		}
+        return BlueColor!
     }
 
-    class func whiteColor() -> UIColor {
-        return WhiteColor ?? (WhiteColor = self(NSColor: NSColor.whiteColor()))
+    public final class func cyanColor() -> UIColor {
+		if CyanColor == nil {
+			CyanColor = UIColor(NSColor: AppKit.NSColor.cyanColor())!
+		}
+        return CyanColor!
     }
 
-    class func grayColor() -> UIColor {
-        return GrayColor ?? (GrayColor = self(NSColor: NSColor.grayColor()))
+    public final class func yellowColor() -> UIColor {
+		if YellowColor == nil {
+			YellowColor = UIColor(NSColor: AppKit.NSColor.yellowColor())!
+		}
+        return YellowColor!
     }
 
-    class func redColor() -> UIColor {
-        return RedColor ?? (RedColor = self(NSColor: NSColor.redColor()))
+    public final class func magentaColor() -> UIColor {
+		if MagentaColor == nil {
+			MagentaColor = UIColor(NSColor: AppKit.NSColor.magentaColor())!
+		}
+		return MagentaColor!
     }
 
-    class func greenColor() -> UIColor {
-        return GreenColor ?? (GreenColor = self(NSColor: NSColor.greenColor()))
+    public final class func orangeColor() -> UIColor {
+		if OrangeColor == nil {
+			OrangeColor = UIColor(NSColor: AppKit.NSColor.orangeColor())!
+		}
+		return OrangeColor!
     }
 
-    class func blueColor() -> UIColor {
-        return BlueColor ?? (BlueColor = self(NSColor: NSColor.blueColor()))
+    public final class func purpleColor() -> UIColor {
+		if PurpleColor == nil {
+			PurpleColor = UIColor(NSColor: AppKit.NSColor.purpleColor())!
+		}
+		return PurpleColor!
     }
 
-    class func cyanColor() -> UIColor {
-        return CyanColor ?? (CyanColor = self(NSColor: NSColor.cyanColor()))
+    public final class func brownColor() -> UIColor {
+		if BrownColor == nil {
+			BrownColor = UIColor(NSColor: AppKit.NSColor.brownColor())!
+		}
+		return BrownColor!
     }
 
-    class func yellowColor() -> UIColor {
-        return YellowColor ?? (YellowColor = self(NSColor: NSColor.yellowColor()))
+    public final class func clearColor() -> UIColor {
+		if ClearColor == nil {
+			ClearColor = UIColor(NSColor: AppKit.NSColor.clearColor())!
+		}
+		return ClearColor!
     }
 
-    class func magentaColor() -> UIColor {
-        return MagentaColor ?? (MagentaColor = self(NSColor: NSColor.magentaColor()))
+    public final class func lightTextColor() -> UIColor {
+		if LightTextColor == nil {
+			LightTextColor = UIColor(white: 1, alpha: 0.6)
+		}
+        return LightTextColor!
     }
 
-    class func orangeColor() -> UIColor {
-        return OrangeColor ?? (OrangeColor = self(NSColor: NSColor.orangeColor()))
-    }
-
-    class func purpleColor() -> UIColor {
-        return PurpleColor ?? (PurpleColor = self(NSColor: NSColor.purpleColor()))
-    }
-
-    class func brownColor() -> UIColor {
-        return BrownColor ?? (BrownColor = self(NSColor: NSColor.brownColor()))
-    }
-
-    class func clearColor() -> UIColor {
-        return ClearColor ?? (ClearColor = self(NSColor: NSColor.clearColor()))
-    }
-
-    class func lightTextColor() -> UIColor {
-        return LightTextColor ?? (LightTextColor = self(white: 1, alpha: 0.6))
-    }
-
-    class func darkTextColor() -> UIColor {
+    public final class func darkTextColor() -> UIColor {
         return self.blackColor()
     }
 
-    convenience override init(white: CGFloat, alpha: CGFloat) {
-        return self(NSColor: NSColor(deviceWhite: white, alpha: alpha))
+	internal init?(reps: [UIColorRep]) {
+		if reps.count == 0 {
+			representations = []
+			return nil
+		}
+		representations = reps
+		super.init()
+	}
+
+    public convenience init(white: CGFloat, alpha: CGFloat = 1) {
+		self.init(NSColor: AppKit.NSColor(deviceWhite: white, alpha: alpha))!
     }
 
-    convenience override init(hue: CGFloat, saturation: CGFloat, brightness: CGFloat, alpha: CGFloat) {
-        return self(NSColor: NSColor(deviceHue: hue, saturation: saturation, brightness: brightness, alpha: alpha))
+    public convenience init(hue: CGFloat, saturation: CGFloat, brightness: CGFloat, alpha: CGFloat) {
+		self.init(NSColor: AppKit.NSColor(deviceHue: hue, saturation: saturation, brightness: brightness, alpha: alpha))!
     }
 
-    convenience override init(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
-        return self(NSColor: NSColor(deviceRed: red, green: green, blue: blue, alpha: alpha))
+    public convenience init(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+		self.init(`NSColor`: AppKit.NSColor(deviceRed: red, green: green, blue: blue, alpha: alpha))!
     }
 
-    convenience override init(CGColor ref: CGColorRef) {
-        return self._initWithRepresentations([UIColorRep(CGColor: ref)])
+    public convenience init?(CGColor ref: CGColorRef) {
+		self.init(reps: [UIColorRep(CGColor: ref)])
     }
 
-    convenience override init(patternImage: UIImage) {
-        var imageReps: [AnyObject] = patternImage._representations()
-        var colorReps: [AnyObject] = [AnyObject](minimumCapacity: imageReps.count)
-        for imageRep: UIImageRep in imageReps {
+    public convenience init(patternImage: UIImage) {
+        let imageReps = patternImage._representations()
+        var colorReps = [UIColorRep]()
+        for imageRep in imageReps {
             colorReps.append(UIColorRep(patternImageRepresentation: imageRep))
         }
-        return self._initWithRepresentations(colorReps)
+		self.init(reps: colorReps)!
     }
 
-    func colorWithAlphaComponent(alpha: CGFloat) -> UIColor {
-        var newColor: CGColorRef = CGColorCreateCopyWithAlpha(self.CGColor, alpha)
-        var resultingUIColor: UIColor = UIColor(CGColor: newColor)
-        CGColorRelease(newColor)
+    public func colorWithAlphaComponent(alpha: CGFloat) -> UIColor {
+        let newColor: CGColorRef = CGColorCreateCopyWithAlpha(self.CGColor, alpha)!
+        let resultingUIColor: UIColor = UIColor(CGColor: newColor)!
         return resultingUIColor
     }
 
-    func set() {
-        self.setFill()
-        self.setStroke()
+    public func set() {
+        setFill()
+        setStroke()
     }
 
-    func setFill() {
-        var ctx: CGContextRef = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(ctx, self._bestRepresentationForProposedScale(UIGraphicsGetContextScaleFactor(ctx)).CGColor)
+    public func setFill() {
+        let ctx = UIGraphicsGetCurrentContext()
+        CGContextSetFillColorWithColor(ctx, self._bestRepresentationForProposedScale(_UIGraphicsGetContextScaleFactor(ctx)).CGColor)
     }
 
-    func setStroke() {
-        var ctx: CGContextRef = UIGraphicsGetCurrentContext()
-        CGContextSetStrokeColorWithColor(ctx, self._bestRepresentationForProposedScale(UIGraphicsGetContextScaleFactor(ctx)).CGColor)
+    public func setStroke() {
+        let ctx = UIGraphicsGetCurrentContext()
+        CGContextSetStrokeColorWithColor(ctx, self._bestRepresentationForProposedScale(_UIGraphicsGetContextScaleFactor(ctx)).CGColor)
     }
-    var CGColor: CGColorRef {
+	
+    public var CGColor: CGColorRef {
         get {
             return self._bestRepresentationForProposedScale(1).CGColor
         }
     }
-    var self.representations: [AnyObject]
+	let representations: [UIColorRep]
 
-
-    convenience override init(NSColor aColor: NSColor) {
-        if !aColor {
-            self = nil
-        }
-        else {
-            var c: NSColor = aColor.colorUsingColorSpace(NSColorSpace.deviceRGBColorSpace())
-            var components: CGFloat
-            c.getComponents(components)
-            var color: CGColorRef = CGColorCreate(c.colorSpace().CGColorSpace(), components)
-            self = self(CGColor: color)
-            CGColorRelease(color)
-        }
-    }
-
-    convenience init(NSColor c: NSColor) {
-        return self(NSColor: c)
-    }
-
-    convenience override init(reps: [AnyObject]) {
-        if reps.count == 0 {
-            self = nil
-        }
-        else if (self.init()) {
-            self.representations = reps.copy()
-        }
-
-    }
-
-    func _bestRepresentationForProposedScale(scale: CGFloat) -> UIColorRep {
+    internal func _bestRepresentationForProposedScale(scale: CGFloat) -> UIColorRep {
         var bestRep: UIColorRep? = nil
         for rep: UIColorRep in representations {
             if rep.scale > scale {
@@ -209,10 +220,10 @@ class UIColor: NSObject {
                 bestRep = rep
             }
         }
-        return bestRep ?? representations.lastObject()
+        return bestRep ?? representations.last!
     }
 
-    func _isOpaque() -> Bool {
+    internal func _isOpaque() -> Bool {
         for rep: UIColorRep in representations {
             if !rep.opaque {
                 return false
@@ -221,26 +232,18 @@ class UIColor: NSObject {
         return true
     }
 
-    func NSColor() -> NSColor {
-        var color: CGColorRef = self.CGColor
-        var colorSpace: NSColorSpace = NSColorSpace(CGColorSpace: CGColorGetColorSpace(color))
-        let numberOfComponents: Int = CGColorGetNumberOfComponents(color)
-        let components: CGFloat = CGColorGetComponents(color)
-        var theColor: NSColor = NSColor(colorSpace: colorSpace, components: components, count: numberOfComponents)
-        return theColor
-    }
 
-    func description() -> String {
+	override public var description: String {
         // The color space string this gets isn't exactly the same as Apple's implementation.
         // For instance, Apple's implementation returns UIDeviceRGBColorSpace for [UIColor redColor]
         // This implementation returns kCGColorSpaceDeviceRGB instead.
         // Apple doesn't actually define UIDeviceRGBColorSpace or any of the other responses anywhere public,
         // so there isn't any easy way to emulate it.
-        var colorSpaceRef: CGColorSpaceRef = CGColorGetColorSpace(self.CGColor)
-        var colorSpace: String = "\(String(CFBridgingRelease(CGColorSpaceCopyName(colorSpaceRef))))"
+        var colorSpaceRef = CGColorGetColorSpace(self.CGColor)
+        var colorSpace: String = (CGColorSpaceCopyName(colorSpaceRef) as? NSString as? String) ?? "Unknown"
         let numberOfComponents: size_t = CGColorGetNumberOfComponents(self.CGColor)
-        let components: CGFloat = CGColorGetComponents(self.CGColor)
-        var componentsString: NSMutableString = NSMutableString.stringWithString("{")
+        let components = CGColorGetComponents(self.CGColor)
+        var componentsString: NSMutableString = NSMutableString(string: "{")
         for var index = 0; index < numberOfComponents; index++ {
             if index != 0 {
                 componentsString.appendString(", ")
@@ -248,46 +251,54 @@ class UIColor: NSObject {
             componentsString.appendFormat("%.0f", components[index])
         }
         componentsString.appendString("}")
-        return "<\(self.className()): \(self); colorSpace = \(colorSpace); components = \(componentsString)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); colorSpace = \(colorSpace); components = \(componentsString)>"
     }
 
-    func isEqual(object: AnyObject) -> Bool {
-        if !(object is self) {
-            return false
-        }
-        var color: UIColor = object as! UIColor
-        return CGColorEqualToColor(self.CGColor, color.CGColor)
+    override public func isEqual(object: AnyObject?) -> Bool {
+		if let color = object as? UIColor {
+			return CGColorEqualToColor(self.CGColor, color.CGColor)
+		} else {
+			return false
+		}
     }
 }
 
-    var BlackColor: UIColor? = nil
+extension UIColor {
+	convenience init?(`NSColor` aColor: AppKit.NSColor) {
+		guard let c = aColor.colorUsingColorSpace(NSColorSpace.deviceRGBColorSpace()) else {
+			return nil
+		}
+		var components = [CGFloat](count: c.numberOfComponents, repeatedValue: 0)
+		c.getComponents(&components)
+		guard let color = CGColorCreate(c.colorSpace.CGColorSpace, components) else {
+			return nil
+		}
+		self.init(`CGColor`: color)
+	}
+	
+	func NSColor() -> AppKit.NSColor {
+		let color: CGColorRef = self.CGColor
+		let colorSpace = NSColorSpace(CGColorSpace: CGColorGetColorSpace(color)!)!
+		let numberOfComponents: Int = CGColorGetNumberOfComponents(color)
+		let components = CGColorGetComponents(color)
+		let theColor = AppKit.NSColor(colorSpace: colorSpace, components: components, count: numberOfComponents)
+		return theColor
+	}
+}
 
-    var DarkGrayColor: UIColor? = nil
-
-    var LightGrayColor: UIColor? = nil
-
-    var WhiteColor: UIColor? = nil
-
-    var GrayColor: UIColor? = nil
-
-    var RedColor: UIColor? = nil
-
-    var GreenColor: UIColor? = nil
-
-    var BlueColor: UIColor? = nil
-
-    var CyanColor: UIColor? = nil
-
-    var YellowColor: UIColor? = nil
-
-    var MagentaColor: UIColor? = nil
-
-    var OrangeColor: UIColor? = nil
-
-    var PurpleColor: UIColor? = nil
-
-    var BrownColor: UIColor? = nil
-
-    var ClearColor: UIColor? = nil
-
-    var LightTextColor: UIColor? = nil
+private var BlackColor: UIColor? = nil
+private var DarkGrayColor: UIColor? = nil
+private var LightGrayColor: UIColor? = nil
+private var WhiteColor: UIColor? = nil
+private var GrayColor: UIColor? = nil
+private var RedColor: UIColor? = nil
+private var GreenColor: UIColor? = nil
+private var BlueColor: UIColor? = nil
+private var CyanColor: UIColor? = nil
+private var YellowColor: UIColor? = nil
+private var MagentaColor: UIColor? = nil
+private var OrangeColor: UIColor? = nil
+private var PurpleColor: UIColor? = nil
+private var BrownColor: UIColor? = nil
+private var ClearColor: UIColor? = nil
+private var LightTextColor: UIColor? = nil

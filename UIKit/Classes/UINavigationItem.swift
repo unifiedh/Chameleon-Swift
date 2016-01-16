@@ -27,27 +27,29 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-class UINavigationItem: NSObject {
-    convenience override init(title: String) {
+public class UINavigationItem: NSObject {
+	init(title: String) {
+		self.title = title
+		super.init()
     }
 
     func setLeftBarButtonItem(item: UIBarButtonItem, animated: Bool) {
-        if leftBarButtonItem != item {
+        if leftBarButtonItem !== item {
             self.leftBarButtonItem = item
             NSNotificationCenter.defaultCenter().postNotificationName(UINavigationItemDidChange, object: self)
         }
     }
 
     func setRightBarButtonItem(item: UIBarButtonItem, animated: Bool) {
-        if rightBarButtonItem != item {
+        if rightBarButtonItem !== item {
             self.rightBarButtonItem = item
             NSNotificationCenter.defaultCenter().postNotificationName(UINavigationItemDidChange, object: self)
         }
     }
 
     func setHidesBackButton(hidesBackButton: Bool, animated: Bool) {
-        if hidesBackButton != hidesBackButton {
-            self.hidesBackButton = hidesBackButton
+        if _hidesBackButton != hidesBackButton {
+            _hidesBackButton = hidesBackButton
             NSNotificationCenter.defaultCenter().postNotificationName(UINavigationItemDidChange, object: self)
         }
     }
@@ -55,9 +57,9 @@ class UINavigationItem: NSObject {
         get {
             return self.title
         }
-        set {
+        set(title) {
             if !title.isEqual(title) {
-                self.title = title.copy()
+                self.title = title
                 NSNotificationCenter.defaultCenter().postNotificationName(UINavigationItemDidChange, object: self)
             }
         }
@@ -67,9 +69,9 @@ class UINavigationItem: NSObject {
         get {
             return self.prompt
         }
-        set {
+        set(prompt) {
             if !prompt.isEqual(prompt) {
-                self.prompt = prompt.copy()
+                self.prompt = prompt
                 NSNotificationCenter.defaultCenter().postNotificationName(UINavigationItemDidChange, object: self)
             }
         }
@@ -79,8 +81,8 @@ class UINavigationItem: NSObject {
         get {
             return self.backBarButtonItem
         }
-        set {
-            if backBarButtonItem != backBarButtonItem {
+        set(backBarButtonItem) {
+            if self.backBarButtonItem !== backBarButtonItem {
                 self.backBarButtonItem = backBarButtonItem
                 NSNotificationCenter.defaultCenter().postNotificationName(UINavigationItemDidChange, object: self)
             }
@@ -91,8 +93,8 @@ class UINavigationItem: NSObject {
         get {
             return self.leftBarButtonItem
         }
-        set {
-            if leftBarButtonItem != item {
+        set(item) {
+            if leftBarButtonItem !== item {
                 self.leftBarButtonItem = item
                 NSNotificationCenter.defaultCenter().postNotificationName(UINavigationItemDidChange, object: self)
             }
@@ -103,41 +105,35 @@ class UINavigationItem: NSObject {
         get {
             return self.rightBarButtonItem
         }
-        set {
-            if rightBarButtonItem != item {
+        set(item) {
+            if rightBarButtonItem !== item {
                 self.rightBarButtonItem = item
                 NSNotificationCenter.defaultCenter().postNotificationName(UINavigationItemDidChange, object: self)
             }
         }
     }
 
-    var titleView: UIView {
+    weak var titleView: UIView? {
         get {
             return self.titleView
         }
-        set {
-            if titleView != titleView {
+        set(titleView) {
+            if titleView !== titleView {
                 self.titleView = titleView
                 NSNotificationCenter.defaultCenter().postNotificationName(UINavigationItemDidChange, object: self)
             }
         }
     }
 
+	
+	
+	private var _hidesBackButton: Bool = false
     var hidesBackButton: Bool {
         get {
-            return self.hidesBackButton
+            return _hidesBackButton
         }
-        set {
-            if hidesBackButton != hidesBackButton {
-                self.hidesBackButton = hidesBackButton
-                NSNotificationCenter.defaultCenter().postNotificationName(UINavigationItemDidChange, object: self)
-            }
-        }
-    }
-
-    convenience override init(title theTitle: String) {
-        if (self.init()) {
-            self.title = theTitle.copy()
+        set(hidesBackButton) {
+			self.setHidesBackButton(hidesBackButton, animated: false)
         }
     }
 
@@ -148,11 +144,7 @@ class UINavigationItem: NSObject {
     func setRightBarButtonItem(item: UIBarButtonItem) {
         self.setRightBarButtonItem(item, animated: false)
     }
-
-    func setHidesBackButton(hidesBackButton: Bool) {
-        self.setHidesBackButton(hidesBackButton, animated: false)
-    }
 }
 
 
-    let UINavigationItemDidChange: String = "UINavigationItemDidChange"
+internal let UINavigationItemDidChange: String = "UINavigationItemDidChange"

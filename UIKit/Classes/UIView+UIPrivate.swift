@@ -27,13 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-    let UIViewFrameDidChangeNotification: String
-
-    let UIViewBoundsDidChangeNotification: String
-
-    let UIViewDidMoveToSuperviewNotification: String
-
-    let UIViewHiddenDidChangeNotification: String
+import CoreGraphics
 
 extension UIView {
     func _removeFromSuperview(notifyViewController: Bool) {

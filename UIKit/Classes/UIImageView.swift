@@ -29,23 +29,22 @@
 
 import QuartzCore
 
-class UIImageView: UIView {
-    convenience override init(image theImage: UIImage) {
+public class UIImageView: UIView {
+    public convenience init(image theImage: UIImage?) {
         var frame: CGRect = CGRectZero
-        if theImage {
+        if let theImage = theImage {
             frame.size = theImage.size
         }
-        if (self = self(frame: frame)) {
-            self.image = theImage
-        }
+		self.image = theImage
+		self.init(frame: frame)
     }
 
     func startAnimating() {
-        var images: [AnyObject] = highlighted ? highlightedAnimationImages : animationImages
-        var animation: CAKeyframeAnimation = CAKeyframeAnimation(keyPath: "contents")
+        let images = highlighted ? highlightedAnimationImages : animationImages
+        let animation = CAKeyframeAnimation(keyPath: "contents")
         animation.calculationMode = kCAAnimationDiscrete
-        animation.duration = self.animationDuration ?? (images.count * (1 / 30.0))
-        animation.repeatCount = self.animationRepeatCount ?? HUGE_VALF
+        animation.duration = self.animationDuration ?? (NSTimeInterval(images.count) * (1 / 30.0))
+        animation.repeatCount = Float(self.animationRepeatCount) ?? 1e50
         animation.values = CGImagesWithUIImages(images)
         animation.removedOnCompletion = false
         animation.fillMode = kCAFillModeBoth
@@ -57,13 +56,13 @@ class UIImageView: UIView {
     }
 
     func isAnimating() -> Bool {
-        return (self.layer(animationForKey: "contents") != nil)
+        return (self.layer.animationForKey("contents") != nil)
     }
-    var highlightedImage: UIImage {
+    var highlightedImage: UIImage? {
         get {
             return self.highlightedImage
         }
-        set {
+        set(newImage) {
             if highlightedImage != newImage {
                 self.highlightedImage = newImage!
                 if highlighted {
@@ -77,7 +76,7 @@ class UIImageView: UIView {
         get {
             return self.highlighted
         }
-        set {
+        set(h) {
             if h != highlighted {
                 self.highlighted = h
                 self.setNeedsDisplay()
@@ -88,45 +87,50 @@ class UIImageView: UIView {
         }
     }
 
-    var image: UIImage {
+    var image: UIImage? {
         get {
             return self.image
         }
-        set {
+        set(newImage) {
             if image != newImage {
                 self.image = newImage!
-                if !highlighted || !highlightedImage {
+                if !highlighted || highlightedImage == nil {
                     self.setNeedsDisplay()
                 }
             }
         }
     }
 
-    var animationImages: [AnyObject]
-    var highlightedAnimationImages: [AnyObject]
+    var animationImages: [UIImage]
+    var highlightedAnimationImages: [UIImage]
     var animationDuration: NSTimeInterval
     var animationRepeatCount: Int
-    var self.drawMode: _UIImageViewDrawMode
+    var drawMode: _UIImageViewDrawMode
 
 
-    class func _instanceImplementsDrawRect() -> Bool {
+    override class func _instanceImplementsDrawRect() -> Bool {
         return false
     }
 
-    convenience override init(frame: CGRect) {
-        if (self.init(frame: frame)) {
-            self.drawMode = UIImageViewDrawModeNormal
+	override init(frame: CGRect) {
+            self.drawMode = ._UIImageViewDrawModeNormal
             self.userInteractionEnabled = false
             self.opaque = false
-        }
+		super.init(frame: frame)
     }
 
-    func sizeThatFits(size: CGSize) -> CGSize {
-        return image ? image.size : CGSizeZero
+    override func sizeThatFits(size: CGSize) -> CGSize {
+		if let image = image {
+			return image.size
+		}
+        return CGSizeZero
     }
 
-    func _hasResizableImage() -> Bool {
-        return (image.topCapHeight > 0 || image.leftCapWidth > 0)
+	internal var hasResizableImage: Bool {
+		if let image = image {
+			return (image.topCapHeight > 0 || image.leftCapWidth > 0)
+		}
+        return false
     }
 
     func _setDrawMode(drawMode: _UIImageViewDrawMode) {
@@ -136,42 +140,42 @@ class UIImageView: UIView {
         }
     }
 
-    func displayLayer(theLayer: CALayer) {
+    public override func displayLayer(theLayer: CALayer) {
         super.displayLayer(theLayer)
-        var displayImage: UIImage = (highlighted && highlightedImage) ? highlightedImage : image
+        var displayImage = (highlighted && highlightedImage != nil) ? highlightedImage : image
         let scale: CGFloat = self.window.screen.scale
         let bounds: CGRect = self.bounds
-        if displayImage && self.hasResizableImage && bounds.size.width > 0 && bounds.size.height > 0 {
+        if let adisplayImage = displayImage where self.hasResizableImage && bounds.size.width > 0 && bounds.size.height > 0 {
             UIGraphicsBeginImageContextWithOptions(bounds.size, false, scale)
-            displayImage.drawInRect(bounds)
+            adisplayImage.drawInRect(bounds)
             displayImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
         }
         // adjust the image if required.
         // this will likely only ever be used UIButton, but it seemed a good place for it.
         // I wonder how the real UIKit does this...
-        if displayImage && (drawMode != UIImageViewDrawModeNormal) {
+        if displayImage != nil && (drawMode != ._UIImageViewDrawModeNormal) {
             var imageBounds: CGRect
             imageBounds.origin = CGPointZero
-            imageBounds.size = displayImage.size
+            imageBounds.size = displayImage!.size
             UIGraphicsBeginImageContextWithOptions(imageBounds.size, false, scale)
-            var blendMode: CGBlendMode = kCGBlendModeNormal
+            var blendMode: CGBlendMode = .Normal
             var alpha: CGFloat = 1
-            if drawMode == UIImageViewDrawModeDisabled {
+            if drawMode == ._UIImageViewDrawModeDisabled {
                 alpha = 0.5
             }
-            else if drawMode == UIImageViewDrawModeHighlighted {
-                UIColor.blackColor()(alphaComponent: 0.4).setFill()
+            else if drawMode == ._UIImageViewDrawModeHighlighted {
+                UIColor.blackColor().colorWithAlphaComponent(0.4).setFill()
                 UIRectFill(imageBounds)
-                blendMode = kCGBlendModeDestinationAtop
+                blendMode = .DestinationAtop
             }
 
-            displayImage.drawInRect(imageBounds, blendMode: blendMode, alpha: alpha)
+            displayImage!.drawInRect(imageBounds, blendMode: blendMode, alpha: alpha)
             displayImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
         }
-        var bestRepresentation: UIImageRep = displayImage._bestRepresentationForProposedScale(scale)
-        theLayer.contents = bestRepresentation.CGImage as! AnyObject
+        let bestRepresentation = displayImage!._bestRepresentationForProposedScale(scale)
+        theLayer.contents = bestRepresentation.CGImage
         if theLayer.respondsToSelector("setContentsScale:") {
             theLayer.contentsScale = bestRepresentation.scale
         }
@@ -183,18 +187,24 @@ class UIImageView: UIView {
         }
     }
 
-    func setFrame(newFrame: CGRect) {
-        self._displayIfNeededChangingFromOldSize(self.frame.size, toNewSize: newFrame.size)
-        super.frame = newFrame
-    }
-
-    func setBounds(newBounds: CGRect) {
-        self._displayIfNeededChangingFromOldSize(self.bounds.size, toNewSize: newBounds.size)
-        super.bounds = newBounds
-    }
+	override var frame: CGRect {
+		willSet(newFrame) {
+			self._displayIfNeededChangingFromOldSize(self.frame.size, toNewSize: newFrame.size)
+		}
+	}
+	
+	override var bounds: CGRect {
+		willSet(newBounds) {
+			self._displayIfNeededChangingFromOldSize(self.bounds.size, toNewSize: newBounds.size)
+		}
+	}
 }
-        var CGImages: [AnyObject] = [AnyObject](minimumCapacity: images.count)
+
+private func CGImagesWithUIImages(images: [UIImage]) -> [CGImage] {
+        var CGImages = [CGImage]()
+	CGImages.reserveCapacity(images.count)
         for img: UIImage in images {
-            CGImages.append(img.CGImage as! AnyObject)
+            CGImages.append(img.CGImage)
         }
         return CGImages
+}

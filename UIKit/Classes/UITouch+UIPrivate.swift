@@ -27,14 +27,17 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Cocoa
+
 extension UITouch {
+	/*
     var timestamp: NSTimeInterval
     // defaults to now
     var tapCount: Int
     // defaults to 0
     var phase: UITouchPhase
     // defaults to UITouchPhaseBegan, if changed to UITouchPhaseStationary, also sets previous location to current value of locationInWindow
-    var view: UIView
+    //var view: UIView
     // defaults to nil
     var locationOnScreen: CGPoint
     // if phase is UITouchPhaseBegan or UITouchPhaseStationary, also sets internal previous location to same value
@@ -53,11 +56,11 @@ extension UITouch {
         get {
             return self.beganPhaseLocationOnScreen
         }
-    }
+    }*/
 
     // when phase is UITouchPhaseBegan, changes to locationOnScreen property also copied here
 
-    func _addGestureRecognizer(recognizer: UIGestureRecognizer) {
+    internal func _addGestureRecognizer(recognizer: UIGestureRecognizer) {
     }
 
     func _removeGestureRecognizer(recognizer: UIGestureRecognizer) {

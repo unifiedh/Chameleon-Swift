@@ -85,6 +85,6 @@ class UITableViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     func description() -> String {
-        return "<\(self.className()): \(self); tableView = \(self.tableView)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); tableView = \(self.tableView)>"
     }
 }

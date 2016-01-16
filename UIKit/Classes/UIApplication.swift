@@ -28,39 +28,38 @@
  */
 
 
-    import Cocoa
+import Cocoa
 
-    let UIApplicationWillChangeStatusBarOrientationNotification: String
 
-    let UIApplicationDidChangeStatusBarOrientationNotification: String
+let UIApplicationDidChangeStatusBarOrientationNotification: String = "UIApplicationDidChangeStatusBarOrientationNotification"
 
-    let UIApplicationWillEnterForegroundNotification: String
+let UIApplicationWillEnterForegroundNotification: String = "UIApplicationWillEnterForegroundNotification"
 
-    let UIApplicationWillTerminateNotification: String
+let UIApplicationWillTerminateNotification: String = "UIApplicationWillTerminateNotification"
 
-    let UIApplicationWillResignActiveNotification: String
+let UIApplicationWillResignActiveNotification: String = "UIApplicationWillResignActiveNotification"
 
-    let UIApplicationDidEnterBackgroundNotification: String
+let UIApplicationDidEnterBackgroundNotification: String = "UIApplicationDidEnterBackgroundNotification"
 
-    let UIApplicationDidBecomeActiveNotification: String
+let UIApplicationDidBecomeActiveNotification: String = "UIApplicationDidBecomeActiveNotification"
 
-    let UIApplicationDidFinishLaunchingNotification: String
+let UIApplicationDidFinishLaunchingNotification: String = "UIApplicationDidFinishLaunchingNotification"
 
-    let UIApplicationLaunchOptionsURLKey: String
+let UIApplicationLaunchOptionsURLKey: String = "UIApplicationLaunchOptionsURLKey"
 
-    let UIApplicationLaunchOptionsSourceApplicationKey: String
+let UIApplicationLaunchOptionsSourceApplicationKey: String = "UIApplicationLaunchOptionsSourceApplicationKey"
 
-    let UIApplicationLaunchOptionsRemoteNotificationKey: String
+let UIApplicationLaunchOptionsRemoteNotificationKey: String = "UIApplicationLaunchOptionsRemoteNotificationKey"
 
-    let UIApplicationLaunchOptionsAnnotationKey: String
+let UIApplicationLaunchOptionsAnnotationKey: String = "UIApplicationLaunchOptionsAnnotationKey"
 
-    let UIApplicationLaunchOptionsLocalNotificationKey: String
+let UIApplicationLaunchOptionsLocalNotificationKey: String = "UIApplicationLaunchOptionsLocalNotificationKey"
 
-    let UIApplicationLaunchOptionsLocationKey: String
+let UIApplicationLaunchOptionsLocationKey: String = "UIApplicationLaunchOptionsLocationKey"
 
-    let UIApplicationDidReceiveMemoryWarningNotification: String
+let UIApplicationDidReceiveMemoryWarningNotification: String = "UIApplicationDidReceiveMemoryWarningNotification"
 
-    let UITrackingRunLoopMode: String
+let UITrackingRunLoopMode: String = "UITrackingRunLoopMode"
 
 enum UIStatusBarStyle : Int {
     case Default
@@ -74,30 +73,36 @@ enum UIStatusBarAnimation : Int {
     case Slide
 }
 
-enum UIInterfaceOrientation : Int {
-    case Portrait = .Portrait
-    case PortraitUpsideDown = .PortraitUpsideDown
-    case LandscapeLeft = .LandscapeRight
-    case LandscapeRight = .LandscapeLeft
+public enum UIInterfaceOrientation : Int {
+    case Portrait = 1
+    case PortraitUpsideDown = 2
+    case LandscapeLeft = 3
+    case LandscapeRight = 4
+	
+	var isPortrait: Bool {
+		return self == .Portrait ||
+			self == .PortraitUpsideDown
+	}
+
+	var isLandscape: Bool {
+		return self == .LandscapeLeft || self == .LandscapeRight
+	}
 }
 
-enum .Mask : Int {
-    case UIInterfaceOrientationMaskPortrait = (1 << .Portrait)
-    case UIInterfaceOrientationMaskLandscapeLeft = (1 << .LandscapeLeft)
-    case UIInterfaceOrientationMaskLandscapeRight = (1 << .LandscapeRight)
-    case UIInterfaceOrientationMaskPortraitUpsideDown = (1 << .PortraitUpsideDown)
-    case UIInterfaceOrientationMaskLandscape = ([.LandscapeLeft, .LandscapeRight])
-    case UIInterfaceOrientationMaskAll = ([.Portrait, .LandscapeLeft, .LandscapeRight, .PortraitUpsideDown])
-    case UIInterfaceOrientationMaskAllButUpsideDown = ([.Portrait, .LandscapeLeft, .LandscapeRight])
+struct UIInterfaceOrientationMask : OptionSetType {
+	typealias RawValue = UInt
+	let rawValue: UInt
+    static let Portrait = UIInterfaceOrientationMask(rawValue: UInt(1 << UIInterfaceOrientation.Portrait.rawValue))
+	static let LandscapeLeft = UIInterfaceOrientationMask(rawValue: UInt(1 << UIInterfaceOrientation.LandscapeLeft.rawValue))
+	static let LandscapeRight = UIInterfaceOrientationMask(rawValue: UInt(1 << UIInterfaceOrientation.LandscapeRight.rawValue))
+	static let PortraitUpsideDown = UIInterfaceOrientationMask(rawValue: UInt(1 << UIInterfaceOrientation.PortraitUpsideDown.rawValue))
+
+	static let Landscape: UIInterfaceOrientationMask = [.LandscapeLeft, .LandscapeRight]
+	static let All: UIInterfaceOrientationMask = [.Portrait, .LandscapeLeft, .LandscapeRight, .PortraitUpsideDown]
+	static let AllButUpsideDown: UIInterfaceOrientationMask = [.Portrait, .LandscapeLeft, .LandscapeRight]
 }
 
-//#define UIInterfaceOrientationIsPortrait(orientation) \
-        .Portrait || 
-        (orientation) == .PortraitUpsideDown)
 
-//#define UIInterfaceOrientationIsLandscape(orientation) \
-        .LandscapeLeft || 
-        (orientation) == .LandscapeRight)
         // push is not gonna work in mac os, unless you are apple (facetime)
 enum UIRemoteNotificationType : Int {
         case None = 0
@@ -132,9 +137,9 @@ enum UIApplicationState : Int {
         case Inactive
         case Background
 }
-        var UIBackgroundTaskIdentifier: Int
-        let UIBackgroundTaskInvalid: UIBackgroundTaskIdentifier
-        let UIMinimumKeepAliveTimeout: NSTimeInterval
+public typealias UIBackgroundTaskIdentifier = UInt
+public let UIBackgroundTaskInvalid: UIBackgroundTaskIdentifier = UInt.max
+public let UIMinimumKeepAliveTimeout: NSTimeInterval = 0
 
 class UIApplication: UIResponder {
     class func sharedApplication() -> UIApplication {
@@ -308,7 +313,7 @@ class UIApplication: UIResponder {
         }
     }
 
-    weak var delegate: UIApplicationDelegate
+    weak var delegate: UIApplicationDelegate?
     var idleTimerDisabled: Bool
     // has no actual affect
     var applicationSupportsShakeToEdit: Bool
@@ -329,26 +334,25 @@ class UIApplication: UIResponder {
     // see notes near UIApplicationState struct for details!
     var backgroundTimeRemaining: NSTimeInterval {
         get {
-            return backgroundTasksExpirationDate.timeIntervalSinceNow()
+            return backgroundTasksExpirationDate?.timeIntervalSinceNow ?? 0
         }
     }
 
     // always 0
-    var applicationIconBadgeNumber: Int
+    var applicationIconBadgeNumber: Int = 0
     // no effect, but does set/get the number correctly
-    var scheduledLocalNotifications: [AnyObject] {
+    var scheduledLocalNotifications: [AnyObject]? {
         get {
             return nil
         }
     }
-    var self.ignoringInteractionEvents: Int
-    var self.backgroundTasksExpirationDate: NSDate
-    var self.backgroundTasks: [AnyObject]
+    var ignoringInteractionEvents: Int = 0
+    var backgroundTasksExpirationDate: NSDate?
+    var backgroundTasks = [UIBackgroundTask]()
 
 
     convenience override init() {
         if (self.init()) {
-            self.backgroundTasks = [AnyObject]()
             self.applicationState = .Active
             self.applicationSupportsShakeToEdit = true
             // yeah... not *really* true, but UIKit defaults to YES :)
@@ -450,7 +454,7 @@ class UIApplication: UIResponder {
         // otherwise... we have to do a deferred thing so we can show an alert while we wait for background tasks to finish...
         var taskFinisher = {() -> Void in
             var alert: NSAlert = NSAlert()
-            alert.alertStyle = NSInformationalAlertStyle
+            alert.alertStyle = .InformationalAlertStyle
             alert.showsSuppressionButton = false
             alert.messageText = "Quitting"
             alert.informativeText = "Finishing some tasks..."
@@ -598,39 +602,7 @@ extension UIApplication {
 
     let UIApplicationWillChangeStatusBarOrientationNotification: String = "UIApplicationWillChangeStatusBarOrientationNotification"
 
-    let UIApplicationDidChangeStatusBarOrientationNotification: String = "UIApplicationDidChangeStatusBarOrientationNotification"
 
-    let UIApplicationWillEnterForegroundNotification: String = "UIApplicationWillEnterForegroundNotification"
-
-    let UIApplicationWillTerminateNotification: String = "UIApplicationWillTerminateNotification"
-
-    let UIApplicationWillResignActiveNotification: String = "UIApplicationWillResignActiveNotification"
-
-    let UIApplicationDidEnterBackgroundNotification: String = "UIApplicationDidEnterBackgroundNotification"
-
-    let UIApplicationDidBecomeActiveNotification: String = "UIApplicationDidBecomeActiveNotification"
-
-    let UIApplicationDidFinishLaunchingNotification: String = "UIApplicationDidFinishLaunchingNotification"
-
-    let UIApplicationNetworkActivityIndicatorChangedNotification: String = "UIApplicationNetworkActivityIndicatorChangedNotification"
-
-    let UIApplicationLaunchOptionsURLKey: String = "UIApplicationLaunchOptionsURLKey"
-
-    let UIApplicationLaunchOptionsSourceApplicationKey: String = "UIApplicationLaunchOptionsSourceApplicationKey"
-
-    let UIApplicationLaunchOptionsRemoteNotificationKey: String = "UIApplicationLaunchOptionsRemoteNotificationKey"
-
-    let UIApplicationLaunchOptionsAnnotationKey: String = "UIApplicationLaunchOptionsAnnotationKey"
-
-    let UIApplicationLaunchOptionsLocalNotificationKey: String = "UIApplicationLaunchOptionsLocalNotificationKey"
-
-    let UIApplicationLaunchOptionsLocationKey: String = "UIApplicationLaunchOptionsLocationKey"
-
-    let UIApplicationDidReceiveMemoryWarningNotification: String = "UIApplicationDidReceiveMemoryWarningNotification"
-
-    let UITrackingRunLoopMode: String = "UITrackingRunLoopMode"
-
-    let UIBackgroundTaskInvalid: UIBackgroundTaskIdentifier = NSUIntegerMax
 
 // correct?
     let UIMinimumKeepAliveTimeout: NSTimeInterval = 0

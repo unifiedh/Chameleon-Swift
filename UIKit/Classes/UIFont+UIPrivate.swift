@@ -33,10 +33,14 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Cocoa
+
 extension UIFont {
-    class func fontWithNSFont(aFont: NSFont) -> UIFont {
+    class func fontWithNSFont(aFont: AppKit.NSFont) -> UIFont? {
+		return nil
     }
 
-    func NSFont() -> NSFont {
+    func NSFont() -> AppKit.NSFont? {
+		return nil
     }
 }

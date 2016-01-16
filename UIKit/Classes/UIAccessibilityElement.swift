@@ -27,15 +27,56 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-class UIAccessibilityElement: NSObject {
-    convenience override init(accessibilityContainer container: AnyObject) {
-        if (self.init()) {
+import Foundation
 
-        }
-    }
-    var accessibilityLabel: String
-    var accessibilityHint: String
-    var accessibilityValue: String
-    var accessibilityFrame: CGRect
-    var accessibilityTraits: UIAccessibilityTraits
+public class UIAccessibilityElement: NSObject {
+	public init(accessibilityContainer container: AnyObject) {
+		super.init()
+	}
+	private var _accessibilityLabel: String?
+    private var _accessibilityHint: String?
+    private var _accessibilityValue: String?
+    private var _accessibilityFrame: CGRect = .null
+    private var _accessibilityTraits: UIAccessibilityTraits = .None
+	
+	public var accessibilityLabel: String? {
+		get {
+			return _accessibilityLabel
+		}
+		set {
+			_accessibilityLabel = newValue
+		}
+	}
+	public var accessibilityHint: String? {
+		get {
+			return _accessibilityHint
+		}
+		set {
+			_accessibilityHint = newValue
+		}
+	}
+	public var accessibilityValue: String? {
+		get {
+			return _accessibilityValue
+		}
+		set {
+			_accessibilityValue = newValue
+		}
+	}
+	public var accessibilityFrame: CGRect {
+		get {
+			return _accessibilityFrame
+		}
+		set {
+			_accessibilityFrame = newValue
+		}
+	}
+	public var accessibilityTraits: UIAccessibilityTraits {
+		get {
+			return _accessibilityTraits
+		}
+		set {
+			_accessibilityTraits = newValue
+		}
+	}
 }

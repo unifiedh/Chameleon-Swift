@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1436CFFB12147A91001DFEFB /* SKProduct.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1436CFF612147A91001DFEFB /* SKProduct.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1436CFFD12147A91001DFEFB /* SKRequest.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1436CFF812147A91001DFEFB /* SKRequest.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1436CFFF12147A91001DFEFB /* StoreKit.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1436CFFA12147A91001DFEFB /* StoreKit.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1436D00212147ABE001DFEFB /* SKProductsRequest.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1436D00012147ABE001DFEFB /* SKProductsRequest.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1436D00E12147B21001DFEFB /* SKPaymentQueue.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1436D00C12147B21001DFEFB /* SKPaymentQueue.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1436D04712147C74001DFEFB /* SKPayment.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1436D04512147C74001DFEFB /* SKPayment.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1436D05912147D11001DFEFB /* SKPaymentTransaction.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1436D05712147D11001DFEFB /* SKPaymentTransaction.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		1436D07312147E51001DFEFB /* SKProductsResponse.swift in Headers */ = {isa = PBXBuildFile; fileRef = 1436D07112147E51001DFEFB /* SKProductsResponse.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1436CFFB12147A91001DFEFB /* SKProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436CFF612147A91001DFEFB /* SKProduct.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1436CFFD12147A91001DFEFB /* SKRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436CFF812147A91001DFEFB /* SKRequest.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1436CFFF12147A91001DFEFB /* StoreKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436CFFA12147A91001DFEFB /* StoreKit.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1436D00212147ABE001DFEFB /* SKProductsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436D00012147ABE001DFEFB /* SKProductsRequest.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1436D00E12147B21001DFEFB /* SKPaymentQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436D00C12147B21001DFEFB /* SKPaymentQueue.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1436D04712147C74001DFEFB /* SKPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436D04512147C74001DFEFB /* SKPayment.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1436D05912147D11001DFEFB /* SKPaymentTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436D05712147D11001DFEFB /* SKPaymentTransaction.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		1436D07312147E51001DFEFB /* SKProductsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436D07112147E51001DFEFB /* SKProductsResponse.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		14EFB1BB1211DB5300D19B0C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EFB1BA1211DB5300D19B0C /* Cocoa.framework */; };
 		195391181C421B57008BF4C3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* StoreKit.framework */; };
 /* End PBXBuildFile section */
@@ -62,20 +62,20 @@
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
-				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
 		};
-		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
 				14EFB1BA1211DB5300D19B0C /* Cocoa.framework */,
 			);
-			name = "External Frameworks and Libraries";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		089C1665FE841158C02AAC07 /* Resources */ = {
@@ -115,14 +115,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1436CFFF12147A91001DFEFB /* StoreKit.swift in Headers */,
-				1436CFFB12147A91001DFEFB /* SKProduct.swift in Headers */,
-				1436CFFD12147A91001DFEFB /* SKRequest.swift in Headers */,
-				1436D00212147ABE001DFEFB /* SKProductsRequest.swift in Headers */,
-				1436D00E12147B21001DFEFB /* SKPaymentQueue.swift in Headers */,
-				1436D04712147C74001DFEFB /* SKPayment.swift in Headers */,
-				1436D05912147D11001DFEFB /* SKPaymentTransaction.swift in Headers */,
-				1436D07312147E51001DFEFB /* SKProductsResponse.swift in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +184,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1436CFFF12147A91001DFEFB /* StoreKit.swift in Sources */,
+				1436CFFB12147A91001DFEFB /* SKProduct.swift in Sources */,
+				1436CFFD12147A91001DFEFB /* SKRequest.swift in Sources */,
+				1436D00212147ABE001DFEFB /* SKProductsRequest.swift in Sources */,
+				1436D00E12147B21001DFEFB /* SKPaymentQueue.swift in Sources */,
+				1436D04712147C74001DFEFB /* SKPayment.swift in Sources */,
+				1436D05912147D11001DFEFB /* SKPaymentTransaction.swift in Sources */,
+				1436D07312147E51001DFEFB /* SKProductsResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
