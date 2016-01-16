@@ -472,7 +472,7 @@ public class UITextField: UIControl, UITextInput {
 
     func _textDidReceiveReturnKey() {
         if delegateHas.shouldReturn {
-            delegate.textFieldShouldReturn(self)
+            delegate?.textFieldShouldReturn?(self)
         }
     }
 
@@ -487,7 +487,7 @@ public class UITextField: UIControl, UITextInput {
                 textAlignment = "Right"
         }
 
-        return "<\(self.className()): \(self); textAlignment = \(textAlignment); editing = \(self.editing ? "YES" : "NO"); textColor = \(self.textColor); font = \(self.font); delegate = \(self.delegate)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); textAlignment = \(textAlignment); editing = \(self.editing ? "YES" : "NO"); textColor = \(self.textColor); font = \(self.font); delegate = \(self.delegate)>"
     }
 
     convenience override init(event: UIEvent) {

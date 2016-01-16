@@ -30,39 +30,48 @@
 import CoreGraphics
 import Foundation
 
-class UINinePartImage: UIImage {
-    init(representations reps: [AnyObject], leftCapWidth: Int, topCapHeight: Int) {
-        if (self = super._initWithRepresentations(reps)) {
-            self.leftCapWidth = leftCapWidth
-            self.topCapHeight = topCapHeight
-        }
+final class UINinePartImage: UIImage {
+    init?(representations reps: [UIImageRep], leftCapWidth: Int, topCapHeight: Int) {
+		lcw = leftCapWidth
+		tch = topCapHeight
+		super.init(reps: reps)
     }
-    let leftCapWidth: Int = 0
-    let topCapHeight: Int = 0
+	private let lcw: Int
+	private let tch: Int
+	override var leftCapWidth: Int {
+		get {
+			return lcw
+		}
+	}
+	override var topCapHeight: Int {
+		get {
+			return tch
+		}
+	}
 
-    func _drawRepresentation(rep: UIImageRep, inRect rect: CGRect) {
+    override func _drawRepresentation(rep: UIImageRep, inRect rect: CGRect) {
         let size: CGSize = self.size
-        let stretchyWidth: CGFloat = (leftCapWidth < size.width) ? 1 : 0
-        let stretchyHeight: CGFloat = (topCapHeight < size.height) ? 1 : 0
-        let bottomCapHeight: CGFloat = size.height - topCapHeight - stretchyHeight
-        let rightCapWidth: CGFloat = size.width - leftCapWidth - stretchyWidth
+        let stretchyWidth: CGFloat = (CGFloat(leftCapWidth) < size.width) ? 1 : 0
+        let stretchyHeight: CGFloat = (CGFloat(topCapHeight) < size.height) ? 1 : 0
+        let bottomCapHeight: CGFloat = size.height - CGFloat(topCapHeight) - stretchyHeight
+        let rightCapWidth: CGFloat = size.width - CGFloat(leftCapWidth) - stretchyWidth
         //topLeftCorner
-        rep.drawInRect(CGRectMake(CGRectGetMinX(rect), CGRectGetMinY(rect), leftCapWidth, topCapHeight), fromRect: CGRectMake(0, 0, leftCapWidth, topCapHeight))
+        rep.drawInRect(CGRect(x: rect.minX, y: rect.minY, width: CGFloat(leftCapWidth), height: CGFloat(topCapHeight)), fromRect: CGRect(x: 0, y: 0, width: CGFloat(leftCapWidth), height: CGFloat(topCapHeight)))
         //topEdgeFill
-        rep.drawInRect(CGRectMake(CGRectGetMinX(rect) + leftCapWidth, CGRectGetMinY(rect), rect.size.width - rightCapWidth - leftCapWidth, topCapHeight), fromRect: CGRectMake(leftCapWidth, 0, stretchyWidth, topCapHeight))
+        rep.drawInRect(CGRect(x: rect.minX + CGFloat(leftCapWidth), y: rect.minY, width: rect.width - rightCapWidth - CGFloat(leftCapWidth), height: CGFloat(topCapHeight)), fromRect: CGRect(x: CGFloat(leftCapWidth), y: 0, width: stretchyWidth, height: CGFloat(topCapHeight)))
         //topRightCorner
-        rep.drawInRect(CGRectMake(CGRectGetMaxX(rect) - rightCapWidth, CGRectGetMinY(rect), rightCapWidth, topCapHeight), fromRect: CGRectMake(size.width - rightCapWidth, 0, rightCapWidth, topCapHeight))
+        rep.drawInRect(CGRect(x: rect.maxX - rightCapWidth, y: rect.minY, width: rightCapWidth, height: CGFloat(topCapHeight)), fromRect: CGRect(x: size.width - rightCapWidth, y: 0, width: rightCapWidth, height: CGFloat(topCapHeight)))
         //bottomLeftCorner
-        rep.drawInRect(CGRectMake(CGRectGetMinX(rect), CGRectGetMaxY(rect) - bottomCapHeight, leftCapWidth, bottomCapHeight), fromRect: CGRectMake(0, size.height - bottomCapHeight, leftCapWidth, bottomCapHeight))
+        rep.drawInRect(CGRect(x: rect.minX, y: rect.maxY - bottomCapHeight, width: CGFloat(leftCapWidth), height: bottomCapHeight), fromRect: CGRect(x: 0, y: size.height - bottomCapHeight, width: CGFloat(leftCapWidth), height: bottomCapHeight))
         //bottomEdgeFill
-        rep.drawInRect(CGRectMake(CGRectGetMinX(rect) + leftCapWidth, CGRectGetMaxY(rect) - bottomCapHeight, rect.size.width - rightCapWidth - leftCapWidth, bottomCapHeight), fromRect: CGRectMake(leftCapWidth, size.height - bottomCapHeight, stretchyWidth, bottomCapHeight))
+        rep.drawInRect(CGRect(x: rect.minX + CGFloat(leftCapWidth), y: rect.maxY - bottomCapHeight, width: rect.width - rightCapWidth - CGFloat(leftCapWidth), height: bottomCapHeight), fromRect: CGRect(x: CGFloat(leftCapWidth), y: size.height - bottomCapHeight, width: stretchyWidth, height: bottomCapHeight))
         //bottomRightCorner
-        rep.drawInRect(CGRectMake(CGRectGetMaxX(rect) - rightCapWidth, CGRectGetMaxY(rect) - bottomCapHeight, rightCapWidth, bottomCapHeight), fromRect: CGRectMake(size.width - rightCapWidth, size.height - bottomCapHeight, rightCapWidth, bottomCapHeight))
+        rep.drawInRect(CGRect(x: rect.maxX - rightCapWidth, y: rect.maxY - bottomCapHeight, width: rightCapWidth, height: bottomCapHeight), fromRect: CGRect(x: size.width - rightCapWidth, y: size.height - bottomCapHeight, width: rightCapWidth, height: bottomCapHeight))
         //leftEdgeFill
-        rep.drawInRect(CGRectMake(CGRectGetMinX(rect), CGRectGetMinY(rect) + topCapHeight, leftCapWidth, rect.size.height - bottomCapHeight - topCapHeight), fromRect: CGRectMake(0, topCapHeight, leftCapWidth, stretchyHeight))
+        rep.drawInRect(CGRect(x: rect.minX, y: rect.minY + CGFloat(topCapHeight), width: CGFloat(leftCapWidth), height: rect.height - bottomCapHeight - CGFloat(topCapHeight)), fromRect: CGRect(x: 0, y: CGFloat(topCapHeight), width: CGFloat(leftCapWidth), height: stretchyHeight))
         //rightEdgeFill
-        rep.drawInRect(CGRectMake(CGRectGetMaxX(rect) - rightCapWidth, CGRectGetMinY(rect) + topCapHeight, rightCapWidth, rect.size.height - bottomCapHeight - topCapHeight), fromRect: CGRectMake(size.width - rightCapWidth, topCapHeight, rightCapWidth, stretchyHeight))
+        rep.drawInRect(CGRect(x: rect.maxX - rightCapWidth, y: rect.minY + CGFloat(topCapHeight), width: rightCapWidth, height: rect.height - bottomCapHeight - CGFloat(topCapHeight)), fromRect: CGRect(x: size.width - rightCapWidth, y: CGFloat(topCapHeight), width: rightCapWidth, height: stretchyHeight))
         //centerFill
-        rep.drawInRect(CGRectMake(CGRectGetMinX(rect) + leftCapWidth, CGRectGetMinY(rect) + topCapHeight, rect.size.width - rightCapWidth - leftCapWidth, rect.size.height - bottomCapHeight - topCapHeight), fromRect: CGRectMake(leftCapWidth, topCapHeight, stretchyWidth, stretchyHeight))
+        rep.drawInRect(CGRect(x: rect.minX + CGFloat(leftCapWidth), y: rect.minY + CGFloat(topCapHeight), width: rect.width - rightCapWidth - CGFloat(leftCapWidth), height: rect.height - bottomCapHeight - CGFloat(topCapHeight)), fromRect: CGRect(x: CGFloat(leftCapWidth), y: CGFloat(topCapHeight), width: stretchyWidth, height: stretchyHeight))
     }
 }

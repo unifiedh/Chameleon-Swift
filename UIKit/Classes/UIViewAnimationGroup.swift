@@ -114,12 +114,12 @@ internal class UIViewAnimationGroup: NSObject {
     }
 
     func allAnimatingViews() -> [AnyObject] {
-                    return animatingViews.allObjects()
+		return animatingViews.allObjects
 
     }
     var name: String
-    var context: Void
-    var completionBlock: Void
+    var context: UnsafeMutablePointer<Void>
+    var completionBlock: ((finished: Bool) -> Void)?
     var allowUserInteraction: Bool
     var beginsFromCurrentState: Bool
     var curve: UIViewAnimationCurve
@@ -164,12 +164,12 @@ internal class UIViewAnimationGroup: NSObject {
         waitingAnimations--
         self.notifyAnimationsDidStopIfNeededUsingStatus(true)
     }
-    var self.waitingAnimations: Int
-    var self.didStart: Bool
-    var self.animationBeginTime: CFTimeInterval
-    var self.transitionView: UIView
-    var self.transitionShouldCache: Bool
-    var self.animatingViews: NSMutableSet
+    var waitingAnimations: Int
+    var didStart: Bool
+    var animationBeginTime: CFTimeInterval
+    var transitionView: UIView?
+    var transitionShouldCache: Bool
+    var animatingViews: NSMutableSet
 
 
     class func initialize() {
@@ -207,7 +207,7 @@ internal class UIViewAnimationGroup: NSObject {
         }
     }
 
-    func animationDidStart(theAnimation: CAAnimation) {
+    override func animationDidStart(theAnimation: CAAnimation) {
         assert(NSThread.isMainThread(), "expecting this to be on the main thread")
         self.notifyAnimationsDidStartIfNeeded()
     }
@@ -234,6 +234,7 @@ internal class UIViewAnimationGroup: NSObject {
 
     var runningAnimationGroups: NSMutableSet? = nil
 
+/*
         switch curve {
             case .EaseInOut:
                 return CAMediaTimingFunction.functionWithName(kCAMediaTimingFunctionEaseInEaseOut)
@@ -252,3 +253,5 @@ internal class UIViewAnimationGroup: NSObject {
         return (options & ([.CurveEaseInOut, .CurveEaseIn, .CurveEaseOut, .CurveLinear]))
 
         return (options & ([.TransitionNone, .TransitionFlipFromLeft, .TransitionFlipFromRight, .TransitionCurlUp, .TransitionCurlDown, .TransitionCrossDissolve, .TransitionFlipFromTop, .TransitionFlipFromBottom]))
+
+*/

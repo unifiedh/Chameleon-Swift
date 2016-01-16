@@ -27,13 +27,14 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import Foundation
-        UIPopoverArrowDirectionUp = 1UL << 0, UIPopoverArrowDirectionDown = 1UL << 1, UIPopoverArrowDirectionLeft = 1UL << 2, UIPopoverArrowDirectionRight = 1UL << 3, UIPopoverArrowDirectionAny = [.Up, .Down, .Left, .Right], UIPopoverArrowDirectionUnknown = NSUIntegerMax}
+        //UIPopoverArrowDirectionUp = 1UL << 0, UIPopoverArrowDirectionDown = 1UL << 1, UIPopoverArrowDirectionLeft = 1UL << 2, UIPopoverArrowDirectionRight = 1UL << 3, UIPopoverArrowDirectionAny = [.Up, .Down, .Left, .Right], UIPopoverArrowDirectionUnknown = NSUIntegerMax}
 
-protocol UIPopoverControllerDelegate: NSObject {
-    func popoverControllerDidDismissPopover(popoverController: UIPopoverController)
+@objc protocol UIPopoverControllerDelegate: NSObjectProtocol {
+    optional func popoverControllerDidDismissPopover(popoverController: UIPopoverController)
 
-    func popoverControllerShouldDismissPopover(popoverController: UIPopoverController) -> Bool
+    optional func popoverControllerShouldDismissPopover(popoverController: UIPopoverController) -> Bool
 }
+
 class UIPopoverController: NSObject {
     convenience override init(contentViewController viewController: UIViewController) {
         if (self = self()) {
@@ -147,16 +148,7 @@ class UIPopoverController: NSObject {
             })
         }
     }
-    weak var delegate: UIPopoverControllerDelegate {
-        get {
-            return self.delegate
-        }
-        set {
-            self.delegate = newDelegate
-            self.delegateHas.popoverControllerDidDismissPopover = delegate.respondsToSelector("popoverControllerDidDismissPopover:")
-            self.delegateHas.popoverControllerShouldDismissPopover = delegate.respondsToSelector("popoverControllerShouldDismissPopover:")
-        }
-    }
+    weak var delegate: UIPopoverControllerDelegate?
 
     var contentViewController: UIViewController {
         get {
@@ -244,7 +236,7 @@ class UIPopoverController: NSObject {
         }
     }
 }
-
+/*
         return (size1.width <= size2.width) && (size1.height <= size2.height)
 
         // 1) define a set of possible quads around fromRect that the popover could appear in
@@ -311,3 +303,4 @@ class UIPopoverController: NSObject {
         windowRect.origin.x = roundf(windowRect.origin.x)
         windowRect.origin.y = roundf(windowRect.origin.y)
         return windowRect.origin
+*/

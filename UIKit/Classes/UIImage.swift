@@ -49,7 +49,7 @@ enum UIImageOrientation : Int {
 
 public class UIImage: NSObject {
 	
-	init?(reps: [UIImageRep]) {
+	internal init?(reps: [UIImageRep]) {
 		if reps.count == 0 {
 			return nil
 		}
@@ -58,8 +58,9 @@ public class UIImage: NSObject {
 	}
 
     var representations = [UIImageRep]()
-
-    convenience init(name: String) {
+	
+    public convenience init?(name: String) {
+		/*
         var img: UIImage = self._cachedImageForName(name)
         if !img {
             // as per the iOS docs, if it fails to find a match with the bare name, it re-tries by appending a png file extension
@@ -67,22 +68,21 @@ public class UIImage: NSObject {
             self._cacheImage(img, forName: name)
         }
         return img
+*/
+		return nil
     }
     // Note, this caches the images somewhat like iPhone OS 2ish in that it never releases them. :)
 
-    convenience init?(data: NSData) {
+    public convenience init?(data: NSData) {
 		self.init(reps: [UIImageRep(data: data)])
     }
 
-    convenience init(contentsOfFile path: String) {
-    }
-
-    convenience init(CGImage imageRef: CGImageRef) {
+    public convenience init(CGImage imageRef: CGImageRef) {
 		self.init(CGImage: imageRef, scale: 1, orientation: .Up)
     }
 
-    convenience override init(CGImage imageRef: CGImageRef, scale: CGFloat, orientation: UIImageOrientation) {
-        return self._initWithRepresentations([UIImageRep(CGImage: imageRef, scale: scale)])
+    convenience init(CGImage imageRef: CGImageRef, scale: CGFloat, orientation: UIImageOrientation) {
+		self.init(reps: [UIImageRep(CGImage: imageRef, scale: scale)])
     }
 
     func stretchableImageWithLeftCapWidth(leftCapWidth: Int, topCapHeight: Int) -> UIImage {
@@ -109,13 +109,11 @@ public class UIImage: NSObject {
     // the draw methods will all check the scale of the current context and attempt to use the best representation it can
 
     func drawAtPoint(point: CGPoint, blendMode: CGBlendMode, alpha: CGFloat) {
-        self.drawInRect(CGRect()
-        rect.point
-        rect.self.size, blendMode: blendMode, alpha: alpha)
+		drawInRect(CGRect(origin: point, size: size), blendMode: blendMode, alpha: alpha)
     }
 
     func drawInRect(rect: CGRect, blendMode: CGBlendMode, alpha: CGFloat) {
-        var ctx: CGContextRef = UIGraphicsGetCurrentContext()
+        let ctx = UIGraphicsGetCurrentContext()
         CGContextSaveGState(ctx)
         CGContextSetBlendMode(ctx, blendMode)
         CGContextSetAlpha(ctx, alpha)
@@ -124,24 +122,22 @@ public class UIImage: NSObject {
     }
 
     func drawAtPoint(point: CGPoint) {
-        self.drawInRect(CGRect()
-        rect.point
-        rect.self.size)
+		drawInRect(CGRect(origin: point, size: size))
     }
 
     func drawInRect(rect: CGRect) {
         if rect.size.height > 0 && rect.size.width > 0 {
-            self._drawRepresentation(self._bestRepresentationForProposedScale(UIGraphicsGetContextScaleFactor(UIGraphicsGetCurrentContext())), inRect: rect)
+            self._drawRepresentation(self._bestRepresentationForProposedScale(_UIGraphicsGetContextScaleFactor(UIGraphicsGetCurrentContext())), inRect: rect)
         }
     }
     var size: CGSize {
         get {
             var size: CGSize = CGSizeZero
-            var rep: UIImageRep = representations.lastObject()
+            var rep: UIImageRep = representations.last!
             let repSize: CGSize = rep.imageSize
             let scale: CGFloat = rep.scale
-            size.width = floorf(repSize.width / scale)
-            size.height = floorf(repSize.height / scale)
+            size.width = floor(repSize.width / scale)
+            size.height = floor(repSize.height / scale)
             return size
         }
     }
@@ -180,8 +176,8 @@ public class UIImage: NSObject {
 
     class func _imageNamed(name: String) -> UIImage {
         var bundle: NSBundle = NSBundle.mainBundle()
-        var path: String = bundle.resourcePath().stringByAppendingPathComponent(name)
-        var img: UIImage = self.imageWithContentsOfFile(path)!
+        var path: String = bundle.resourcePath!.stringByAppendingPathComponent(name)
+        var img: UIImage? = self.imageWithContentsOfFile(path)!
         if !img {
             // if nothing is found, try again after replacing any underscores in the name with dashes.
             // I don't know why, but UIKit does something similar. it probably has a good reason and it might not be this simplistic, but
@@ -192,10 +188,11 @@ public class UIImage: NSObject {
         return img
     }
 
-    convenience init(contentsOfFile imagePath: String) {
-		return self.init(reps: UIImageRep.imageRepsWithContentsOfFile(imagePath))
+    convenience init?(contentsOfFile imagePath: String) {
+		self.init(reps: UIImageRep.imageRepsWithContentsOfFile(imagePath))
     }
 }
+/*
     var UIImageWriteToSavedPhotosAlbum
 
     var UISaveVideoAtPathToSavedPhotosAlbum
@@ -232,3 +229,5 @@ public class UIImage: NSObject {
         CGImageDestinationFinalize(dest)
         CFRelease(dest)
         return data as! __bridge_transfer NSMutableData
+
+*/

@@ -474,7 +474,7 @@ public class UIViewController: UIResponder {
     }
 
 	public override var description: String {
-        return "<\(self.className): \(self); title = \(self.title); view = \(self.view!)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); title = \(self.title); view = \(self.view!)>"
     }
 
     func _removeFromParentViewController() {

@@ -26,11 +26,10 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-let IBAction = void
-//#define IBOutlet
-// non-standard imports
 
-// osx imports
-import AppKit
+import SystemConfiguration
+
 // SystemConfiguration-Helper
-let kSCNetworkReachabilityFlagsIsWWAN = kSCNetworkReachabilityFlagsConnectionOnDemand
+public extension SCNetworkReachabilityFlags {
+	public static let IsWWAN = SCNetworkReachabilityFlags.ConnectionOnDemand
+}

@@ -26,14 +26,16 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import Foundation
-import AppKit
-// NOTE: This does not come from Apple's UIKit and only exist to solve some current problems.
-// I have no idea what Apple will do with keyboard handling. If they ever expose that stuff publically,
-// then all of this should change to reflect the official API.
+
+import Cocoa
+
+
+/// NOTE: This does not come from Apple's UIKit and only exist to solve some current problems.
+/// I have no idea what Apple will do with keyboard handling. If they ever expose that stuff publically,
+/// then all of this should change to reflect the official API.
 enum UIKeyType : Int {
+	/// the catch-all/default... I wouldn't depend much on this at this point
     case Character
-    // the catch-all/default... I wouldn't depend much on this at this point
     case UpArrow
     case DownArrow
     case LeftArrow
@@ -49,15 +51,14 @@ enum UIKeyType : Int {
     case Escape
 }
 
-class UIKey: NSObject {
-    convenience override init(NSEvent event: NSEvent) {
-        if (self.init()) {
-            self.keyCode = event.keyCode()
-            self.characters = event.charactersIgnoringModifiers().copy()
-            self.charactersWithModifiers = event.characters().copy()
-            self.repeat = event.isARepeat()
-            self.modifierFlags = event.modifierFlags()
-        }
+internal class UIKey: NSObject {
+	init(NSEvent event: NSEvent) {
+		self.keyCode = event.keyCode
+		self.characters = event.charactersIgnoringModifiers ?? ""
+		self.charactersWithModifiers = event.characters ?? ""
+		self.`repeat` = event.ARepeat
+		self.modifierFlags = event.modifierFlags
+		super.init()
     }
     var type: UIKeyType {
         get {
@@ -65,88 +66,72 @@ class UIKey: NSObject {
                 return .Escape
             }
             if characters.characters.count > 0 {
-                switch characters.characterAtIndex(0) {
-                    case NSUpArrowFunctionKey:
-                        return .UpArrow
-                    case NSDownArrowFunctionKey:
-                        return .DownArrow
-                    case NSLeftArrowFunctionKey:
-                        return .LeftArrow
-                    case NSRightArrowFunctionKey:
-                        return .RightArrow
-                    case NSEndFunctionKey:
-                        return .End
-                    case NSPageUpFunctionKey:
-                        return .PageUp
-                    case NSPageDownFunctionKey:
-                        return .PageDown
-                    case NSDeleteFunctionKey:
-                        return .Delete
-                    case NSInsertFunctionKey:
-                        return .Insert
-                    case NSHomeFunctionKey:
-                        return .Home
-                    case 0x000D:
-                        return .Return
-                    case 0x0003:
-                        return .Enter
-                }
+                switch (characters as NSString).characterAtIndex(0) {
+				case unichar(NSUpArrowFunctionKey):
+					return .UpArrow
+				case unichar(NSDownArrowFunctionKey):
+					return .DownArrow
+				case unichar(NSLeftArrowFunctionKey):
+					return .LeftArrow
+				case unichar(NSRightArrowFunctionKey):
+					return .RightArrow
+				case unichar(NSEndFunctionKey):
+					return .End
+				case unichar(NSPageUpFunctionKey):
+					return .PageUp
+				case unichar(NSPageDownFunctionKey):
+					return .PageDown
+				case unichar(NSDeleteFunctionKey):
+					return .Delete
+				case unichar(NSInsertFunctionKey):
+					return .Insert
+				case unichar(NSHomeFunctionKey):
+					return .Home
+				case 0x000D:
+					return .Return
+				case 0x0003:
+					return .Enter
+				}
             }
             return .Character
         }
     }
 
-    var keyCode: UInt8 {
-        get {
-            return self.keyCode
-        }
-    }
+    let keyCode: UInt16
 
-    var characters: String {
-        get {
-            return self.characters
-        }
-    }
+    let characters: String
 
-    var charactersWithModifiers: String {
-        get {
-            return self.charactersWithModifiers
-        }
-    }
+    let charactersWithModifiers: String
 
-    var repeat: Bool {
-        get {
-            return self.repeat
-        }
-    }
+    let `repeat`: Bool
 
     var capslockEnabled: Bool {
         get {
-            return (modifierFlags & NSAlphaShiftKeyMask) == NSAlphaShiftKeyMask
+            return modifierFlags.contains(.AlphaShiftKeyMask)
         }
     }
 
     var shiftKeyPressed: Bool {
         get {
-            return (modifierFlags & NSShiftKeyMask) == NSShiftKeyMask
+			return modifierFlags.contains(.ShiftKeyMask)
         }
     }
 
     var controlKeyPressed: Bool {
         get {
-            return (modifierFlags & NSControlKeyMask) == NSControlKeyMask
+			return modifierFlags.contains(.ControlKeyMask)
         }
     }
 
     var optionKeyPressed: Bool {
         get {
-            return (modifierFlags & NSAlternateKeyMask) == NSAlternateKeyMask
+			return modifierFlags.contains(.AlternateKeyMask)
         }
     }
 
     var commandKeyPressed: Bool {
         get {
-            return (modifierFlags & NSCommandKeyMask) == NSCommandKeyMask
+			return modifierFlags.contains(.CommandKeyMask)
         }
     }
 
@@ -161,7 +146,7 @@ class UIKey: NSObject {
             return nil
         }
     }
-    var self.modifierFlags: Int
+    let modifierFlags: NSEventModifierFlags
 
 }
 

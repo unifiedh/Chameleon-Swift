@@ -251,7 +251,7 @@ public class UIColor: NSObject {
             componentsString.appendFormat("%.0f", components[index])
         }
         componentsString.appendString("}")
-        return "<\(self.className): \(self); colorSpace = \(colorSpace); components = \(componentsString)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); colorSpace = \(colorSpace); components = \(componentsString)>"
     }
 
     override public func isEqual(object: AnyObject?) -> Bool {

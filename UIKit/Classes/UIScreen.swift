@@ -220,7 +220,7 @@ class UIScreen: NSObject {
     }
 
     func description() -> String {
-        return "<\(self.className()): \(self); bounds = \(NSStringFromCGRect(self.bounds)); mode = \(self.currentMode)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); bounds = \(NSStringFromCGRect(self.bounds)); mode = \(self.currentMode)>"
     }
 }
 

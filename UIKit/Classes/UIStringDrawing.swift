@@ -28,7 +28,8 @@
  */
 import Foundation
 import AppKit
-enum UILineBreakMode : Int {
+
+public enum UILineBreakMode : Int {
     case WordWrap = 0
     case CharacterWrap
     case Clip
@@ -37,13 +38,13 @@ enum UILineBreakMode : Int {
     case MiddleTruncation
 }
 
-enum UITextAlignment : Int {
+public enum UITextAlignment : Int {
     case Left
     case Center
     case Right
 }
 
-enum UIBaselineAdjustment : Int {
+public enum UIBaselineAdjustment : Int {
     case AlignBaselines
     case AlignCenters
     case None

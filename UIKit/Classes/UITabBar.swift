@@ -91,7 +91,7 @@ class UITabBar: UIView {
     }
 
     func description() -> String {
-        return "<\(self.className()): \(self); selectedItem = \(self.selectedItem); items = \(self.items); delegate = \(self.delegate)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); selectedItem = \(self.selectedItem); items = \(self.items); delegate = \(self.delegate)>"
     }
 }
 

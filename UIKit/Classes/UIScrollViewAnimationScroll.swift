@@ -27,6 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
 enum UIScrollViewAnimationScrollCurve : Int {
     case Linear
     case QuadraticEaseOut

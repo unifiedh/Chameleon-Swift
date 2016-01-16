@@ -44,119 +44,69 @@ public class UITouch: NSObject {
         return self.window.convertPoint(self.window.convertPoint(previousLocationOnScreen, fromWindow: nil), toView: inView)
     }
     var timestamp: NSTimeInterval {
-        get {
-            return self.timestamp
-        }
-        set(timestamp) {
-            self.timestamp = timestamp
+        didSet {
             if phase == .Began {
                 self.beganPhaseTimestamp = timestamp
             }
         }
     }
 
-    var tapCount: Int {
-        get {
-            return self.tapCount
-        }
-        set(tapCount) {
-            self.tapCount = tapCount
-        }
-    }
+    var tapCount: Int
 
     var phase: UITouchPhase {
-        get {
-            return self.phase
-        }
-        set(phase) {
-            self.phase = phase
+        didSet {
             if phase == .Stationary || phase == .Began {
                 self.previousLocationOnScreen = locationOnScreen
             }
         }
     }
 
-    var view: UIView {
-        get(view) {
-            return self.view
-        }
-        set {
-            self.view = view
-            self.window = view.window
-        }
+    var view: UIView? {
+		didSet {
+			window = view?.window
+		}
     }
 
-    var window: UIWindow! {
-        get {
-            return self.window
-        }
-    }
+    var window: UIWindow!
 
-    var locationOnScreen: CGPoint
+	var locationOnScreen: CGPoint {
+		willSet {
+			self.previousLocationOnScreen = locationOnScreen
+		}
+		didSet(locationOnScreen) {
+			if phase == .Stationary || phase == .Began {
+				self.previousLocationOnScreen = locationOnScreen
+			}
+			if phase == .Began {
+				self.beganPhaseLocationOnScreen = locationOnScreen
+			}
+
+		}
+	}
     var previousLocationOnScreen: CGPoint
-    var gestureRecognizers: [AnyObject]
-    //var wasDeliveredToView: Bool
-    //var wasCancelledInView: Bool
+    var gestureRecognizers: [UIGestureRecognizer]
+    var wasDeliveredToView: Bool
+    var wasCancelledInView: Bool
     var beganPhaseTimestamp: NSTimeInterval
     var beganPhaseLocationOnScreen: CGPoint
 
 
-    convenience override init() {
-        if (self.init()) {
+	override init() {
             self.phase = .Began
             self.timestamp = NSDate.timeIntervalSinceReferenceDate()
             self.gestureRecognizers = [AnyObject]()
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "_viewDidMoveToSuperviewNotification:", name: UIViewDidMoveToSuperviewNotification, object: nil)
-        }
-    }
+		super.init()
+	}
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIViewDidMoveToSuperviewNotification, object: nil)
     }
 
     func _viewDidMoveToSuperviewNotification(notification: NSNotification) {
-        if view.isDescendantOfView(notification.object) {
+        if view?.isDescendantOfView(notification.object as? UIView) ?? false {
             self.view = nil
         }
-    }
-
-    func locationOnScreen() -> CGPoint {
-        return locationOnScreen
-    }
-
-    func setLocationOnScreen(locationOnScreen: CGPoint) {
-        self.previousLocationOnScreen = locationOnScreen
-        self.locationOnScreen = locationOnScreen
-        if phase == .Stationary || phase == .Began {
-            self.previousLocationOnScreen = locationOnScreen
-        }
-        if phase == .Began {
-            self.beganPhaseLocationOnScreen = locationOnScreen
-        }
-    }
-
-    func wasDeliveredToView() -> Bool {
-        return wasDeliveredToView
-    }
-
-    func setWasDeliveredToView(wasDeliveredToView: Bool) {
-        self.wasDeliveredToView = wasDeliveredToView
-    }
-
-    func wasCancelledInView() -> Bool {
-        return wasCancelledInView
-    }
-
-    func setWasCancelledInView(wasCancelledInView: Bool) {
-        self.wasCancelledInView = wasCancelledInView
-    }
-
-    func beganPhaseTimestamp() -> NSTimeInterval {
-        return beganPhaseTimestamp
-    }
-
-    func beganPhaseLocationOnScreen() -> CGPoint {
-        return beganPhaseLocationOnScreen
     }
 
     func _addGestureRecognizer(gesture: UIGestureRecognizer) {
@@ -182,6 +132,6 @@ public class UITouch: NSObject {
                 phase = "Cancelled"
         }
 
-        return "<\(self.className()): \(self); timestamp = \(self.timestamp); tapCount = \(UInt(self.tapCount)); phase = \(phase); view = \(self.view!); window = \(self.window)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); timestamp = \(self.timestamp); tapCount = \(UInt(self.tapCount)); phase = \(phase); view = \(self.view!); window = \(self.window)>"
     }
 }

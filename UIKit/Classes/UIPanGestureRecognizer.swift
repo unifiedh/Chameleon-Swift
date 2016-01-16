@@ -35,7 +35,10 @@
 // of the gestureBegin/gestureEnded sequence. This turned out to be somewhat handy
 // for UIScrollView but it certainly might make using the gesture recognizer in
 // a standalone setting somewhat more annoying. We'll have to see how it plays out.
-class UIPanGestureRecognizer: UIGestureRecognizer {
+
+import Foundation
+
+public class UIPanGestureRecognizer: UIGestureRecognizer {
     func translationInView(view: UIView) -> CGPoint {
         return translation
     }
@@ -48,29 +51,28 @@ class UIPanGestureRecognizer: UIGestureRecognizer {
     func velocityInView(view: UIView) -> CGPoint {
         return velocity
     }
-    var maximumNumberOfTouches: Int
-    var minimumNumberOfTouches: Int
-    var self.translation: CGPoint
-    var self.velocity: CGPoint
-    var self.lastMovementTime: NSTimeInterval
+    let maximumNumberOfTouches: Int
+    let minimumNumberOfTouches: Int
+    private(set) var translation: CGPoint
+    private(set) var velocity: CGPoint
+    private(set) var lastMovementTime: NSTimeInterval
 
 
-    convenience override init(target: AnyObject, action: Selector) {
-        if (self.init(target: target, action: action)) {
-            self.minimumNumberOfTouches = 1
-            self.maximumNumberOfTouches = NSUIntegerMax
-            self.translation = CGPointZero
-            self.velocity = CGPointZero
-        }
+	public override init(target: NSObject, action: Selector) {
+		self.minimumNumberOfTouches = 1
+		self.maximumNumberOfTouches = Int.max
+		self.translation = CGPointZero
+		self.velocity = CGPointZero
+		super.init(target: target, action: action)
     }
 
-    func _translate(delta: CGPoint, withEvent event: UIEvent) -> Bool {
+    private func _translate(delta: CGPoint, withEvent event: UIEvent) -> Bool {
         let timeDiff: NSTimeInterval = event.timestamp - lastMovementTime
         if !CGPointEqualToPoint(delta, CGPointZero) && timeDiff > 0 {
             self.translation.x += delta.x
             self.translation.y += delta.y
-            self.velocity.x = delta.x / timeDiff
-            self.velocity.y = delta.y / timeDiff
+            self.velocity.x = delta.x / CGFloat(timeDiff)
+            self.velocity.y = delta.y / CGFloat(timeDiff)
             self.lastMovementTime = event.timestamp
             return true
         }
@@ -79,16 +81,15 @@ class UIPanGestureRecognizer: UIGestureRecognizer {
         }
     }
 
-    func reset() {
+    override public func reset() {
         super.reset()
         self.translation = CGPointZero
         self.velocity = CGPointZero
     }
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if self.state == .Possible {
-            if (event is UITouchEvent) {
-                var touchEvent: UITouchEvent = event as! UITouchEvent
+            if let touchEvent = event as? UITouchEvent {
                 if touchEvent.touchEventGesture != .Begin {
                     self.state = .Failed
                 }
@@ -96,7 +97,7 @@ class UIPanGestureRecognizer: UIGestureRecognizer {
         }
     }
 
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    public override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (event is UITouchEvent) {
             var touchEvent: UITouchEvent = event as! UITouchEvent
             if touchEvent.touchEventGesture == .Pan {
@@ -112,7 +113,7 @@ class UIPanGestureRecognizer: UIGestureRecognizer {
         }
     }
 
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    public override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if self.state == .Began || self.state == .Changed {
             if (event is UITouchEvent) {
                 var touchEvent: UITouchEvent = event as! UITouchEvent
@@ -125,7 +126,7 @@ class UIPanGestureRecognizer: UIGestureRecognizer {
         }
     }
 
-    func touchesCancelled(touches: Set<AnyObject>, withEvent event: UIEvent) {
+    public override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
         if self.state == .Began || self.state == .Changed {
             self.state = .Cancelled
         }

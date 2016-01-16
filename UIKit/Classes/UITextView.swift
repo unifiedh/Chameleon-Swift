@@ -287,7 +287,7 @@ class UITextView: UIScrollView, UITextInput {
                 textAlignment = "Right"
         }
 
-        return "<\(self.className()): \(self); textAlignment = \(textAlignment); selectedRange = \(NSStringFromRange(self.selectedRange)); editable = \(self.editable ? "YES" : "NO"); textColor = \(self.textColor); font = \(self.font); delegate = \(self.delegate)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); textAlignment = \(textAlignment); selectedRange = \(NSStringFromRange(self.selectedRange)); editable = \(self.editable ? "YES" : "NO"); textColor = \(self.textColor); font = \(self.font); delegate = \(self.delegate)>"
     }
 
     convenience override init(event: UIEvent) {

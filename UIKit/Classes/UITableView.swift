@@ -29,9 +29,12 @@
 
 import AppKit
 
-    let UITableViewIndexSearch: String
+// http://stackoverflow.com/questions/235120/whats-the-uitableview-index-magnifying-glass-character
+let UITableViewIndexSearch: String = "{search}"
 
-protocol UITableViewDelegate: UIScrollViewDelegate {
+let UITableViewDefaultRowHeight: CGFloat = 43
+
+public protocol UITableViewDelegate: UIScrollViewDelegate {
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
 
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath
@@ -56,7 +59,8 @@ protocol UITableViewDelegate: UIScrollViewDelegate {
 
     func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String
 }
-protocol UITableViewDataSource: NSObject {
+
+public protocol UITableViewDataSource: NSObjectProtocol {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
@@ -70,6 +74,7 @@ protocol UITableViewDataSource: NSObject {
 
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
 }
+
 enum UITableViewStyle : Int {
     case Plain
     case Grouped
@@ -93,7 +98,7 @@ enum UITableViewRowAnimation : Int {
     case Automatic = 100
 }
 
-class UITableView: UIScrollView {
+public class UITableView: UIScrollView {
     convenience override init(frame: CGRect, style: UITableViewStyle) {
     }
 
@@ -871,9 +876,3 @@ class UITableView: UIScrollView {
         self.flashScrollIndicators()
     }
 }
-
-
-// http://stackoverflow.com/questions/235120/whats-the-uitableview-index-magnifying-glass-character
-    let UITableViewIndexSearch: String = "{search}"
-
-    let self.UITableViewDefaultRowHeight: CGFloat = 43

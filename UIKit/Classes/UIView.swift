@@ -40,9 +40,6 @@ public let UIViewHiddenDidChangeNotification: String = "UIViewHiddenDidChangeNot
 
 private var animationGroups = [UIViewAnimationGroup]()
 
-private var animationsEnabled: Bool = true
-
-
 public struct UIViewAutoresizing : OptionSetType {
 	public let rawValue: Int
     
@@ -97,18 +94,18 @@ public struct UIViewAnimationOptions : OptionSetType {
         self.rawValue = rawValue
     }
     
+	/// not currently supported
 	static let LayoutSubviews = UIViewAnimationOptions(rawValue: 1 << 0)
-    // not currently supported
 	static let AllowUserInteraction = UIViewAnimationOptions(rawValue: 1 << 1)
 	static let BeginFromCurrentState = UIViewAnimationOptions(rawValue: 1 << 2)
 	static let UIViewAnimationOptionRepeat = UIViewAnimationOptions(rawValue: 1 << 3)
 	static let Autoreverse = UIViewAnimationOptions(rawValue: 1 << 4)
+	/// not currently supported
     static let OverrideInheritedDuration = UIViewAnimationOptions(rawValue: 1 << 5)
-    // not currently supported
+	/// not currently supported
     static let OverrideInheritedCurve = UIViewAnimationOptions(rawValue: 1 << 6)
-    // not currently supported
+	/// not currently supported
     static let AllowAnimatedContent = UIViewAnimationOptions(rawValue: 1 << 7)
-    // not currently supported
     static let ShowHideTransitionViews = UIViewAnimationOptions(rawValue: 1 << 8)
     static let CurveEaseInOut = UIViewAnimationOptions(rawValue: 0 << 16)
     static let CurveEaseIn = UIViewAnimationOptions(rawValue: 1 << 16)
@@ -125,11 +122,11 @@ public struct UIViewAnimationOptions : OptionSetType {
 }
 
 public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
-    class func layerClass() -> AnyClass {
+    public class func layerClass() -> AnyClass {
         return CALayer.self
     }
 
-    func addSubview(subview: UIView?) {
+    public func addSubview(subview: UIView?) {
         if let subview = subview where subview.superview !== self {
             var oldWindow: UIWindow = subview.window
             var newWindow: UIWindow = self.window
@@ -169,15 +166,15 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         layer.insertSublayer(subview.layer, above: above.layer)
     }
 
-    func removeFromSuperview() {
-        if superview != nil {
-            var oldWindow: UIWindow = self.window
-            superview?.willRemoveSubview(self)
+    public func removeFromSuperview() {
+        if let superview = superview {
+            let oldWindow = self.window
+            superview.willRemoveSubview(self)
             self._willMoveFromWindow(oldWindow, toWindow: nil)
             self.willMoveToSuperview(nil)
             self.willChangeValueForKey("superview")
             layer.removeFromSuperlayer()
-            superview.subviews.removeObject(self)
+			superview._subviews.remove(self)
             self.superview = nil
             self.didChangeValueForKey("superview")
             self._abortGestureRecognizers()
@@ -187,31 +184,31 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         }
     }
 
-    func bringSubviewToFront(subview: UIView) {
+    public func bringSubviewToFront(subview: UIView) {
         if subview.superview == self {
             layer.insertSublayer(subview.layer, above: layer.sublayers?.last)
         }
     }
 
-    func sendSubviewToBack(subview: UIView) {
+    public func sendSubviewToBack(subview: UIView) {
         if subview.superview == self {
             layer.insertSublayer(subview.layer, atIndex: 0)
         }
     }
 
-    func convertRect(toConvert: CGRect, fromView: UIView) -> CGRect {
+    public func convertRect(toConvert: CGRect, fromView: UIView) -> CGRect {
         var origin: CGPoint = self.convertPoint(CGPointMake(toConvert.minX, toConvert.minY), fromView: fromView)
         var bottom: CGPoint = self.convertPoint(CGPointMake(CGRectGetMaxX(toConvert), CGRectGetMaxY(toConvert)), fromView: fromView)
         return CGRectMake(origin.x, origin.y, bottom.x - origin.x, bottom.y - origin.y)
     }
 
-    func convertRect(toConvert: CGRect, toView: UIView) -> CGRect {
+    public func convertRect(toConvert: CGRect, toView: UIView) -> CGRect {
         var origin: CGPoint = self.convertPoint(CGPointMake(CGRectGetMinX(toConvert), CGRectGetMinY(toConvert)), toView: toView)
         var bottom: CGPoint = self.convertPoint(CGPointMake(CGRectGetMaxX(toConvert), CGRectGetMaxY(toConvert)), toView: toView)
         return CGRectMake(origin.x, origin.y, bottom.x - origin.x, bottom.y - origin.y)
     }
 
-    func convertPoint(var toConvert: CGPoint, fromView: UIView?) -> CGPoint {
+    public func convertPoint(var toConvert: CGPoint, fromView: UIView?) -> CGPoint {
         // NOTE: this is a lot more complex than it needs to be - I just noticed the docs say this method requires fromView and self to
         // belong to the same UIWindow! arg! leaving this for now because, well, it's neat.. but also I'm too tired to really ponder
         // all the implications of a change to something so "low level".
@@ -232,7 +229,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         return self.window.layer.convertPoint(toConvert, toLayer: self.layer)
     }
 
-    func convertPoint(var toConvert: CGPoint, toView: UIView?) -> CGPoint {
+    public func convertPoint(var toConvert: CGPoint, toView: UIView?) -> CGPoint {
         // NOTE: this is a lot more complex than it needs to be - I just noticed the docs say this method requires toView and self to
         // belong to the same UIWindow! arg! leaving this for now because, well, it's neat.. but also I'm too tired to really ponder
         // all the implications of a change to something so "low level".
@@ -253,28 +250,28 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         }
     }
 
-    func setNeedsDisplay() {
+    public func setNeedsDisplay() {
         layer.setNeedsDisplay()
     }
 
-    func setNeedsDisplayInRect(invalidRect: CGRect) {
+    public func setNeedsDisplayInRect(invalidRect: CGRect) {
 		layer.setNeedsDisplayInRect(invalidRect)
     }
 
-    func drawRect(rect: CGRect) {
+    public func drawRect(rect: CGRect) {
     }
 
-    func sizeToFit() {
+    public func sizeToFit() {
         var frame: CGRect = self.frame
         frame.size = self.sizeThatFits(frame.size)
         self.frame = frame
     }
 
-    func sizeThatFits(size: CGSize) -> CGSize {
+    public func sizeThatFits(size: CGSize) -> CGSize {
         return size
     }
 
-    func setNeedsLayout() {
+    public func setNeedsLayout() {
     }
 
     func layoutIfNeeded() {
@@ -312,102 +309,46 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     }
     // not implemented
 
-    func didAddSubview(subview: UIView) {
+    public func didAddSubview(subview: UIView) {
     }
 
-    func didMoveToSuperview() {
+    public func didMoveToSuperview() {
     }
 
-    func didMoveToWindow() {
+    public func didMoveToWindow() {
     }
 
-    func willMoveToSuperview(newSuperview: UIView) {
+    public func willMoveToSuperview(newSuperview: UIView?) {
     }
 
-    func willMoveToWindow(newWindow: UIWindow?) {
+    public func willMoveToWindow(newWindow: UIWindow?) {
     }
 
-    func willRemoveSubview(subview: UIView) {
+    public func willRemoveSubview(subview: UIView) {
     }
 
-    class func animateWithDuration(duration: NSTimeInterval, delay: NSTimeInterval, options: UIViewAnimationOptions, animations: () -> Void, completion: (finished: Bool) -> Void) {
-    }
-
-    class func animateWithDuration(duration: NSTimeInterval, animations: () -> Void, completion: (finished: Bool) -> Void) {
-    }
-
-    class func animateWithDuration(duration: NSTimeInterval, animations: () -> Void) {
-    }
-
-    class func transitionWithView(view: UIView, duration: NSTimeInterval, options: UIViewAnimationOptions, animations: (() -> Void)?, completion: ((finished: Bool) -> Void)?) {
-    }
-
-    class func transitionFromView(fromView: UIView, toView: UIView, duration: NSTimeInterval, options: UIViewAnimationOptions, completion: (finished: Bool) -> Void) {
-    }
-
-    class func beginAnimations(animationID: String, context: UnsafeMutablePointer<Void>) {
-    }
-
-    class func commitAnimations() {
-    }
-
-    class func setAnimationBeginsFromCurrentState(beginFromCurrentState: Bool) {
-    }
-
-    class func setAnimationCurve(curve: UIViewAnimationCurve) {
-    }
-
-    class func setAnimationDelay(delay: NSTimeInterval) {
-    }
-
-    class func setAnimationDelegate(delegate: AnyObject) {
-    }
-
-    class func setAnimationDidStopSelector(selector: Selector) {
-    }
-
-    class func setAnimationDuration(duration: NSTimeInterval) {
-    }
-
-    class func setAnimationRepeatAutoreverses(repeatAutoreverses: Bool) {
-    }
-
-    class func setAnimationRepeatCount(repeatCount: CGFloat) {
-    }
-
-    class func setAnimationTransition(transition: UIViewAnimationTransition, forView view: UIView, cache: Bool) {
-    }
-
-    class func setAnimationWillStartSelector(selector: Selector) {
-    }
-
-    class func areAnimationsEnabled() -> Bool {
-    }
-
-    class func setAnimationsEnabled(enabled: Bool) {
-    }
-    var frame: CGRect
-    var bounds: CGRect
-    var center: CGPoint
-    var transform: CGAffineTransform
+    public var frame: CGRect
+    public var bounds: CGRect
+    public var center: CGPoint
+    public var transform: CGAffineTransform
 
     var window: UIWindow! {
         get {
-            return superview.window
+            return superview?.window
         }
     }
 
-    var subviews: Set<UIView> {
+    var subviews: Array<UIView> {
         get {
-			var sublayers: [CALayer] = layer.sublayers ?? []
-            var subviews = Set<UIView>()
+			let sublayers: [CALayer] = layer.sublayers ?? []
+            var subviews = Array<UIView>()
             // This builds the results from the layer instead of just using _subviews because I want the results to match
             // the order that CALayer has them. It's unclear in the docs if the returned order from this method is guarenteed or not,
             // however several other aspects of the system (namely the hit testing) depends on this order being correct.
             for layer in sublayers {
 				if let potentialView = layer.delegate as? UIView {
-                if subviews.containsObject(potentialView) {
-                    subviews.insert(potentialView)
+                if _subviews.contains(potentialView) {
+                    subviews.append(potentialView)
                 }
 				}
             }
@@ -486,7 +427,7 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     }
 
     override func nextResponder() -> UIResponder? {
-        return self._viewController() as? UIResponder ?? superview as? UIResponder
+        return self._viewController() ?? superview
     }
 
     override func _UIAppearanceContainer() -> AnyObject? {
@@ -529,12 +470,12 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
                 subview._didMoveFromWindow(fromWindow, toWindow: toWindow)
             }
             if let controller = self._viewController() {
-                if self._isAnimating() {
-                    var completionBlock = self._animationCompletionBlock()
-                    self._setAnimationCompletionBlock({(finished: Bool) -> Void in
+                if UIView.isAnimating {
+                    let completionBlock = UIView.animationCompletionBlock
+                    UIView.animationCompletionBlock = ({(finished: Bool) -> Void in
                         controller.endAppearanceTransition()
-                        if completionBlock != nil {
-                            completionBlock(finished)
+                        if let completionBlock = completionBlock {
+                            completionBlock(finished: finished)
                         }
                     })
                 }
@@ -565,19 +506,18 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
         var foundView: UIView? = nil
         if self.tag == tagToFind {
             foundView = self
-        }
-        else {
-            for view: UIView in self.subviews.reverseObjectEnumerator() {
+        } else {
+            for view in subviews.reverse() {
                 foundView = view.viewWithTag(tagToFind)
-                if foundView! {
-
+                if foundView != nil {
+					break
                 }
             }
         }
-        return foundView!
+        return foundView
     }
 
-    func displayLayer(theLayer: CALayer) {
+    public override func displayLayer(theLayer: CALayer) {
         // Okay, this is some crazy stuff right here. Basically, the real UIKit avoids creating any contents for its layer if there's no drawRect:
         // specified in the UIView's subview. This nicely prevents a ton of useless memory usage and likley improves performance a lot on iPhone.
         // It took great pains to discover this trick and I think I'm doing this right. By having this method empty here, it means that it overrides
@@ -682,5 +622,140 @@ public class UIView: UIResponder, UIAppearanceContainer, UIAppearance {
     }
 }
 
-
-//#define hasAutoresizingFor(x) ((_autoresizingMask & (x)) == (x))
+internal extension UIView {
+	static func beginAnimationsWithOptions(options: UIViewAnimationOptions) {
+		animationGroups.append(UIViewAnimationGroup(animationOptions: options))
+	}
+	
+	static func setAnimationName(name: String, context: UnsafeMutablePointer<Void>) {
+		if let lastAnim = animationGroups.last {
+			lastAnim.name = name
+			lastAnim.context = context
+		}
+	}
+	
+	static var animationCompletionBlock: ((finished: Bool) -> Void)? {
+		get {
+			return animationGroups.last?.completionBlock
+		}
+		set {
+			animationGroups.last?.completionBlock = newValue
+		}
+	}
+	
+	class func setAnimationTransitionView(view: UIView) {
+		animationGroups.last?.setTransitionView(view, shouldCache: false)
+	}
+	
+	static var isAnimating: Bool {
+		return (animationGroups.count != 0);
+	}
+	
+	class func animateWithDuration(duration: NSTimeInterval, delay: NSTimeInterval = 0, options: UIViewAnimationOptions = .CurveEaseInOut, animations: () -> Void, completion: ((finished: Bool) -> Void)? = nil) {
+		//let tmpOpt = options.union(.TransitionNone)
+		beginAnimationsWithOptions(options.union(.TransitionNone))
+		setAnimationDuration(duration)
+		setAnimationDelay(delay)
+		animationCompletionBlock = completion
+		
+		animations();
+		
+		commitAnimations()
+	}
+	
+	class func transitionWithView(view: UIView, duration: NSTimeInterval, options: UIViewAnimationOptions, animations: (() -> Void)?, completion: ((finished: Bool) -> Void)?) {
+		beginAnimationsWithOptions(options)
+		setAnimationDuration(duration)
+		animationCompletionBlock = completion
+		setAnimationTransitionView(view)
+		
+		if let animations = animations {
+			animations()
+		}
+		
+		commitAnimations()
+	}
+	
+	class func transitionFromView(fromView: UIView, toView: UIView, duration: NSTimeInterval, options: UIViewAnimationOptions, completion: (finished: Bool) -> Void) {
+		transitionWithView(fromView.superview!, duration: duration, options: options, animations: { () -> Void in
+			if options.contains(.ShowHideTransitionViews) {
+				fromView.hidden = true
+				toView.hidden = false
+			} else {
+				fromView.superview!.addSubview(toView)
+				fromView.removeFromSuperview()
+			}
+			}, completion: completion)
+	}
+	
+	class func beginAnimations(animationID: String, context: UnsafeMutablePointer<Void>) {
+		beginAnimationsWithOptions(.CurveEaseInOut)
+		setAnimationName(animationID, context: context)
+	}
+	
+	class func commitAnimations() {
+		if animationGroups.count > 0 {
+			animationGroups.last!.commit()
+			animationGroups.removeLast()
+		}
+	}
+	
+	class func setAnimationBeginsFromCurrentState(beginFromCurrentState: Bool) {
+		animationGroups.last?.beginsFromCurrentState = beginFromCurrentState
+	}
+	
+	class func setAnimationCurve(curve: UIViewAnimationCurve) {
+		animationGroups.last?.curve = curve
+	}
+	
+	class func setAnimationDelay(delay: NSTimeInterval) {
+		animationGroups.last?.delay = delay
+	}
+	
+	class func setAnimationDelegate(delegate: AnyObject) {
+		animationGroups.last?.delegate = delegate
+	}
+	
+	class func setAnimationDidStopSelector(selector: Selector) {
+		animationGroups.last?.didStopSelector = selector
+	}
+	
+	class func setAnimationDuration(duration: NSTimeInterval) {
+		animationGroups.last?.duration = duration
+	}
+	
+	class func setAnimationRepeatAutoreverses(repeatAutoreverses: Bool) {
+		animationGroups.last?.repeatAutoreverses = repeatAutoreverses
+	}
+	
+	class func setAnimationRepeatCount(repeatCount: Float) {
+		animationGroups.last?.repeatCount = repeatCount
+	}
+	
+	class func setAnimationWillStartSelector(selector: Selector) {
+		animationGroups.last?.willStartSelector = selector
+	}
+	
+	class func setAnimationTransition(transition: UIViewAnimationTransition, forView view: UIView, cache: Bool) {
+		setAnimationTransitionView(view)
+		
+		switch (transition) {
+		case .None:
+			animationGroups.last?.transition = .None
+			
+		case .FlipFromLeft:
+			animationGroups.last?.transition = .FlipFromLeft
+			
+		case .FlipFromRight:
+			animationGroups.last?.transition = .FlipFromRight
+			
+		case .CurlUp:
+			animationGroups.last?.transition = .CurlUp
+			
+		case .CurlDown:
+			animationGroups.last?.transition = .CurlDown
+		}
+	}
+	
+	static var animationsEnabled = false
+}

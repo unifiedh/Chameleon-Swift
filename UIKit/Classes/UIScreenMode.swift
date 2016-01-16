@@ -45,6 +45,6 @@ public class UIScreenMode: NSObject {
     }
 
 	public override var description: String {
-        return "<\(self.className): \(self); size = \(NSStringFromCGSize(self.size))>"
+        return "<\(self.className): \(unsafeAddressOf(self)); size = \(NSStringFromCGSize(self.size))>"
     }
 }

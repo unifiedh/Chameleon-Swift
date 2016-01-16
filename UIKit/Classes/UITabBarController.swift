@@ -57,6 +57,6 @@ class UITabBarController: UIViewController {
     }
 
     func description() -> String {
-        return "<\(self.className()): \(self); selectedViewController = \(self.selectedViewController); viewControllers = \(self.viewControllers); selectedIndex = \(UInt(self.selectedIndex)); tabBar = \(self.tabBar)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); selectedViewController = \(self.selectedViewController); viewControllers = \(self.viewControllers); selectedIndex = \(self.selectedIndex); tabBar = \(self.tabBar)>"
     }
 }

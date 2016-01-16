@@ -27,45 +27,46 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-enum UITableViewCellAccessoryType : Int {
-    case UITableViewCellAccessoryNone
-    case UITableViewCellAccessoryDisclosureIndicator
-    case UITableViewCellAccessoryDetailDisclosureButton
-    case UITableViewCellAccessoryCheckmark
+import Foundation
+
+public enum UITableViewCellAccessoryType : Int {
+    case None
+    case DisclosureIndicator
+    case DetailDisclosureButton
+    case Checkmark
 }
 
-enum UITableViewCellSeparatorStyle : Int {
+public enum UITableViewCellSeparatorStyle : Int {
     case None
     case SingleLine
     case SingleLineEtched
 }
 
-enum UITableViewCellStyle : Int {
+public enum UITableViewCellStyle : Int {
     case Default
     case Value1
     case Value2
     case Subtitle
 }
 
-enum UITableViewCellSelectionStyle : Int {
+public enum UITableViewCellSelectionStyle : Int {
     case None
     case Blue
     case Gray
 }
 
-enum UITableViewCellEditingStyle : Int {
+public enum UITableViewCellEditingStyle : Int {
     case None
     case Delete
     case Insert
 }
 
 public class UITableViewCell: UIView {
-    convenience override init(style: UITableViewCellStyle, reuseIdentifier: String) {
-        if (self = self(frame: CGRectMake(0, 0, 320, UITableViewDefaultRowHeight))) {
+    convenience init(style: UITableViewCellStyle, reuseIdentifier: String) {
             self.style = style
-            self.reuseIdentifier = reuseIdentifier.copy()
-        }
-    }
+            self.reuseIdentifier = reuseIdentifier
+		self.init(frame: CGRectMake(0, 0, 320, UITableViewDefaultRowHeight))
+	}
 
     override func setSelected(selected: Bool, animated: Bool) {
         if selected != selected && selectionStyle != .None {
@@ -83,31 +84,25 @@ public class UITableViewCell: UIView {
 
     func prepareForReuse() {
     }
-    var contentView: UIView {
-        get {
-            if !contentView {
-                self.contentView = UIView()
-                self.addSubview(contentView)
-                self.layoutIfNeeded()
-            }
-            return contentView
-        }
-    }
+	lazy var contentView: UIView = {
+		var acontentView = UIView()
+		self.addSubview(acontentView)
+		self.layoutIfNeeded()
 
-    var textLabel: UILabel {
-        get {
-            if !textLabel {
-                self.textLabel = UILabel()
-                self.textLabel.backgroundColor = UIColor.clearColor()
-                self.textLabel.textColor = UIColor.blackColor()
-                self.textLabel.highlightedTextColor = UIColor.whiteColor()
-                self.textLabel.font = UIFont.boldSystemFontOfSize(17)
-                self.contentView.addSubview(textLabel)
-                self.layoutIfNeeded()
-            }
-            return textLabel
-        }
-    }
+		return acontentView
+	}()
+
+	lazy var textLabel: UILabel = {
+		let atextLabel = UILabel()
+		atextLabel.backgroundColor = UIColor.clearColor()
+		atextLabel.textColor = UIColor.blackColor()
+		atextLabel.highlightedTextColor = UIColor.whiteColor()
+		atextLabel.font = UIFont.boldSystemFontOfSize(17)
+		self.contentView.addSubview(atextLabel)
+		self.layoutIfNeeded()
+
+		return atextLabel
+	}()
 
     var detailTextLabel: UILabel {
         get {
@@ -115,23 +110,20 @@ public class UITableViewCell: UIView {
         }
     }
 
-    var imageView: UIImageView {
-        get {
-            if !imageView {
-                self.imageView = UIImageView()
-                self.imageView.contentMode = .Center
-                self.contentView.addSubview(imageView)
-                self.layoutIfNeeded()
-            }
-            return imageView
-        }
-    }
+	lazy var imageView: UIImageView = {
+		let aimageView = UIImageView()
+		aimageView.contentMode = .Center
+		self.contentView.addSubview(aimageView)
+		self.layoutIfNeeded()
+
+		return aimageView
+	}()
 
     var backgroundView: UIView {
         get {
             return self.backgroundView
         }
-        set {
+        set(theBackgroundView) {
             if theBackgroundView != backgroundView {
                 backgroundView.removeFromSuperview()
                 self.backgroundView = theBackgroundView
@@ -145,7 +137,7 @@ public class UITableViewCell: UIView {
         get {
             return self.selectedBackgroundView
         }
-        set {
+        set(theSelectedBackgroundView) {
             if theSelectedBackgroundView != selectedBackgroundView {
                 selectedBackgroundView.removeFromSuperview()
                 self.selectedBackgroundView = theSelectedBackgroundView
@@ -158,14 +150,14 @@ public class UITableViewCell: UIView {
     var selectionStyle: UITableViewCellSelectionStyle
     var indentationLevel: Int
     var accessoryType: UITableViewCellAccessoryType
-    var accessoryView: UIView
+    var accessoryView: UIView?
     var editingAccessoryType: UITableViewCellAccessoryType
     var selected: Bool {
         get {
             return self.selected
         }
-        set {
-            if selected != selected && selectionStyle != .None {
+        set(selected) {
+            if self.selected != selected && selectionStyle != .None {
                 self.selected = selected
                 self._updateSelectionState()
             }
@@ -176,7 +168,7 @@ public class UITableViewCell: UIView {
         get {
             return self.highlighted
         }
-        set {
+        set(highlighted) {
             if highlighted != highlighted && selectionStyle != .None {
                 self.highlighted = highlighted
                 self._updateSelectionState()
@@ -186,50 +178,37 @@ public class UITableViewCell: UIView {
 
     var editing: Bool
     // not yet implemented
-    var showingDeleteConfirmation: Bool {
-        get {
-            return self.showingDeleteConfirmation
-        }
-    }
+    private(set) var showingDeleteConfirmation: Bool
 
     // not yet implemented
-    var reuseIdentifier: String {
-        get {
-            return self.reuseIdentifier
-        }
-    }
+    private(set) var reuseIdentifier: String = ""
 
     var indentationWidth: CGFloat
-    var self.style: UITableViewCellStyle
-    var self.seperatorView: UITableViewCellSeparator
-    var self.contentView: UIView
-    var self.imageView: UIImageView
-    var self.textLabel: UILabel
+    var style: UITableViewCellStyle
+    var seperatorView: UITableViewCellSeparator
 
-
-    convenience override init(frame: CGRect) {
-        if (self.init(frame: frame)) {
-            self.indentationWidth = 10
-            self.style = .Default
-            self.selectionStyle = .Blue
-            self.seperatorView = UITableViewCellSeparator()
-            self.addSubview(seperatorView)
-            self.accessoryType = .None
-            self.editingAccessoryType = .None
-        }
+	override init(frame: CGRect) {
+		self.indentationWidth = 10
+		self.style = .Default
+		self.selectionStyle = .Blue
+		self.seperatorView = UITableViewCellSeparator()
+		self.addSubview(seperatorView)
+		self.accessoryType = .None
+		self.editingAccessoryType = .None
+		super.init(frame: frame)
     }
 
-    func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         let bounds: CGRect = self.bounds
         var showingSeperator: Bool = !seperatorView.hidden
         var contentFrame: CGRect = CGRectMake(0, 0, bounds.size.width, bounds.size.height - (showingSeperator ? 1 : 0))
         var accessoryRect: CGRect = CGRectMake(bounds.size.width, 0, 0, 0)
-        if accessoryView {
+        if let accessoryView = accessoryView {
             accessoryRect.size = accessoryView.sizeThatFits(bounds.size)
             accessoryRect.origin.x = bounds.size.width - accessoryRect.size.width
             accessoryRect.origin.y = round(0.5 * (bounds.size.height - accessoryRect.size.height))
-            self.accessoryView.frame = accessoryRect
+            accessoryView.frame = accessoryRect
             self.addSubview(accessoryView)
             contentFrame.size.width = accessoryRect.origin.x - 1
         }
@@ -239,7 +218,7 @@ public class UITableViewCell: UIView {
         self.sendSubviewToBack(selectedBackgroundView)
         self.sendSubviewToBack(backgroundView)
         self.bringSubviewToFront(contentView)
-        self.bringSubviewToFront(accessoryView)
+        self.bringSubviewToFront(accessoryView!)
         if showingSeperator {
             self.seperatorView.frame = CGRectMake(0, bounds.size.height - 1, bounds.size.width, 1)
             self.bringSubviewToFront(seperatorView)

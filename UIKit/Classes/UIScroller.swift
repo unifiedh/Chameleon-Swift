@@ -46,12 +46,12 @@ func UIScrollerWidthForBoundsSize(boundsSize: CGSize) -> CGFloat
 	}
 }
 
-protocol _UIScrollerDelegate: NSObjectProtocol {
-    func _UIScrollerDidBeginDragging(scroller: UIScroller, withEvent event: UIEvent!)
+@objc protocol _UIScrollerDelegate: NSObjectProtocol {
+    optional func _UIScrollerDidBeginDragging(scroller: UIScroller, withEvent event: UIEvent!)
 
-    func _UIScroller(scroller: UIScroller, contentOffsetDidChange newOffset: CGFloat)
+    optional func _UIScroller(scroller: UIScroller, contentOffsetDidChange newOffset: CGFloat)
 
-    func _UIScrollerDidEndDragging(scroller: UIScroller, withEvent event: UIEvent!)
+    optional func _UIScrollerDidEndDragging(scroller: UIScroller, withEvent event: UIEvent!)
 }
 
 internal class UIScroller: UIView {

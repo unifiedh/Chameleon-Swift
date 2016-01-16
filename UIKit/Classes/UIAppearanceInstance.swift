@@ -35,8 +35,8 @@ extension NSObject {
     }
 
     convenience init(containerClass: UIAppearanceContainer) {
-        var appearanceRules: [NSObject : AnyObject] = objc_getAssociatedObject(self, UIAppearanceClassAssociatedObjectKey)
-        if !appearanceRules {
+        var appearanceRules = objc_getAssociatedObject(self, UIAppearanceClassAssociatedObjectKey) as? NSDictionary as? [NSObject : AnyObject]
+        if appearanceRules == nil {
             appearanceRules = [NSObject : AnyObject](minimumCapacity: 1)
             objc_setAssociatedObject(self, UIAppearanceClassAssociatedObjectKey, appearanceRules, .OBJC_ASSOCIATION_RETAIN)
         }

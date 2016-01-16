@@ -76,10 +76,10 @@ public struct UIOffset {
     public var horizontal: CGFloat = 0
     public var vertical: CGFloat = 0
     
-    public static let zero = UIOffset(horizontal: Double(0), vertical: 0)
+    public static let zero = UIOffset(horizontal: CGFloat(0), vertical: 0)
 }
 
-extension UIOffset {
+public extension UIOffset {
     public init(horizontal: Double, vertical: Double) {
         self.horizontal = CGFloat(horizontal)
         self.vertical = CGFloat(vertical)
@@ -133,11 +133,11 @@ public func NSStringFromUIOffset(offset: UIOffset) -> String {
 
 extension NSValue {
     class func valueWithCGPoint(point: CGPoint) -> NSValue {
-        return NSValue(point: NSPointFromCGPoint(point))
+        return NSValue(point: point)
     }
 
     class func valueWithCGRect(rect: CGRect) -> NSValue {
-        return NSValue(rect: NSRectFromCGRect(rect))
+        return NSValue(rect: rect)
     }
 
     class func valueWithCGSize(size: CGSize) -> NSValue {
@@ -195,19 +195,19 @@ extension NSValue {
 
 extension NSCoder {
     func encodeCGPoint(point: CGPoint, forKey key: String) {
-        self.encodePoint(NSPointFromCGPoint(point), forKey: key)
+        self.encodePoint(point, forKey: key)
     }
 
     func decodeCGPointForKey(key: String) -> CGPoint {
-        return NSPointToCGPoint(self.decodePointForKey(key))
+        return self.decodePointForKey(key)
     }
 
     func encodeCGRect(rect: CGRect, forKey key: String) {
-        self.encodeRect(NSRectFromCGRect(rect), forKey: key)
+        self.encodeRect(rect, forKey: key)
     }
 
     func decodeCGRectForKey(key: String) -> CGRect {
-        return NSRectToCGRect(self.decodeRectForKey(key))
+        return self.decodeRectForKey(key)
     }
 }
 

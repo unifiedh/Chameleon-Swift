@@ -27,7 +27,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
+import Cocoa
 
 public enum UIBarStyle : Int {
     case Default = 0
@@ -50,18 +50,18 @@ extension UIColor {
 }
 extension UIFont {
     class func systemFontSize() -> CGFloat {
-        return NSFont.systemFontSize()
+        return AppKit.NSFont.systemFontSize()
     }
 
     class func smallSystemFontSize() -> CGFloat {
-        return NSFont.smallSystemFontSize()
+        return AppKit.NSFont.smallSystemFontSize()
     }
 
     class func labelFontSize() -> CGFloat {
-        return NSFont.labelFontSize()
+        return AppKit.NSFont.labelFontSize()
     }
 
     class func buttonFontSize() -> CGFloat {
-        return NSFont.systemFontSizeForControlSize(.RegularControlSize)
+        return AppKit.NSFont.systemFontSizeForControlSize(.RegularControlSize)
     }
 }

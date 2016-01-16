@@ -58,7 +58,7 @@ public class UIGestureRecognizer: NSObject {
 		static var ShouldRecognizeSimultaneouslyWithGestureRecognizer = DelegateHas(rawValue: 1 << 2)
 	}
 
-    init(target: NSObject, action: Selector) {
+    public init(target: NSObject, action: Selector) {
             self.state = .Possible
             self.cancelsTouchesInView = true
             self.delaysTouchesBegan = false
@@ -71,7 +71,7 @@ public class UIGestureRecognizer: NSObject {
             super.init()
     }
 
-    func addTarget(target: NSObject, action: Selector) {
+    public func addTarget(target: NSObject, action: Selector) {
         //assert(target != nil, "target must not be nil")
         assert(action != nil, "action must not be NULL")
         let actionRecord: UIAction = UIAction()
@@ -80,7 +80,7 @@ public class UIGestureRecognizer: NSObject {
         registeredActions.append(actionRecord)
     }
 
-    func removeTarget(target: NSObject, action: Selector) {
+    public func removeTarget(target: NSObject, action: Selector) {
         let actionRecord = UIAction()
         actionRecord.target = target
         actionRecord.action = action
@@ -96,10 +96,10 @@ public class UIGestureRecognizer: NSObject {
 		}
     }
 
-    func requireGestureRecognizerToFail(otherGestureRecognizer: UIGestureRecognizer) {
+    public func requireGestureRecognizerToFail(otherGestureRecognizer: UIGestureRecognizer) {
     }
 
-    func locationInView(view: UIView) -> CGPoint {
+    public func locationInView(view: UIView) -> CGPoint {
         // by default, this should compute the centroid of all the involved points
         // of course as of this writing, Chameleon only supports one point but at least
         // it may be semi-correct if that ever changes. :D YAY FOR COMPLEXITY!
@@ -120,10 +120,10 @@ public class UIGestureRecognizer: NSObject {
         }
     }
 
-    func numberOfTouches() -> Int {
+    public func numberOfTouches() -> Int {
         return trackingTouches.count
     }
-    weak var delegate: UIGestureRecognizerDelegate? {
+    public weak var delegate: UIGestureRecognizerDelegate? {
         didSet {
             if oldValue !== delegate {
 				if delegate?.gestureRecognizerShouldBegin == nil {
@@ -131,19 +131,16 @@ public class UIGestureRecognizer: NSObject {
 				} else {
 					delegateHas.insert(.ShouldBegin)
 				}
-                //self.delegateHas.shouldBegin = delegate.respondsToSelector("gestureRecognizerShouldBegin:")
-                //self.delegateHas.shouldReceiveTouch = delegate.respondsToSelector("gestureRecognizer:shouldReceiveTouch:")
-                //self.delegateHas.shouldRecognizeSimultaneouslyWithGestureRecognizer = delegate.respondsToSelector("gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:")
             }
         }
     }
 
-    var delaysTouchesBegan: Bool
-    var delaysTouchesEnded: Bool
-    var cancelsTouchesInView: Bool
-    var enabled: Bool
+    public private(set) var delaysTouchesBegan: Bool
+    public private(set) var delaysTouchesEnded: Bool
+    public var cancelsTouchesInView: Bool
+    public var enabled: Bool
     private var _state:UIGestureRecognizerState = .Failed
-    var state: UIGestureRecognizerState {
+    public var state: UIGestureRecognizerState {
         get {
             return _state
         }
@@ -208,9 +205,9 @@ public class UIGestureRecognizer: NSObject {
 
     var registeredActions: [UIAction]
     var trackingTouches: [UITouch]
-    internal(set) weak var view: UIView?
+    public internal(set) weak var view: UIView?
 
-    func _setView(v: UIView) {
+    internal func _setView(v: UIView) {
         if v != view {
             self.reset()
             // not sure about this, but I think it makes sense
@@ -218,7 +215,7 @@ public class UIGestureRecognizer: NSObject {
         }
     }
 
-    func locationOfTouch(touchIndex: Int, inView view: UIView) -> CGPoint {
+    public func locationOfTouch(touchIndex: Int, inView view: UIView) -> CGPoint {
         return trackingTouches[touchIndex].locationInView(view)
     }
     
@@ -243,49 +240,48 @@ public class UIGestureRecognizer: NSObject {
         case .Failed:
             state = "Failed";
         }
-        return "<\(self.className): \(self); state = \(state); view = \(self.view!)>"
+        return "<\(self.className): \(unsafeAddressOf(self)); state = \(state); view = \(self.view!)>"
     }
 	
-	public func reset()
-	{
-	// note - this is also supposed to ignore any currently tracked touches
-	// the touches themselves may not have gone away, so we don't just remove them from tracking, I think,
-	// but instead just mark them as ignored by this gesture until the touches eventually end themselves.
-	// in any case, this isn't implemented right now because we only have a single touch and so far I
-	// haven't needed it.
-	
-	_state = .Possible;
+	public func reset() {
+		// note - this is also supposed to ignore any currently tracked touches
+		// the touches themselves may not have gone away, so we don't just remove them from tracking, I think,
+		// but instead just mark them as ignored by this gesture until the touches eventually end themselves.
+		// in any case, this isn't implemented right now because we only have a single touch and so far I
+		// haven't needed it.
+		
+		_state = .Possible;
 	}
 	
-	func canPreventGestureRecognizer(preventedGestureRecognizer: UIGestureRecognizer) -> Bool {
+	public func canPreventGestureRecognizer(preventedGestureRecognizer: UIGestureRecognizer) -> Bool {
 		return true;
 	}
 	
-	func canBePreventedByGestureRecognizer(preventingGestureRecognizer: UIGestureRecognizer) -> Bool {
+	public func canBePreventedByGestureRecognizer(preventingGestureRecognizer: UIGestureRecognizer) -> Bool {
 		return true;
 	}
 	
-	final func ignoreTouch(touch: UITouch, forEvent event: UIEvent) {
+	public final func ignoreTouch(touch: UITouch, forEvent event: UIEvent) {
 		
 	}
 	
-	func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent) {
+	public func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent) {
 	
 	}
 	
-	func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
+	public func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
 		
 	}
 	
-	func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent) {
+	public func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent) {
 		
 	}
 	
-	func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
+	public func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
 		
 	}
 
-	func _beginTrackingTouch(touch: UITouch, withEvent event: UITouchEvent) {
+	internal func _beginTrackingTouch(touch: UITouch, withEvent event: UITouchEvent) {
 
 		if enabled {
 			if !delegateHas.contains(.ShouldReceiveTouch) || delegate!.gestureRecognizer!(self, shouldReceiveTouch: touch) {
@@ -295,7 +291,7 @@ public class UIGestureRecognizer: NSObject {
 		}
 	}
 
-	func _continueTrackingWithEvent(event: UITouchEvent) {
+	internal func _continueTrackingWithEvent(event: UITouchEvent) {
 		var began = Set<UITouch>()
 		var moved = Set<UITouch>()
 		var ended = Set<UITouch>()
@@ -345,7 +341,7 @@ public class UIGestureRecognizer: NSObject {
 		
 	}
 
-	func _endTrackingTouch(touch: UITouch, withEvent event: UITouchEvent) {
+	internal func _endTrackingTouch(touch: UITouch, withEvent event: UITouchEvent) {
 		touch._removeGestureRecognizer(self)
 		var location: Int?
 		for (i, obj) in trackingTouches.enumerate() {

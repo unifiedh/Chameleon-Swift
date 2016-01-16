@@ -26,10 +26,11 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 import QuartzCore
-import Foundation
-import AppKit
-protocol UITextLayerContainerViewProtocol: NSObject {
+import Cocoa
+
+protocol UITextLayerContainerViewProtocol: NSObjectProtocol {
     func window() -> UIWindow
 
     func layer() -> CALayer
@@ -51,7 +52,7 @@ protocol UITextLayerContainerViewProtocol: NSObject {
 
     func contentSize() -> CGSize
 }
-protocol UITextLayerTextDelegate: NSObject {
+protocol UITextLayerTextDelegate: NSObjectProtocol {
     func _textShouldBeginEditing() -> Bool
 
     func _textShouldEndEditing() -> Bool
@@ -65,23 +66,26 @@ protocol UITextLayerTextDelegate: NSObject {
 
     func _textDidReceiveReturnKey()
 }
-class UITextLayer: CALayer {
-    convenience override init(container aView: UIView<UITextLayerContainerViewProtocol,UITextLayerTextDelegate>, isField: Bool) {
-        if (self.init()) {
-            self.masksToBounds = false
-            self.containerView = aView
-            self.textDelegateHas.didChange = containerView.respondsToSelector("_textDidChange")
-            self.textDelegateHas.didChangeSelection = containerView.respondsToSelector("_textDidChangeSelection")
-            self.textDelegateHas.didReturnKey = containerView.respondsToSelector("_textDidReceiveReturnKey")
-            self.containerCanScroll = containerView.respondsToSelector("setContentOffset:") && containerView.respondsToSelector("contentOffset") && containerView.respondsToSelector("setContentSize:") && containerView.respondsToSelector("contentSize") && containerView.respondsToSelector("isScrollEnabled")
-            self.clipView = UICustomNSClipView as! UICustomNSClipView(frame: NSMakeRect(0, 0, 100, 100))
-            self.textView = UICustomNSTextView as! UICustomNSTextView(frame: clipView.frame, secureTextEntry: secureTextEntry, isField: isField)
-            textView.delegate = self
-            clipView.documentView = textView
-            self.textAlignment = .Left
-            self.setNeedsLayout()
-        }
-    }
+internal class UITextLayer: CALayer, NSTextViewDelegate {
+	init(container aView: UIView<UITextLayerContainerViewProtocol,UITextLayerTextDelegate>, isField: Bool) {
+		self.masksToBounds = false
+		self.containerView = aView
+		self.textDelegateHas.didChange = containerView.respondsToSelector("_textDidChange")
+		self.textDelegateHas.didChangeSelection = containerView.respondsToSelector("_textDidChangeSelection")
+		self.textDelegateHas.didReturnKey = containerView.respondsToSelector("_textDidReceiveReturnKey")
+		self.containerCanScroll = containerView.respondsToSelector("setContentOffset:") && containerView.respondsToSelector("contentOffset") && containerView.respondsToSelector("setContentSize:") && containerView.respondsToSelector("contentSize") && containerView.respondsToSelector("isScrollEnabled")
+		self.clipView = UICustomNSClipView(frame: NSMakeRect(0, 0, 100, 100))
+		self.textView = UICustomNSTextView(frame: clipView.frame, secureTextEntry: secureTextEntry, isField: isField)
+		textView.delegate = self
+		clipView.documentView = textView
+		self.textAlignment = .Left
+		self.setNeedsLayout()
+		super.init()
+	}
+
+	required init?(coder aDecoder: NSCoder) {
+	    fatalError("init(coder:) has not been implemented")
+	}
 
     func setContentOffset(contentOffset: CGPoint) {
         var point: NSPoint = clipView.constrainScrollPoint(NSPointFromCGPoint(contentOffset))
@@ -93,11 +97,11 @@ class UITextLayer: CALayer {
     }
 
     func becomeFirstResponder() -> Bool {
-        if self.shouldBeVisible() && !clipView.superview() {
+        if self.shouldBeVisible() && clipView.superview == nil {
             self.addNSView()
         }
         self.changingResponderStatus = true
-        let result: Bool = textView.window().makeFirstResponder(textView)
+        let result: Bool = textView.window.makeFirstResponder(textView)
         self.changingResponderStatus = false
         return result
     }
@@ -117,16 +121,16 @@ class UITextLayer: CALayer {
         get {
             return textView.selectedRange()
         }
-        set {
+        set(range) {
             textView.selectedRange = range
         }
     }
 
-    var text: String {
+    var text: String? {
         get {
-            return textView.string()
+            return textView.string
         }
-        set {
+        set(newText) {
             textView.string = newText ?? ""
             self.updateScrollViewContentSize()
         }
@@ -136,7 +140,7 @@ class UITextLayer: CALayer {
         get {
             return self.textColor
         }
-        set {
+        set(newColor) {
             if newColor != textColor {
                 self.textColor = newColor
                 textView.textColor = textColor.NSColor()
@@ -173,7 +177,7 @@ class UITextLayer: CALayer {
         get {
             return self.secureTextEntry
         }
-        set {
+        set(s) {
             if s != secureTextEntry {
                 self.secureTextEntry = s
                 textView.secureTextEntry = secureTextEntry
@@ -183,7 +187,7 @@ class UITextLayer: CALayer {
 
     var textAlignment: UITextAlignment {
         get {
-            switch textView.alignment() {
+            switch textView.alignment {
                 case NSCenterTextAlignment:
                     return .Center
                 case NSRightTextAlignment:
@@ -193,7 +197,7 @@ class UITextLayer: CALayer {
             }
     
         }
-        set {
+        set(textAlignment) {
             switch textAlignment {
                 case .Left:
                     textView.alignment = NSLeftTextAlignment
@@ -205,21 +209,21 @@ class UITextLayer: CALayer {
     
         }
     }
-    var self.containerView: UIView<UITextLayerContainerViewProtocol,UITextLayerTextDelegate>
-    var self.containerCanScroll: Bool
-    var self.textView: UICustomNSTextView
-    var self.clipView: UICustomNSClipView
-    var self.changingResponderStatus: Bool
-    var self.textDelegateHas: struct{unsigneddidChange:1;unsigneddidChangeSelection:1;unsigneddidReturnKey:1;}
+    var containerView: UIView<UITextLayerContainerViewProtocol,UITextLayerTextDelegate>
+    var containerCanScroll: Bool
+    var textView: UICustomNSTextView
+    var clipView: UICustomNSClipView
+    var changingResponderStatus: Bool
+    //var textDelegateHas: struct{unsigneddidChange:1;unsigneddidChangeSelection:1;unsigneddidReturnKey:1;}
 
 
-    func dealloc() {
+    deinit {
         textView.delegate = nil
         self.removeNSView()
     }
     // Need to prevent Core Animation effects from happening... very ugly otherwise.
 
-    func actionForKey(aKey: String) -> CAAction {
+    override func actionForKey(aKey: String) -> CAAction? {
         return nil
     }
 

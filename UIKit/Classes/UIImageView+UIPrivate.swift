@@ -32,8 +32,3 @@ enum _UIImageViewDrawMode : Int {
     case _UIImageViewDrawModeHighlighted
     case _UIImageViewDrawModeDisabled
 }
-
-extension UIImageView {
-    func _setDrawMode(drawMode: _UIImageViewDrawMode) {
-    }
-}

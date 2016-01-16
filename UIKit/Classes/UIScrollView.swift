@@ -35,35 +35,41 @@ enum UIScrollViewIndicatorStyle : Int {
     case White
 }
 
-    let UIScrollViewDecelerationRateNormal: CGFloat
+let UIScrollViewDecelerationRateNormal: CGFloat = 0.998
 
-    let UIScrollViewDecelerationRateFast: CGFloat
+let UIScrollViewDecelerationRateFast: CGFloat = 0.99
 
-protocol UIScrollViewDelegate: NSObjectProtocol {
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView)
+@objc public protocol UIScrollViewDelegate: NSObjectProtocol {
+    optional func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView)
 
-    func scrollViewDidScroll(scrollView: UIScrollView)
+    optional func scrollViewDidScroll(scrollView: UIScrollView)
 
-    func scrollViewWillBeginDragging(scrollView: UIScrollView)
+    optional func scrollViewWillBeginDragging(scrollView: UIScrollView)
 
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool)
+    optional func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool)
 
-    func scrollViewWillBeginDecelerating(scrollView: UIScrollView)
+    optional func scrollViewWillBeginDecelerating(scrollView: UIScrollView)
 
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView)
+    optional func scrollViewDidEndDecelerating(scrollView: UIScrollView)
 
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView
+    optional func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView
 
-    func scrollViewWillBeginZooming(scrollView: UIScrollView, withView view: UIView)
+    optional func scrollViewWillBeginZooming(scrollView: UIScrollView, withView view: UIView)
 
-    func scrollViewDidEndZooming(scrollView: UIScrollView, withView view: UIView, atScale scale: CGFloat)
+    optional func scrollViewDidEndZooming(scrollView: UIScrollView, withView view: UIView, atScale scale: CGFloat)
 
-    func scrollViewDidZoom(scrollView: UIScrollView)
+    optional func scrollViewDidZoom(scrollView: UIScrollView)
 
-    func scrollViewShouldScrollToTop(scrollView: UIScrollView) -> Bool
+    optional func scrollViewShouldScrollToTop(scrollView: UIScrollView) -> Bool
 }
-class UIScrollView: UIView {
-    func scrollRectToVisible(rect: CGRect, animated: Bool) {
+
+public class UIScrollView: UIView {
+	var verticalScroller: UIScroller
+	var horizontalScroller: UIScroller
+	var scrollAnimation: UIScrollViewAnimation?
+	var scrollTimer: NSTimer?
+
+    public func scrollRectToVisible(rect: CGRect, animated: Bool) {
         let contentRect: CGRect = CGRectMake(0, 0, contentSize.width, contentSize.height)
         let visibleRect: CGRect = self.bounds
         var goalRect: CGRect = CGRectIntersection(rect, contentRect)
@@ -91,10 +97,10 @@ class UIScrollView: UIView {
         }
     }
 
-    func setZoomScale(scale: CGFloat, animated: Bool) {
-        var zoomingView: UIView = self._zoomingView()
+    public func setZoomScale(var scale: CGFloat, animated: Bool) {
+        let zoomingView = self._zoomingView()
         scale = min(max(scale, minimumZoomScale), maximumZoomScale)
-        if zoomingView && self.zoomScale != scale {
+        if let zoomingView = zoomingView where self.zoomScale != scale {
             UIView.animateWithDuration(animated ? UIScrollViewAnimationDuration : 0, delay: 0, options: [.CurveEaseOut, .BeginFromCurrentState], animations: {() -> Void in
                 zoomingView.transform = CGAffineTransformMakeScale(scale, scale)
                 let size: CGSize = zoomingView.frame.size
@@ -104,26 +110,21 @@ class UIScrollView: UIView {
         }
     }
 
-    func zoomToRect(rect: CGRect, animated: Bool) {
+    public func zoomToRect(rect: CGRect, animated: Bool) {
     }
 
-    func setContentOffset(theOffset: CGPoint, animated: Bool) {
+    public func setContentOffset(theOffset: CGPoint, animated: Bool) {
         if animated {
             var animation: UIScrollViewAnimationScroll? = nil
-            if (scrollAnimation is UIScrollViewAnimationScroll) {
-                animation = scrollAnimation as! UIScrollViewAnimationScroll
-            }
-            if !animation || !CGPointEqualToPoint(theOffset, animation.endContentOffset) {
+			animation = scrollAnimation as? UIScrollViewAnimationScroll
+            if animation == nil || !CGPointEqualToPoint(theOffset, animation!.endContentOffset) {
                 self._setScrollAnimation(UIScrollViewAnimationScroll(scrollView: self, fromContentOffset: self.contentOffset, toContentOffset: theOffset, duration: UIScrollViewAnimationDuration, curve: .Linear))
             }
-        }
-        else {
-            self.contentOffset.x = roundf(theOffset.x)
-            self.contentOffset.y = roundf(theOffset.y)
+        } else {
+            self._contentOffset.x = round(theOffset.x)
+            self._contentOffset.y = round(theOffset.y)
             self._updateBounds()
-            if delegateCan.scrollViewDidScroll {
-                delegate.scrollViewDidScroll(self)
-            }
+			delegate?.scrollViewDidScroll?(self)
         }
     }
 
@@ -133,52 +134,35 @@ class UIScrollView: UIView {
     }
     // does nothing
     var contentSize: CGSize {
-        get {
-            return self.contentSize
-        }
-        set {
-            if !CGSizeEqualToSize(newSize, contentSize) {
-                self.contentSize = newSize
+        didSet(oldSize) {
+            if !CGSizeEqualToSize(oldSize, contentSize) {
                 self._confineContent()
             }
         }
     }
 
+	private var _contentOffset: CGPoint = .zero
+	
     var contentOffset: CGPoint {
         get {
-            return self.contentOffset
+            return _contentOffset
         }
-        set {
-            if animated {
-                var animation: UIScrollViewAnimationScroll? = nil
-                if (scrollAnimation is UIScrollViewAnimationScroll) {
-                    animation = scrollAnimation as! UIScrollViewAnimationScroll
-                }
-                if !animation || !CGPointEqualToPoint(theOffset, animation.endContentOffset) {
-                    self._setScrollAnimation(UIScrollViewAnimationScroll(scrollView: self, fromContentOffset: self.contentOffset, toContentOffset: theOffset, duration: UIScrollViewAnimationDuration, curve: .Linear))
-                }
-            }
-            else {
-                self.contentOffset.x = roundf(theOffset.x)
-                self.contentOffset.y = roundf(theOffset.y)
-                self._updateBounds()
-                if delegateCan.scrollViewDidScroll {
-                    delegate.scrollViewDidScroll(self)
-                }
-            }
-        }
+		set {
+			setContentOffset(newValue, animated: false)
+		}
     }
 
+	private var _contentInset: UIEdgeInsets
     var contentInset: UIEdgeInsets {
         get {
-            return self.contentInset
+            return _contentInset
         }
-        set {
-            if !UIEdgeInsetsEqualToEdgeInsets(contentInset, contentInset) {
+        set(contentInset) {
+            if !UIEdgeInsetsEqualToEdgeInsets(self.contentInset, contentInset) {
                 let x: CGFloat = contentInset.left - contentInset.left
                 let y: CGFloat = contentInset.top - contentInset.top
-                self.contentInset = contentInset
-                self.contentOffset.x -= x
+                _contentInset = contentInset
+                self._contentOffset.x -= x
                 self.contentOffset.y -= y
                 self._updateBounds()
             }
@@ -187,34 +171,22 @@ class UIScrollView: UIView {
 
     var scrollIndicatorInsets: UIEdgeInsets
     var indicatorStyle: UIScrollViewIndicatorStyle {
-        get {
-            return self.indicatorStyle
-        }
-        set {
-            self.indicatorStyle = style
-            self.horizontalScroller.indicatorStyle = style
-            self.verticalScroller.indicatorStyle = style
+        didSet {
+            self.horizontalScroller.indicatorStyle = indicatorStyle
+            self.verticalScroller.indicatorStyle = indicatorStyle
         }
     }
 
     var showsHorizontalScrollIndicator: Bool {
-        get {
-            return self.showsHorizontalScrollIndicator
-        }
-        set {
-            self.showsHorizontalScrollIndicator = show
+        didSet {
             self.setNeedsLayout()
         }
     }
 
     var showsVerticalScrollIndicator: Bool {
-        get {
-            return self.showsVerticalScrollIndicator
-        }
-        set {
-            self.showsVerticalScrollIndicator = show
-            self.setNeedsLayout()
-        }
+		didSet {
+			setNeedsLayout()
+		}
     }
 
     var bounces: Bool
@@ -224,7 +196,7 @@ class UIScrollView: UIView {
         get {
             return self.panGestureRecognizer.enabled || self.scrollWheelGestureRecognizer.enabled
         }
-        set {
+        set(enabled) {
             self.panGestureRecognizer.enabled = enabled
             self.scrollWheelGestureRecognizer.enabled = enabled
             self._updateScrollers()
@@ -232,113 +204,65 @@ class UIScrollView: UIView {
         }
     }
 
-    weak var delegate: UIScrollViewDelegate {
-        get {
-            return self.delegate
-        }
-        set {
-            self.delegate = newDelegate
-            self.delegateCan.scrollViewDidScroll = delegate.respondsToSelector("scrollViewDidScroll:")
-            self.delegateCan.scrollViewWillBeginDragging = delegate.respondsToSelector("scrollViewWillBeginDragging:")
-            self.delegateCan.scrollViewDidEndDragging = delegate.respondsToSelector("scrollViewDidEndDragging:willDecelerate:")
-            self.delegateCan.viewForZoomingInScrollView = delegate.respondsToSelector("viewForZoomingInScrollView:")
-            self.delegateCan.scrollViewWillBeginZooming = delegate.respondsToSelector("scrollViewWillBeginZooming:withView:")
-            self.delegateCan.scrollViewDidEndZooming = delegate.respondsToSelector("scrollViewDidEndZooming:withView:atScale:")
-            self.delegateCan.scrollViewDidZoom = delegate.respondsToSelector("scrollViewDidZoom:")
-            self.delegateCan.scrollViewDidEndScrollingAnimation = delegate.respondsToSelector("scrollViewDidEndScrollingAnimation:")
-            self.delegateCan.scrollViewWillBeginDecelerating = delegate.respondsToSelector("scrollViewWillBeginDecelerating:")
-            self.delegateCan.scrollViewDidEndDecelerating = delegate.respondsToSelector("scrollViewDidEndDecelerating:")
-        }
-    }
+    weak var delegate: UIScrollViewDelegate?
 
+	/// no effect
     var scrollsToTop: Bool
-    // no effect
+    /// no effect
     var delaysContentTouches: Bool
-    // no effect
+	/// no effect
     var canCancelContentTouches: Bool
-    // no effect
+	/// no effect
     var directionalLockEnabled: Bool
-    // no effect
-    var dragging: Bool {
-        get {
-            return self.dragging
-        }
-    }
+	
+	private(set) var dragging: Bool
 
+	/// always returns `NO`
     var tracking: Bool {
         get {
             return false
         }
     }
 
-    // always returns NO
-    var decelerating: Bool {
-        get {
-            return self.decelerating
-        }
-    }
+    private(set) var decelerating: Bool
 
-    // always returns NO
     var pagingEnabled: Bool
     var decelerationRate: CGFloat
     var maximumZoomScale: CGFloat
     var minimumZoomScale: CGFloat
     var zoomScale: CGFloat {
         get {
-            var zoomingView: UIView = self._zoomingView()
+            //var zoomingView = self._zoomingView()
             // it seems weird to return the "a" component of the transform for this, but after some messing around with the real UIKit, I'm
             // reasonably certain that's how it is doing it.
-            return zoomingView ? zoomingView.transform.a : 1.0
+			if let zoomingView = self._zoomingView() {
+				return zoomingView.transform.a
+			} else {
+				return 1
+			}
         }
-        set {
-            var zoomingView: UIView = self._zoomingView()
-            scale = min(max(scale, minimumZoomScale), maximumZoomScale)
-            if zoomingView && self.zoomScale != scale {
-                UIView.animateWithDuration(animated ? UIScrollViewAnimationDuration : 0, delay: 0, options: [.CurveEaseOut, .BeginFromCurrentState], animations: {() -> Void in
-                    zoomingView.transform = CGAffineTransformMakeScale(scale, scale)
-                    let size: CGSize = zoomingView.frame.size
-                    zoomingView.layer.position = CGPointMake(size.width / 2.0, size.height / 2.0)
-                    self.contentSize = size
-                }, completion: { _ in })
-            }
-        }
+        set(scalea) {
+			setZoomScale(scalea, animated: false)
+		}
     }
 
-    var zooming: Bool {
-        get {
-            return self.zooming
-        }
-    }
+    private(set) var zooming: Bool
 
-    var zoomBouncing: Bool {
+	/// always NO
+	var zoomBouncing: Bool {
         get {
             return false
         }
     }
-
-    // always NO
+	
+	/// no effect
     var bouncesZoom: Bool
-    // no effect
-    var panGestureRecognizer: UIPanGestureRecognizer {
-        get {
-            return self.panGestureRecognizer
-        }
-    }
+	
+    private(set) var panGestureRecognizer: UIPanGestureRecognizer
 
-    var scrollWheelGestureRecognizer: UIScrollWheelGestureRecognizer {
-        get {
-            return self.scrollWheelGestureRecognizer
-        }
-    }
-    var self.verticalScroller: UIScroller
-    var self.horizontalScroller: UIScroller
-    var self.scrollAnimation: UIScrollViewAnimation
-    var self.scrollTimer: NSTimer
-    var self.delegateCan: struct{unsignedscrollViewDidScroll:1;unsignedscrollViewWillBeginDragging:1;unsignedscrollViewDidEndDragging:1;unsignedviewForZoomingInScrollView:1;unsignedscrollViewWillBeginZooming:1;unsignedscrollViewDidEndZooming:1;unsignedscrollViewDidZoom:1;unsignedscrollViewDidEndScrollingAnimation:1;unsignedscrollViewWillBeginDecelerating:1;unsignedscrollViewDidEndDecelerating:1;}
+    private(set) var scrollWheelGestureRecognizer: UIScrollWheelGestureRecognizer
 
-
-    convenience override init(frame: CGRect) {
-        if (self.init(frame: frame)) {
+	override init(frame: CGRect) {
             self.contentOffset = CGPointZero
             self.contentSize = CGSizeZero
             self.contentInset = UIEdgeInsetsZero
@@ -369,16 +293,16 @@ class UIScrollView: UIView {
             self.horizontalScroller.delegate = self
             self.addSubview(horizontalScroller)
             self.clipsToBounds = true
-        }
+		super.init(frame: frame)
     }
 
-    func dealloc() {
+    deinit {
         self.horizontalScroller.delegate = nil
         self.verticalScroller.delegate = nil
     }
 
-    func _zoomingView() -> UIView {
-        return (delegateCan.viewForZoomingInScrollView) ? delegate.viewForZoomingInScrollView(self) : nil
+    func _zoomingView() -> UIView? {
+        return delegate?.viewForZoomingInScrollView?(self)
     }
 
     func _canScrollHorizontal() -> Bool {
@@ -394,42 +318,38 @@ class UIScrollView: UIView {
         self.verticalScroller.contentOffset = contentOffset.y
         self.horizontalScroller.contentSize = contentSize.width
         self.horizontalScroller.contentOffset = contentOffset.x
-        self.verticalScroller.hidden = !self.canScrollVertical
-        self.horizontalScroller.hidden = !self.canScrollHorizontal
+        self.verticalScroller.hidden = !self._canScrollVertical()
+        self.horizontalScroller.hidden = !self._canScrollHorizontal()
     }
 
     func _cancelScrollAnimation() {
-        scrollTimer.invalidate()
+        scrollTimer?.invalidate()
         self.scrollTimer = nil
         self.scrollAnimation = nil
-        if delegateCan.scrollViewDidEndScrollingAnimation {
-            delegate.scrollViewDidEndScrollingAnimation(self)
-        }
+            delegate?.scrollViewDidEndScrollingAnimation?(self)
         if decelerating {
             self.horizontalScroller.alwaysVisible = false
             self.verticalScroller.alwaysVisible = false
             self.decelerating = false
-            if delegateCan.scrollViewDidEndDecelerating {
-                delegate.scrollViewDidEndDecelerating(self)
-            }
+                delegate?.scrollViewDidEndDecelerating?(self)
         }
     }
 
-    func _updateScrollAnimation() {
-        if scrollAnimation.animate() {
+    @objc func _updateScrollAnimation() {
+        if scrollAnimation?.animate() ?? false {
             self._cancelScrollAnimation()
         }
     }
 
-    func _setScrollAnimation(animation: UIScrollViewAnimation) {
+    func _setScrollAnimation(animation: UIScrollViewAnimation?) {
         self._cancelScrollAnimation()
-        self.scrollAnimation = animation!
-        if !scrollTimer {
-            self.scrollTimer = NSTimer.scheduledTimerWithTimeInterval(1 / UIScrollViewScrollAnimationFramesPerSecond as! NSTimeInterval, target: self, selector: "_updateScrollAnimation", userInfo: nil, repeats: true)
+        self.scrollAnimation = animation
+        if scrollTimer == nil {
+            self.scrollTimer = NSTimer.scheduledTimerWithTimeInterval(1 / NSTimeInterval(UIScrollViewScrollAnimationFramesPerSecond), target: self, selector: "_updateScrollAnimation", userInfo: nil, repeats: true)
         }
     }
 
-    func _confinedContentOffset(contentOffset: CGPoint) -> CGPoint {
+    func _confinedContentOffset(var contentOffset: CGPoint) -> CGPoint {
         let scrollerBounds: CGRect = UIEdgeInsetsInsetRect(self.bounds, contentInset)
         if (contentSize.width - contentOffset.x) < scrollerBounds.size.width {
             contentOffset.x = (contentSize.width - scrollerBounds.size.width)
@@ -448,7 +368,7 @@ class UIScrollView: UIView {
         return contentOffset
     }
 
-    func _setRestrainedContentOffset(offset: CGPoint) {
+    func _setRestrainedContentOffset(var offset: CGPoint) {
         let confinedOffset: CGPoint = self._confinedContentOffset(offset)
         let scrollerBounds: CGRect = UIEdgeInsetsInsetRect(self.bounds, contentInset)
         if !self.alwaysBounceHorizontal && contentSize.width <= scrollerBounds.size.width {
@@ -464,7 +384,7 @@ class UIScrollView: UIView {
         self.contentOffset = self._confinedContentOffset(contentOffset)
     }
 
-    func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         let bounds: CGRect = self.bounds
         let scrollerSize: CGFloat = UIScrollerWidthForBoundsSize(bounds.size)
@@ -472,27 +392,28 @@ class UIScrollView: UIView {
         self.horizontalScroller.frame = CGRectMake(bounds.origin.x + scrollIndicatorInsets.left, bounds.origin.y + bounds.size.height - scrollerSize - scrollIndicatorInsets.bottom, bounds.size.width - scrollIndicatorInsets.left - scrollIndicatorInsets.right, scrollerSize)
     }
 
-    func setFrame(frame: CGRect) {
-        super.frame = frame
-        self._confineContent()
-    }
+	override public var frame: CGRect {
+		didSet {
+			self._confineContent()
+		}
+	}
 
     func _bringScrollersToFront() {
         super.bringSubviewToFront(horizontalScroller)
         super.bringSubviewToFront(verticalScroller)
     }
 
-    func addSubview(subview: UIView) {
+    override public func addSubview(subview: UIView?) {
         super.addSubview(subview)
         self._bringScrollersToFront()
     }
 
-    func bringSubviewToFront(subview: UIView) {
+    public override func bringSubviewToFront(subview: UIView) {
         super.bringSubviewToFront(subview)
         self._bringScrollersToFront()
     }
 
-    func insertSubview(subview: UIView, atIndex index: Int) {
+    override func insertSubview(subview: UIView, atIndex index: Int) {
         super.insertSubview(subview, atIndex: index)
         self._bringScrollersToFront()
     }
@@ -506,20 +427,20 @@ class UIScrollView: UIView {
         self.setNeedsLayout()
     }
 
-    func setContentOffset(theOffset: CGPoint) {
-        self.setContentOffset(theOffset, animated: false)
-    }
+    //func setContentOffset(theOffset: CGPoint) {
+    //    self.setContentOffset(theOffset, animated: false)
+    //}
 
     func _quickFlashScrollIndicators() {
         horizontalScroller.quickFlash()
         verticalScroller.quickFlash()
     }
 
-    func _pageSnapAnimation() -> UIScrollViewAnimation {
+    func _pageSnapAnimation() -> UIScrollViewAnimation? {
         let pageSize: CGSize = self.bounds.size
-        let numberOfWholePages: CGSize = CGSizeMake(floorf(contentSize.width / pageSize.width), floorf(contentSize.height / pageSize.height))
+        let numberOfWholePages: CGSize = CGSizeMake(floor(contentSize.width / pageSize.width), floor(contentSize.height / pageSize.height))
         let currentRawPage: CGSize = CGSizeMake(contentOffset.x / pageSize.width, contentOffset.y / pageSize.height)
-        let currentPage: CGSize = CGSizeMake(floorf(currentRawPage.width), floorf(currentRawPage.height))
+        let currentPage: CGSize = CGSizeMake(floor(currentRawPage.width), floor(currentRawPage.height))
         let currentPagePercentage: CGSize = CGSizeMake(1 - (currentRawPage.width - currentPage.width), 1 - (currentRawPage.height - currentPage.height))
         var finalContentOffset: CGPoint = CGPointZero
         // if currentPagePercentage is less than 50%, then go to the next page (if any), otherwise snap to the current page
@@ -544,7 +465,7 @@ class UIScrollView: UIView {
         }
     }
 
-    func _decelerationAnimationWithVelocity(velocity: CGPoint) -> UIScrollViewAnimation {
+    func _decelerationAnimationWithVelocity(var velocity: CGPoint) -> UIScrollViewAnimation? {
         let confinedOffset: CGPoint = self._confinedContentOffset(contentOffset)
         // if we've pulled up the content outside it's bounds, we don't want to register any flick momentum there and instead just
         // have the animation pull the content back into place immediately.
@@ -556,8 +477,7 @@ class UIScrollView: UIView {
         }
         if !CGPointEqualToPoint(velocity, CGPointZero) || !CGPointEqualToPoint(confinedOffset, contentOffset) {
             return UIScrollViewAnimationDeceleration(scrollView: self, velocity: velocity)
-        }
-        else {
+        } else {
             return nil
         }
     }
@@ -568,27 +488,21 @@ class UIScrollView: UIView {
             self.horizontalScroller.alwaysVisible = true
             self.verticalScroller.alwaysVisible = true
             self._cancelScrollAnimation()
-            if delegateCan.scrollViewWillBeginDragging {
-                delegate.scrollViewWillBeginDragging(self)
-            }
+			delegate?.scrollViewWillBeginDragging?(self)
         }
     }
 
     func _endDraggingWithDecelerationVelocity(velocity: CGPoint) {
         if dragging {
             self.dragging = false
-            var decelerationAnimation: UIScrollViewAnimation = pagingEnabled ? self._pageSnapAnimation() : self._decelerationAnimationWithVelocity(velocity)
-            if delegateCan.scrollViewDidEndDragging {
-                delegate.scrollViewDidEndDragging(self, willDecelerate: (decelerationAnimation != nil))
-            }
-            if decelerationAnimation != nil {
+            let decelerationAnimation = pagingEnabled ? self._pageSnapAnimation() : self._decelerationAnimationWithVelocity(velocity)
+			delegate?.scrollViewDidEndDragging?(self, willDecelerate: (decelerationAnimation != nil))
+            if let decelerationAnimation = decelerationAnimation {
                 self._setScrollAnimation(decelerationAnimation)
                 self.horizontalScroller.alwaysVisible = true
                 self.verticalScroller.alwaysVisible = true
                 self.decelerating = true
-                if delegateCan.scrollViewWillBeginDecelerating {
-                    delegate.scrollViewWillBeginDecelerating(self)
-                }
+				delegate?.scrollViewWillBeginDecelerating?(self)
             }
             else {
                 self.horizontalScroller.alwaysVisible = false
@@ -679,7 +593,7 @@ class UIScrollView: UIView {
                     // updated note: this used to be guarded by respondsToSelector: but I have instead added a blank
                     // implementation of -momentumScrollBy: to UIScrollAnimation's base class. If a specific animation
                     // cannot deal with a momentum scroll, then it will be ignored.
-                    scrollAnimation.momentumScrollBy(delta)
+                    scrollAnimation?.momentumScrollBy(delta)
                 }
                 else {
                     var offset: CGPoint = self.contentOffset
@@ -698,12 +612,8 @@ class UIScrollView: UIView {
 
     }
 
-    func setZoomScale(scale: CGFloat) {
-        self.setZoomScale(scale, animated: false)
-    }
-
-    func description() -> String {
-        return "<\(self.className()): \(self); frame = (%.0f %.0f; %.0f %.0f); clipsToBounds = \(self.frame.origin.x); layer = \(self.frame.origin.y); contentOffset = {%.0f, %.0f}>"
+	public override var description: String {
+		return String(format:"<%@: %p; frame = (%.0f %.0f; %.0f %.0f); clipsToBounds = %@; layer = %@; contentOffset = {%.0f, %.0f}>", self.className, unsafeAddressOf(self), frame.origin.x, frame.origin.y, frame.size.width, frame.size.height, (clipsToBounds ? "YES" : "NO"), self.layer, contentOffset.x, contentOffset.y)
     }
     // after some experimentation, it seems UIScrollView blocks or captures the touch events that fall through and
     // I'm not entirely sure why, but something is certainly going on there so I'm replicating that here. since I
@@ -719,16 +629,16 @@ class UIScrollView: UIView {
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
     }
 
-    func touchesCancelled(touches: Set<AnyObject>, withEvent event: UIEvent) {
+    override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
     }
 
-    func scrollWheelMoved(delta: CGPoint, withEvent event: UIEvent) {
+    override func scrollWheelMoved(delta: CGPoint, withEvent event: UIEvent) {
     }
 
-    func rightClick(touch: UITouch, withEvent event: UIEvent) {
+    override func rightClick(touch: UITouch, withEvent event: UIEvent) {
     }
 
-    func mouseMoved(touch: UITouch, withEvent event: UIEvent) {
+    override func mouseMoved(touch: UITouch, withEvent event: UIEvent) {
         let point: CGPoint = touch.locationInView(self)
         let scrollerSize: CGFloat = UIScrollerWidthForBoundsSize(self.bounds.size)
         let shouldShowHorizontal: Bool = CGRectContainsPoint(CGRectInset(horizontalScroller.frame, -scrollerSize, -scrollerSize), point)
@@ -738,20 +648,20 @@ class UIScrollView: UIView {
         self.verticalScroller.alwaysVisible = shouldShowScrollers
     }
 
-    func mouseExited(view: UIView, withEvent event: UIEvent) {
+    override func mouseExited(view: UIView, withEvent event: UIEvent) {
         if !decelerating {
             self.horizontalScroller.alwaysVisible = false
             self.verticalScroller.alwaysVisible = false
         }
     }
 
-    convenience override init(event: UIEvent) {
+    convenience init?(event: UIEvent) {
         return nil
     }
 }
 
 extension UIScrollView: _UIScrollerDelegate {
-	func _UIScrollerDidBeginDragging(scroller: UIScroller, withEvent event: UIEvent) {
+	func _UIScrollerDidBeginDragging(scroller: UIScroller, withEvent event: UIEvent!) {
 		self._beginDragging()
 	}
 	
@@ -765,7 +675,7 @@ extension UIScrollView: _UIScrollerDelegate {
 		
 	}
 	
-	func _UIScrollerDidEndDragging(scroller: UIScroller, withEvent event: UIEvent) {
+	func _UIScrollerDidEndDragging(scroller: UIScroller, withEvent event: UIEvent!) {
 		var touch: UITouch = event.allTouches()!.first!
 		let point: CGPoint = touch.locationInView(self)
 		if !CGRectContainsPoint(scroller.frame, point) {
@@ -781,6 +691,3 @@ extension UIScrollView: _UIScrollerDelegate {
 
     let UIScrollViewScrollAnimationFramesPerSecond: Int = 60
 
-    let UIScrollViewDecelerationRateNormal: CGFloat = 0.998
-
-    let UIScrollViewDecelerationRateFast: CGFloat = 0.99
