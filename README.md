@@ -20,6 +20,6 @@ Chameleon-Swift aims to completely rewrite the framework in Apple's Swift langua
 
 ## License
 
-Read the LICENCE file included with this project.
+Read the LICENCE.md file included with this project.
 
 
