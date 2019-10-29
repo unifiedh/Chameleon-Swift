@@ -1,7 +1,8 @@
 # Chameleon-Swift
 
 Chameleon-Swift is a version of [the Chameleon Project](http://chameleonproject.org) rewritten in Swift.
-**This project is highly experimental, so don't expect it to be production-ready anytime soon.**
+
+**WARNING:** Use [Apple's official implementation](https://developer.apple.com/mac-catalyst/) of UIKit for Mac (Catalyst or Marzipan) instead. **This repository will no longer be updated.**
 
 ## About the Chameleon Project
 
